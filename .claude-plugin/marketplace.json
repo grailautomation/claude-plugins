@@ -1,0 +1,17 @@
+{
+  "name": "local-plugins",
+  "version": "1.0.0",
+  "description": "Dave's local/patched Claude Code plugins",
+  "owner": {
+    "name": "Dave"
+  },
+  "plugins": [
+    {
+      "name": "hookify",
+      "description": "Patched hookify with fixes for issues #13427, #12446, #13962",
+      "version": "0.1.0-patched",
+      "source": "./hookify",
+      "category": "productivity"
+    }
+  ]
+}
