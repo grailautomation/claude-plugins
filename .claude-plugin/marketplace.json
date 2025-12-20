@@ -12,6 +12,16 @@
       "version": "0.1.0-patched",
       "source": "./hookify",
       "category": "productivity"
+    },
+    {
+      "name": "issue-solver",
+      "description": "Analyze GitHub issues and implement AI-generated solution plans",
+      "version": "2.0.0",
+      "source": {
+        "source": "github",
+        "repo": "kreitter/issue-solver"
+      },
+      "category": "automation"
     }
   ]
 }
