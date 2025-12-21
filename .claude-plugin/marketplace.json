@@ -10,7 +10,10 @@
       "name": "hookify",
       "description": "Patched hookify with fixes for issues #13427, #12446, #13962",
       "version": "0.1.0-patched",
-      "source": "./hookify",
+      "source": {
+        "source": "github",
+        "repo": "kreitter/hookify"
+      },
       "category": "productivity"
     },
     {

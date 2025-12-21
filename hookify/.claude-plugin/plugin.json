@@ -1,9 +1,0 @@
-{
-  "name": "hookify",
-  "version": "0.1.0-patched",
-  "description": "Patched hookify - fixes for #13427 (imports), #12446 (denial reason), #13962 (stop events)",
-  "author": {
-    "name": "Daisy Hollman (patched by Dave)",
-    "email": "daisy@anthropic.com"
-  }
-}
