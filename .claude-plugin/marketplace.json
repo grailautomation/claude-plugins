@@ -25,6 +25,16 @@
         "repo": "kreitter/issue-solver"
       },
       "category": "automation"
+    },
+    {
+      "name": "scraper-generator",
+      "description": "Generate custom API documentation scrapers through guided discovery and code generation",
+      "version": "0.1.0",
+      "source": {
+        "source": "github",
+        "repo": "kreitter/scraper-generator"
+      },
+      "category": "automation"
     }
   ]
 }
