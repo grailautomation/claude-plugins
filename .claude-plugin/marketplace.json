@@ -1,40 +1,44 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "local-plugins",
   "version": "1.0.0",
   "description": "Dave's local/patched Claude Code plugins",
   "owner": {
-    "name": "Dave"
+    "name": "Dave",
+    "email": "dave@kreitter.com"
   },
   "plugins": [
-    {
-      "name": "hookify",
-      "description": "Patched hookify with fixes for issues #13427, #12446, #13962",
-      "version": "0.1.0-patched",
-      "source": {
-        "source": "github",
-        "repo": "kreitter/hookify"
-      },
-      "category": "productivity"
-    },
     {
       "name": "issue-solver",
       "description": "Analyze GitHub issues and implement AI-generated solution plans",
       "version": "2.0.0",
+      "author": {
+        "name": "kreitter"
+      },
       "source": {
         "source": "github",
         "repo": "kreitter/issue-solver"
       },
-      "category": "automation"
+      "category": "automation",
+      "license": "MIT",
+      "keywords": ["github", "issues", "ai", "automation"],
+      "repository": "https://github.com/kreitter/issue-solver"
     },
     {
       "name": "scraper-generator",
       "description": "Generate custom API documentation scrapers through guided discovery and code generation",
       "version": "0.1.0",
+      "author": {
+        "name": "kreitter"
+      },
       "source": {
         "source": "github",
         "repo": "kreitter/scraper-generator"
       },
-      "category": "automation"
+      "category": "automation",
+      "license": "MIT",
+      "keywords": ["api", "documentation", "scraping", "code-generation"],
+      "repository": "https://github.com/kreitter/scraper-generator"
     }
   ]
 }
