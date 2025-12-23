@@ -11,14 +11,11 @@
     {
       "name": "issue-solver",
       "description": "Analyze GitHub issues and implement AI-generated solution plans",
-      "version": "2.0.0",
+      "version": "1.2.0",
       "author": {
         "name": "kreitter"
       },
-      "source": {
-        "source": "github",
-        "repo": "kreitter/issue-solver"
-      },
+      "source": "./issue-solver",
       "category": "automation",
       "license": "MIT",
       "keywords": ["github", "issues", "ai", "automation"],
@@ -27,14 +24,11 @@
     {
       "name": "scraper-generator",
       "description": "Generate custom API documentation scrapers through guided discovery and code generation",
-      "version": "0.1.0",
+      "version": "0.3.0",
       "author": {
         "name": "kreitter"
       },
-      "source": {
-        "source": "github",
-        "repo": "kreitter/scraper-generator"
-      },
+      "source": "./scraper-generator",
       "category": "automation",
       "license": "MIT",
       "keywords": ["api", "documentation", "scraping", "code-generation"],
