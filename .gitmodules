@@ -1,3 +1,0 @@
-[submodule "issue-solver"]
-	path = issue-solver
-	url = git@github.com:kreitter/issue-solver.git
