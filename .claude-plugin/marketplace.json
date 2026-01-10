@@ -2,7 +2,7 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "local-plugins",
   "version": "1.0.0",
-  "description": "Dave's local/patched Claude Code plugins",
+  "description": "Claude Code Plugins by Grail Automation",
   "owner": {
     "name": "Dave",
     "email": "dave@kreitter.com"
@@ -10,29 +10,27 @@
   "plugins": [
     {
       "name": "issue-solver",
-      "description": "Analyze GitHub issues and implement AI-generated solution plans",
-      "version": "1.2.0",
-      "author": {
-        "name": "kreitter"
-      },
       "source": "./issue-solver",
       "category": "automation",
-      "license": "MIT",
-      "keywords": ["github", "issues", "ai", "automation"],
-      "repository": "https://github.com/kreitter/issue-solver"
+      "strict": true
     },
     {
       "name": "scraper-generator",
-      "description": "Generate custom API documentation scrapers through guided discovery and code generation",
-      "version": "0.3.0",
-      "author": {
-        "name": "kreitter"
-      },
       "source": "./scraper-generator",
       "category": "automation",
-      "license": "MIT",
-      "keywords": ["api", "documentation", "scraping", "code-generation"],
-      "repository": "https://github.com/kreitter/scraper-generator"
+      "strict": true
+    },
+    {
+      "name": "cloudflare",
+      "source": "./cloudflare",
+      "category": "deployment",
+      "strict": true
+    },
+    {
+      "name": "namecheap",
+      "source": "./namecheap",
+      "category": "deployment",
+      "strict": true
     }
   ]
 }

@@ -1,0 +1,8 @@
+{
+  "name": "scraper-generator",
+  "version": "0.1.0",
+  "description": "Generate custom API documentation scrapers through guided discovery and code generation",
+  "commands": ["commands/*.md"],
+  "skills": ["skills/*/SKILL.md"],
+  "agents": ["agents/*.md"]
+}

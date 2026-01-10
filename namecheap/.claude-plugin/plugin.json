@@ -1,0 +1,10 @@
+{
+  "name": "namecheap",
+  "version": "0.1.0",
+  "description": "Interact with Namecheap API for domain and DNS management",
+  "author": {
+    "name": "Dave Kreitter",
+    "email": "dave@kreitter.com"
+  },
+  "keywords": ["namecheap", "dns", "domains", "registrar"]
+}
