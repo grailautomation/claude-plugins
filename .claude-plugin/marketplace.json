@@ -1,11 +1,11 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "local-plugins",
-  "version": "1.0.0",
-  "description": "Claude Code Plugins by Grail Automation",
+  "name": "grail-automation",
+  "version": "0.0.1",
+  "description": "Claude Plugins by Grail Automation",
   "owner": {
-    "name": "Dave",
-    "email": "dave@kreitter.com"
+    "name": "dave",
+    "email": "dave@grailautomation.com"
   },
   "plugins": [
     {
