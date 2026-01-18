@@ -1,0 +1,8 @@
+{
+  "name": "workato-sdk",
+  "version": "0.1.0",
+  "description": "Workato Connector SDK best practices for recipe developer UX",
+  "author": {
+    "name": "Dave"
+  }
+}

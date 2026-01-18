@@ -31,6 +31,12 @@
       "source": "./namecheap",
       "category": "deployment",
       "strict": true
+    },
+    {
+      "name": "workato-sdk",
+      "source": "./workato-sdk",
+      "category": "development",
+      "strict": true
     }
   ]
 }
