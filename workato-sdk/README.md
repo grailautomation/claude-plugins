@@ -1,27 +1,42 @@
 # Workato SDK Plugin
 
-Workato Connector SDK best practices for recipe developer UX.
+Comprehensive Workato Connector SDK documentation and best practices for Claude Code.
 
 ## Overview
 
-This plugin provides guidance for building Workato custom connectors with excellent recipe developer experience. It focuses on:
+This plugin provides expertise for building Workato custom connectors, covering:
 
-- **Field visibility patterns** — `sticky: true`, `default:` values
-- **Dynamic schemas** — `extends_schema`, `ngIf` conditionals
-- **Input patterns** — Control types, type conversions
-- **Schema design** — Object definitions, methods, pick lists
+- **Complete SDK Documentation** — All SDK blocks, methods, and patterns
+- **Authentication** — OAuth 2.0, API key, JWT, AWS Signature, multi-auth
+- **Actions & Triggers** — Building operations with proper schemas
+- **CLI & Testing** — Local development with workato gem and RSpec
+- **Best Practices** — UX patterns, error handling, performance
 
 ## Skills
 
-### workato-connector-ux
+### Core Documentation
 
-Triggers when users ask about:
-- Building Workato connectors
-- Creating custom connectors
-- Improving connector UX
-- Adding input fields
-- Using `sticky`, `extends_schema`, `ngIf`
-- Working with Workato SDK Ruby DSL
+| Skill | Triggers When User Asks About |
+|-------|------------------------------|
+| **workato-sdk-quickstart** | "getting started", "first connector", "connector examples", "walkthrough" |
+| **workato-sdk-reference** | "sdk reference", "actions block", "triggers block", "object_definitions", "methods block" |
+| **workato-sdk-cli** | "workato cli", "workato gem", "rspec test", "vcr cassettes", "workato exec" |
+
+### Building Connectors
+
+| Skill | Triggers When User Asks About |
+|-------|------------------------------|
+| **workato-sdk-authentication** | "oauth workato", "api key auth", "jwt authentication", "connection block" |
+| **workato-sdk-actions** | "build action", "execute block", "streaming action", "multistep action" |
+| **workato-sdk-triggers** | "poll trigger", "webhook trigger", "dynamic webhook", "dedup", "closure" |
+| **workato-sdk-data-formats** | "request_format", "xml format", "multipart form", "parse xml" |
+
+### Advanced Topics
+
+| Skill | Triggers When User Asks About |
+|-------|------------------------------|
+| **workato-sdk-advanced** | "connector planning", "code patterns", "best practices", "error handling" |
+| **workato-connector-ux** | "sticky fields", "extends_schema", "ngIf", "input field UX" |
 
 ## Installation
 
@@ -34,26 +49,40 @@ workato-sdk/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── skills/
-│   └── workato-connector-ux/
-│       ├── SKILL.md
-│       └── references/
-│           ├── field-patterns.md
-│           ├── control-types.md
-│           └── schema-patterns.md
+│   ├── workato-connector-ux/      # UX patterns & field visibility
+│   ├── workato-sdk-quickstart/    # Getting started guide
+│   ├── workato-sdk-reference/     # SDK API reference
+│   ├── workato-sdk-cli/           # CLI & local testing
+│   ├── workato-sdk-authentication/ # Auth implementations
+│   ├── workato-sdk-actions/       # Building actions
+│   ├── workato-sdk-triggers/      # Building triggers
+│   ├── workato-sdk-data-formats/  # Request/response formats
+│   └── workato-sdk-advanced/      # Advanced patterns
 └── README.md
 ```
 
-## Usage
+Each skill contains:
+- `SKILL.md` — Core guidance and common patterns
+- `references/` — Detailed documentation from Workato SDK docs
 
-The skill activates automatically when discussing Workato connector development. Key topics:
+## Usage Examples
 
-- "How do I make a field always visible?" → Use `sticky: true`
-- "How do I show fields conditionally?" → Use `ngIf` expressions
-- "How do I pre-select a dropdown value?" → Use `default:`
-- "How do I refresh fields when selection changes?" → Use `extends_schema: true`
+Skills activate automatically based on context:
 
-## Reference Topics
+- "How do I authenticate with OAuth 2.0?" → workato-sdk-authentication
+- "How do I build a polling trigger?" → workato-sdk-triggers
+- "How do I test my connector locally?" → workato-sdk-cli
+- "How do I handle XML responses?" → workato-sdk-data-formats
+- "How do I make a field always visible?" → workato-connector-ux
 
-- **Field Patterns**: sticky, default, optional, ordering
-- **Control Types**: text, select, integer, checkbox, schema-designer
-- **Schema Patterns**: object_definitions, methods, config_fields, pick_lists
+## Documentation Coverage
+
+The plugin includes 90+ SDK documentation pages covering:
+
+- SDK Reference (actions, triggers, connection, methods, streams, etc.)
+- Authentication guides (OAuth variants, API key, JWT, AWS, multi-auth)
+- Building actions (CRUD patterns, streaming, multistep, wait-for-resume)
+- Building triggers (poll, static/dynamic webhooks, hybrid)
+- CLI guides (installation, testing, actions, triggers, RSpec)
+- Data formats (JSON, XML, multipart, form-encoded)
+- Advanced patterns (planning, code patterns, error handling, best practices)
