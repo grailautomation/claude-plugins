@@ -44,6 +44,20 @@
       "description": "Run SOQL queries against Salesforce using the sf CLI",
       "category": "integrations",
       "strict": true
+    },
+    {
+      "name": "jq-for-clawd",
+      "source": "./jq-for-clawd",
+      "description": "Query Claude Code session history using jq to find past conversations and user messages",
+      "category": "utilities",
+      "strict": true
+    },
+    {
+      "name": "terminal-tidbits",
+      "source": "./terminal-tidbits",
+      "description": "Personal reference system for terminal commands and concepts you're learning",
+      "category": "reference",
+      "strict": true
     }
   ]
 }
