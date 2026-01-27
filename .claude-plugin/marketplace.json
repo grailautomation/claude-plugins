@@ -37,6 +37,13 @@
       "source": "./workato-sdk",
       "category": "development",
       "strict": true
+    },
+    {
+      "name": "salesforce-soql",
+      "source": "./salesforce-soql",
+      "description": "Run SOQL queries against Salesforce using the sf CLI",
+      "category": "integrations",
+      "strict": true
     }
   ]
 }
