@@ -1,0 +1,4 @@
+.DS_Store
+
+# User's terminal-tidbits file (not the defaults)
+data/terminal-tidbits.json
