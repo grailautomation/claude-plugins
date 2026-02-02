@@ -58,6 +58,13 @@
       "description": "Personal reference system for terminal commands and concepts you're learning",
       "category": "reference",
       "strict": true
+    },
+    {
+      "name": "staff-software-engineer",
+      "source": "./staff-software-engineer",
+      "description": "Staff software engineer agent for reviewing implementation plans",
+      "category": "development",
+      "strict": true
     }
   ]
 }
