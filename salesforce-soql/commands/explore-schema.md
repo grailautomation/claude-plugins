@@ -1,5 +1,5 @@
 ---
-description: Interactively explore the Salesforce schema - list objects, describe fields, understand relationships
+description: Explore Salesforce schema before writing queries - discover custom fields, picklist values, relationship names, and record types. Use when unsure about field API names or object structure.
 allowed-tools: ["Bash", "AskUserQuestion"]
 ---
 
