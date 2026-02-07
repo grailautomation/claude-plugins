@@ -35,3 +35,8 @@ node_modules/
 
 # Local plugin settings (may contain sensitive config)
 **/*.local.md
+
+# Org-specific schemas (may contain PII, org IDs, emails)
+salesforce-soql/org-schemas/*/
+!salesforce-soql/org-schemas/example-org/
+!salesforce-soql/org-schemas/README.md

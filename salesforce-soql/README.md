@@ -58,7 +58,7 @@ org-schemas/
     └── ...
 ```
 
-See `org-schemas/mural-production/` for an example.
+See `org-schemas/example-org/` for an example.
 
 ## Directory Structure
 
@@ -75,6 +75,6 @@ salesforce-soql/
 │   ├── query-patterns/
 │   └── sf-cli-execution/
 ├── org-schemas/
-│   └── mural-production/
+│   └── example-org/
 └── README.md
 ```
