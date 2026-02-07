@@ -3,7 +3,8 @@
   "version": "2.0.0",
   "description": "Analyze GitHub issues and implement AI-generated solution plans (pure plugin - no Python required)",
   "author": {
-    "name": "Dave Kreitter"
+    "name": "Dave Kreitter",
+    "email": "dave@grailautomation.com"
   },
   "repository": "https://github.com/kreitter/issue-solver",
   "keywords": ["github", "issues", "automation", "planning", "implementation"]

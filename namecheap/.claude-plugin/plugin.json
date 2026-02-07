@@ -4,7 +4,7 @@
   "description": "Interact with Namecheap API for domain and DNS management",
   "author": {
     "name": "Dave Kreitter",
-    "email": "dave@kreitter.com"
+    "email": "dave@grailautomation.com"
   },
   "keywords": ["namecheap", "dns", "domains", "registrar"]
 }

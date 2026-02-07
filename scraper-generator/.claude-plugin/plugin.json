@@ -2,6 +2,10 @@
   "name": "scraper-generator",
   "version": "0.1.0",
   "description": "Generate custom API documentation scrapers through guided discovery and code generation",
+  "author": {
+    "name": "Dave Kreitter",
+    "email": "dave@grailautomation.com"
+  },
   "commands": ["commands/*.md"],
   "skills": ["skills/*/SKILL.md"],
   "agents": ["agents/*.md"]

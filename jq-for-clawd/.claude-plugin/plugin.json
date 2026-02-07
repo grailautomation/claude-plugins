@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "Query Claude Code session history using jq to find past conversations and user messages",
   "author": {
-    "name": "David Kreitter",
-    "email": "david@grailautomation.com"
+    "name": "Dave Kreitter",
+    "email": "dave@grailautomation.com"
   },
   "keywords": ["session-history", "jq", "conversations", "debugging"]
 }

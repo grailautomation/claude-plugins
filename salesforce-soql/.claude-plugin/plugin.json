@@ -3,6 +3,7 @@
   "description": "Run SOQL queries against Salesforce using the sf CLI. Includes object schema reference, SOQL syntax guide, and query patterns.",
   "version": "1.0.0",
   "author": {
-    "name": "Dave"
+    "name": "Dave Kreitter",
+    "email": "dave@grailautomation.com"
   }
 }
