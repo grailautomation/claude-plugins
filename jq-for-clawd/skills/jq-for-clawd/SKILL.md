@@ -18,7 +18,7 @@ Claude Code stores session history as JSONL files at:
 ```
 
 **Path encoding**: Project paths use dashes instead of slashes.
-- `/Users/dave/Documents/my-project` becomes `-Users-dave-Documents-my-project`
+- `/home/user/my-project` becomes `-home-user-my-project`
 
 ### Find the Project Directory
 
@@ -26,7 +26,7 @@ To find sessions for a specific project path:
 
 ```bash
 # Encode project path (replace / with -)
-PROJECT_PATH="/Users/dave/Documents/my-project"
+PROJECT_PATH="/home/user/my-project"
 ENCODED=$(echo "$PROJECT_PATH" | sed 's|^/|-|; s|/|-|g')
 SESSION_DIR="$HOME/.claude/projects/$ENCODED"
 
@@ -110,7 +110,7 @@ head -5 session.jsonl | jq -r 'select(.type == "user") | .timestamp' | head -1
 Search across all sessions in a project for a keyword:
 
 ```bash
-SESSION_DIR="$HOME/.claude/projects/-Users-dave-Documents-my-project"
+SESSION_DIR="$HOME/.claude/projects/-home-user-my-project"
 for f in "$SESSION_DIR"/*.jsonl; do
   if grep -q "keyword" "$f" 2>/dev/null; then
     echo "=== $f ==="
@@ -122,7 +122,7 @@ done
 ### List Recent Sessions with First User Message
 
 ```bash
-SESSION_DIR="$HOME/.claude/projects/-Users-dave-Documents-my-project"
+SESSION_DIR="$HOME/.claude/projects/-home-user-my-project"
 for f in $(ls -t "$SESSION_DIR"/*.jsonl 2>/dev/null | grep -v "agent-" | head -5); do
   echo ""
   echo "=== $(basename $f) ==="
