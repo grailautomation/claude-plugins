@@ -1,6 +1,6 @@
 {
   "name": "issue-solver",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Analyze GitHub issues and implement AI-generated solution plans (pure plugin - no Python required)",
   "author": {
     "name": "Dave Kreitter",
