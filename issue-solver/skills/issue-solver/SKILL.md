@@ -1,6 +1,6 @@
 ---
 name: issue-solver
-description: Workflow for analyzing GitHub issues, generating solution plans, and implementing chosen approaches. Use when working with GitHub issues, creating implementation plans, comparing solution options, editing plans, or implementing solutions. Triggers on: "solve issue", "fix issue", "implement plan", "edit plan", "plan format", "compare options".
+description: "Workflow for analyzing GitHub issues, generating solution plans, and implementing chosen approaches. Use when working with GitHub issues, creating implementation plans, comparing solution options, editing plans, or implementing solutions. Triggers on: solve issue, fix issue, implement plan, edit plan, plan format, compare options."
 ---
 
 # issue-solver Workflow

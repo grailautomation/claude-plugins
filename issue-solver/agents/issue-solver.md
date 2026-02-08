@@ -1,6 +1,6 @@
 ---
 name: issue-solver
-description: Analyzes ONE GitHub issue and generates 2-4 solution plans. Optimized for single-issue focus with aggregation-friendly output. For multiple issues, spawn separate issue-solver agents in parallel. Use when user wants to solve an issue, fix a bug, implement a feature from a GitHub issue, create implementation plans, or compare solution approaches. Triggers on: "solve issue", "analyze issue", "create plan for", "fix issue #", "generate options for issue".
+description: "Analyzes ONE GitHub issue and generates 2-4 solution plans. Optimized for single-issue focus with aggregation-friendly output. For multiple issues, spawn separate issue-solver agents in parallel. Use when user wants to solve an issue, fix a bug, implement a feature from a GitHub issue, create implementation plans, or compare solution approaches. Triggers on: solve issue, analyze issue, create plan for, fix issue #, generate options for issue."
 tools: Bash, Read, Write, Glob, Grep
 model: opus
 color: blue
