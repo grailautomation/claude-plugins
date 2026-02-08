@@ -1,11 +1,17 @@
 {
-  "name": "namecheap-mcp-server",
+  "name": "@grailautomation/namecheap-mcp",
   "version": "0.1.0",
   "description": "MCP server for Namecheap API integration",
   "type": "module",
   "main": "index.js",
+  "bin": {
+    "namecheap-mcp": "./index.js"
+  },
   "scripts": {
     "start": "node index.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",

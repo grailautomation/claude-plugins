@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "namecheap": {
-      "command": "node",
-      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp-server/index.js"],
+      "command": "npx",
+      "args": ["-y", "@grailautomation/namecheap-mcp"],
       "env": {
         "NAMECHEAP_API_USER": "${NAMECHEAP_API_USER}",
         "NAMECHEAP_API_KEY": "${NAMECHEAP_API_KEY}",

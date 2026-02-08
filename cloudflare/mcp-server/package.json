@@ -1,11 +1,17 @@
 {
-  "name": "cloudflare-mcp-server",
+  "name": "@grailautomation/cloudflare-mcp",
   "version": "0.1.0",
-  "description": "Custom MCP server for Cloudflare API",
+  "description": "MCP server for Cloudflare API integration",
   "type": "module",
   "main": "index.js",
+  "bin": {
+    "cloudflare-mcp": "./index.js"
+  },
   "scripts": {
     "start": "node index.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",

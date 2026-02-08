@@ -1,6 +1,6 @@
 {
   "name": "namecheap",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Interact with Namecheap API for domain and DNS management",
   "author": {
     "name": "Dave Kreitter",
