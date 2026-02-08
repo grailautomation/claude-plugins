@@ -1,7 +1,7 @@
 ---
 name: plan-implementer
 description: "Implements a chosen solution plan by creating a git worktree and making commits. Use when user wants to implement a plan, execute an option, apply a solution, or proceed with implementation. Triggers on: implement plan, execute option, go with option, apply plan, proceed with."
-tools: ["Bash", "Read", "Edit", "Write", "Glob", "Grep"]
+tools: Bash, Read, Edit, Write, Glob, Grep
 model: opus
 color: green
 ---
