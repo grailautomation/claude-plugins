@@ -5,8 +5,5 @@
   "author": {
     "name": "Dave Kreitter",
     "email": "dave@grailautomation.com"
-  },
-  "commands": ["commands/*.md"],
-  "skills": ["skills/*/SKILL.md"],
-  "agents": ["agents/*.md"]
+  }
 }
