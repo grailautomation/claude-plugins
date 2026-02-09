@@ -1,6 +1,5 @@
 {
   "name": "staff-software-engineer",
-  "version": "0.1.0",
   "description": "Staff software engineer agent for reviewing implementation plans",
   "author": {
     "name": "Dave Kreitter",
