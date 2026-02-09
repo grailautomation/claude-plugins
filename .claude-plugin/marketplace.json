@@ -65,6 +65,13 @@
       "description": "Staff software engineer agent for reviewing implementation plans",
       "category": "development",
       "strict": true
+    },
+    {
+      "name": "spec-kit",
+      "source": "./spec-kit",
+      "description": "Spec-Driven Development toolkit — generate thorough specs, plans, and tasks for any project",
+      "category": "development",
+      "strict": true
     }
   ]
 }

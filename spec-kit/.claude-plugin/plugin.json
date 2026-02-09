@@ -1,0 +1,11 @@
+{
+  "name": "spec-kit",
+  "version": "1.0.0",
+  "description": "Spec-Driven Development toolkit — generate thorough specs, plans, and tasks for any project",
+  "author": {
+    "name": "Dave Kreitter",
+    "email": "dave@grailautomation.com"
+  },
+  "repository": "https://github.com/spec-kit/spec-kit",
+  "keywords": ["spec", "planning", "sdd", "tasks", "specification", "implementation"]
+}
