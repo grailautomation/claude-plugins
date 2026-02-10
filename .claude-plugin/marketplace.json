@@ -11,30 +11,35 @@
     {
       "name": "issue-solver",
       "source": "./issue-solver",
+      "description": "Analyze GitHub issues and implement AI-generated solution plans",
       "category": "automation",
       "strict": true
     },
     {
       "name": "scraper-generator",
       "source": "./scraper-generator",
+      "description": "Generate custom API documentation scrapers through guided discovery and code generation",
       "category": "automation",
       "strict": true
     },
     {
       "name": "cloudflare",
       "source": "./cloudflare",
+      "description": "Cloudflare integration for managing domains, DNS records, and Pages deployments",
       "category": "deployment",
       "strict": true
     },
     {
       "name": "namecheap",
       "source": "./namecheap",
+      "description": "Interact with Namecheap API for domain and DNS management",
       "category": "deployment",
       "strict": true
     },
     {
       "name": "workato-sdk",
       "source": "./workato-sdk",
+      "description": "Workato Connector SDK best practices for recipe developer UX",
       "category": "development",
       "strict": true
     },
@@ -72,6 +77,13 @@
       "description": "Spec-Driven Development toolkit — generate thorough specs, plans, and tasks for any project",
       "category": "development",
       "strict": true
+    },
+    {
+      "name": "dev-browser",
+      "source": "./dev-browser",
+      "description": "Browser automation skill with persistent page state for developers and AI agents",
+      "category": "automation",
+      "strict": false
     }
   ]
 }

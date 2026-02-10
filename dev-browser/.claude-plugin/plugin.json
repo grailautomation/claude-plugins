@@ -1,0 +1,9 @@
+{
+  "name": "dev-browser",
+  "description": "Browser automation skill with persistent page state for developers and AI agents",
+  "author": {
+    "name": "Sawyer Hood",
+    "email": "sawyerjhood@gmail.com"
+  },
+  "keywords": ["browser", "playwright", "automation", "testing", "debugging"]
+}
