@@ -84,6 +84,13 @@
       "description": "Browser automation skill with persistent page state for developers and AI agents",
       "category": "automation",
       "strict": false
+    },
+    {
+      "name": "agents",
+      "source": "./agents",
+      "description": "Reusable subagent definitions for common development workflows",
+      "category": "development",
+      "strict": true
     }
   ]
 }
