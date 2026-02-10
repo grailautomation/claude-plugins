@@ -1,0 +1,9 @@
+{
+  "name": "agents",
+  "description": "Reusable subagent definitions for common development workflows",
+  "author": {
+    "name": "Dave Kreitter",
+    "email": "dave@grailautomation.com"
+  },
+  "keywords": ["agents", "subagents", "workflows"]
+}
