@@ -1,0 +1,9 @@
+{
+  "name": "python-quickbooks",
+  "version": "1.0.0",
+  "description": "Comprehensive reference for the python-quickbooks library (ej2/python-quickbooks) — QuickBooks Online API integration in Python.",
+  "author": {
+    "name": "Dave Kreitter",
+    "email": "dave@grailautomation.com"
+  }
+}

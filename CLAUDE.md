@@ -30,8 +30,9 @@ Does it contain PII, org IDs, credentials, or company-specific data?
 Before committing, verify no PII in tracked files:
 
 ```bash
-# Check for email addresses (excluding example.com)
+# Check for email addresses (excluding example.com and plugin infra files)
 grep -rn '@[a-z]' --include='*.md' . | grep -v '@example' | grep -v 'CLAUDE.md'
+grep -rn '@[a-z]' --include='*.md' --include='*.json' . | grep -v '@example' | grep -v 'CLAUDE.md' | grep -v 'plugin.json' | grep -v 'marketplace.json'
 
 # Check for Salesforce org IDs
 grep -rn '00D[A-Za-z0-9]\{15\}' --include='*.md' . | grep -v '00D000000000000'

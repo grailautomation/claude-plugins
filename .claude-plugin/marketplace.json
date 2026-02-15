@@ -91,6 +91,13 @@
       "description": "Reusable subagent definitions for common development workflows",
       "category": "development",
       "strict": true
+    },
+    {
+      "name": "python-quickbooks",
+      "source": "./python-quickbooks",
+      "description": "Comprehensive reference for the python-quickbooks library — QuickBooks Online API",
+      "category": "reference",
+      "strict": true
     }
   ]
 }
