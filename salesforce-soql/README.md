@@ -9,6 +9,7 @@ Run SOQL queries against Salesforce orgs using the `sf` CLI directly from Claude
 - **Object Reference**: Built-in documentation for standard Salesforce objects
 - **SOQL Syntax Guide**: Complete reference for SOQL clauses and functions
 - **Query Patterns**: Common query patterns and examples
+- **Bulk Write Operations**: Import, update, upsert, and delete records via Bulk API 2.0
 - **Org-Specific Schemas**: Add custom object documentation per org
 
 ## Prerequisites
@@ -45,6 +46,7 @@ sf org list
 | `soql-syntax` | SOQL language syntax |
 | `query-patterns` | Common query patterns |
 | `sf-cli-execution` | CLI execution and authentication |
+| `sf-bulk-operations` | Bulk API 2.0 write operations |
 
 ## Adding Org-Specific Schemas
 
@@ -73,7 +75,8 @@ salesforce-soql/
 │   ├── salesforce-reference/
 │   ├── soql-syntax/
 │   ├── query-patterns/
-│   └── sf-cli-execution/
+│   ├── sf-cli-execution/
+│   └── sf-bulk-operations/
 ├── org-schemas/
 │   └── example-org/
 └── README.md

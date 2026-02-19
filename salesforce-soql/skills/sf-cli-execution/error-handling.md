@@ -219,3 +219,56 @@ for i in 1 2 3; do
   sleep $((i * 5))
 done
 ```
+
+---
+
+## Bulk Operation Errors
+
+These errors are specific to `sf data import bulk`, `sf data update bulk`, `sf data upsert bulk`, and `sf data delete bulk`.
+
+### ClientInputError (LineEnding)
+
+**Error**: `LineEnding is invalid on user data. Current LineEnding setting is LF`
+
+**Cause**: CSV line endings don't match the `--line-ending` flag. Python's `csv` module writes CRLF by default; macOS `sf` defaults to LF.
+
+**Solution**: Ensure CSV has LF endings (`lineterminator='\n'` in Python) and pass `--line-ending LF`.
+
+---
+
+### INVALID_CROSS_REFERENCE_KEY
+
+**Error**: `invalid cross reference id` on individual records
+
+**Cause**: The record ID in the CSV doesn't exist in the target org. Common when updating a sandbox with production IDs — accounts created after sandbox refresh won't exist.
+
+**Solution**: This is expected for sandbox operations. Check `sf data bulk results --job-id <ID>` to see how many records succeeded vs failed. Partial success is normal.
+
+---
+
+### FailedRecordDetailsError
+
+**Error**: `Job finished being processed but failed to process N records`
+
+**Cause**: Partial failure — some records succeeded, others failed. The job itself completed.
+
+**Solution**: This is informational, not a total failure. Inspect the details:
+
+```bash
+sf data bulk results --job-id <JOB_ID> --target-org myorg --json
+# Then review the failed-records CSV for per-row error reasons
+```
+
+---
+
+### JobFailedError
+
+**Error**: `Job failed to be processed due to: ...`
+
+**Cause**: The entire job failed before processing any records. Usually a CSV format issue (wrong line endings, invalid headers, malformed data).
+
+**Solution**: Check the error message. Common causes:
+- Line ending mismatch (see ClientInputError above)
+- Wrong column delimiter
+- Header row uses field labels instead of API names
+- CSV encoding issues (BOM characters)
