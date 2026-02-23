@@ -13,14 +13,17 @@ A two-phase approach to solving GitHub issues with AI assistance.
 |------|-----|-------|
 | Generate plans (single) | `/issue-solver:solve 123` | issue-solver |
 | Generate plans (batch) | `/issue-solver:solve 1 2 3` | issue-solver (via Task) |
-| Execute plan | "implement option 1 for issue 123" | plan-implementer |
+| Execute plan (single) | `/issue-solver:implement 123:1` | plan-implementer |
+| Execute plans (parallel) | `/issue-solver:implement 123:1 456:2` | plan-implementer (via Task) |
+| Execute plan (direct) | `@issue-solver:plan-implementer 123 1` | plan-implementer |
 
 ## Parallelism Approaches
 
 | Approach | How | Best For |
 |----------|-----|----------|
 | Single issue | Direct agent call or `/solve N` | Normal usage |
-| Batch mode | `/solve 1 2 3` (SDK parallelism) | Many similar issues |
+| Batch solve | `/solve 1 2 3` | Many issues to analyze |
+| Batch implement | `/implement 123:1 456:2 789:1` | Many plans to execute |
 | Outer Claude | Spawn multiple agents | Progressive results, fault isolation |
 
 See [multi-issue.md](multi-issue.md) for detailed guidance.
@@ -44,10 +47,12 @@ Each plan includes:
 ### Phase 2: Implement (Execution)
 The `plan-implementer` agent executes a chosen plan.
 
-**Input**: Issue + option number, OR path to plan file
+**Input**: Issue:option pair(s), OR path to plan file
 **Output**: Git commits on a new branch in `.worktrees/{branch_name}`
 
 The agent handles the full lifecycle: worktree creation, code changes, commit, merge options, and cleanup. You can defer merging by choosing "Leave it" to keep the worktree for later.
+
+**Parallel Implementing**: `/issue-solver:implement 123:1 456:2` dispatches multiple plan-implementer agents concurrently, each in its own worktree.
 
 **Prerequisites**:
 - Clean git working directory

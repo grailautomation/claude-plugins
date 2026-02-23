@@ -6,7 +6,7 @@ A Claude Code plugin for analyzing GitHub issues and implementing AI-generated s
 
 - **Solve**: Analyze GitHub issues and generate 2-4 solution plans
 - **Implement**: Execute solution plans via worktrees with automated branching, commits, and merge options
-- **Parallel Processing**: Solve multiple issues concurrently using Task tool
+- **Parallel Processing**: Solve and implement multiple issues concurrently using Task tool
 
 ## Requirements
 
@@ -48,15 +48,21 @@ Then add to your Claude Code settings.
 
 ### Implement Plans
 
-The `plan-implementer` agent handles implementation. Invoke it naturally:
+```bash
+# Implement a single plan
+/issue-solver:implement 123:1
 
-```
-implement option 1 for issue 123
-go with option 2 for issue 456
-implement plans/issue-123/option-1-fix.md
+# Implement multiple plans in parallel
+/issue-solver:implement 123:1 456:2 789:1
+
+# Implement by plan path
+/issue-solver:implement plans/issue-123/option-1-fix.md
+
+# Or invoke the agent directly
+@issue-solver:plan-implementer 123 1
 ```
 
-It creates a worktree in `.worktrees/`, implements the plan, commits, and offers merge options (including "leave it" to defer merging).
+Each implementation creates a worktree in `.worktrees/`, makes the code changes, commits, and offers merge options (including "leave it" to defer merging).
 
 ## Output Structure
 
@@ -88,6 +94,7 @@ Each plan file contains:
 | Command | Description |
 |---------|-------------|
 | `/issue-solver:solve` | Dispatch single or batch issue solving |
+| `/issue-solver:implement` | Dispatch single or parallel plan implementation |
 
 ## License
 
