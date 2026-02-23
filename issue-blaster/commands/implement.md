@@ -1,7 +1,7 @@
 ---
 description: Implement one or more chosen solution plans
 argument-hint: <issue:option> [<issue:option> ...] | <issue> <option>
-allowed-tools: Bash, Read, Edit, Write, Glob, Grep, Task
+allowed-tools: Bash, Read, Edit, Write, Glob, Grep, Task, AskUserQuestion
 ---
 
 Implement the specified solution plan(s).

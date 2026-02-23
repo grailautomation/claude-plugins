@@ -1,7 +1,7 @@
 ---
 name: plan-implementer
 description: "Implements a chosen solution plan by creating a git worktree and making commits. Use when user wants to implement a plan, execute an option, apply a solution, or proceed with implementation. Triggers on: implement plan, execute option, go with option, apply plan, proceed with."
-tools: Bash, Read, Edit, Write, Glob, Grep
+tools: Bash, Read, Edit, Write, Glob, Grep, AskUserQuestion
 model: opus
 color: green
 ---
@@ -139,22 +139,24 @@ commits_behind=$(git log --oneline {branch_name}..main | wc -l)
 
 **If fast-forward is possible** (commits_behind = 0):
 
-Ask the user:
-> Main hasn't moved since you branched. How would you like to proceed?
->
-> 1. **Fast-forward merge** — moves main forward, pushes, cleans up worktree
-> 2. **Create PR** — pushes branch, opens PR, cleans up worktree
-> 3. **Leave it** — keep the worktree at `.worktrees/{branch_name}` for now
+Use the `AskUserQuestion` tool with the question "Main hasn't moved since you branched. How would you like to proceed?" and these options:
+
+| Label | Description |
+|-------|-------------|
+| Fast-forward merge | Moves main forward, pushes to origin, and cleans up the worktree |
+| Create PR | Pushes branch to origin, opens a PR, and cleans up the worktree |
+| Leave it | Keep the worktree at `.worktrees/{branch_name}` for manual handling later |
 
 **If branches have diverged** (commits_behind > 0):
 
-Ask the user:
-> Main has {N} new commits since you branched. How would you like to proceed?
->
-> 1. **Create PR** — pushes branch, opens PR, cleans up worktree
-> 2. **Rebase and merge** — rebases onto main, fast-forwards, pushes, cleans up
-> 3. **Merge commit** — creates merge commit on main, pushes, cleans up
-> 4. **Leave it** — keep the worktree at `.worktrees/{branch_name}` for now
+Use the `AskUserQuestion` tool with the question "Main has {N} new commits since you branched. How would you like to proceed?" and these options:
+
+| Label | Description |
+|-------|-------------|
+| Create PR | Pushes branch to origin, opens a PR, and cleans up the worktree |
+| Rebase and merge | Rebases onto main, fast-forwards, pushes to origin, and cleans up |
+| Merge commit | Creates a merge commit on main, pushes to origin, and cleans up |
+| Leave it | Keep the worktree at `.worktrees/{branch_name}` for manual handling later |
 
 If the user chooses "Leave it", report the worktree location and stop. The user can come back later.
 
