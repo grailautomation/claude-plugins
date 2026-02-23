@@ -42,22 +42,10 @@ If only one issue number is provided:
 If multiple issue numbers are provided, spawn parallel Task agents:
 
 For EACH issue number, use the Task tool with:
-- **subagent_type**: `"general-purpose"`
+- **subagent_type**: `"issue-solver"`
 - **run_in_background**: `true`
 - **description**: `"Solving issue #{N}"`
-- **prompt**: Include the full issue-solver instructions:
-  ```
-  You are a senior software architect. Analyze GitHub issue {repo}#{number}.
-
-  1. Fetch the issue: gh issue view {number} --repo {repo} --json number,title,body,comments,labels
-  2. Research the codebase with rg (ripgrep)
-  3. Create directory: mkdir -p plans/issue-{number}
-  4. Write 2-4 plan files at plans/issue-{number}/option-{n}-{slug}.md
-
-  Each plan must have YAML frontmatter with: issue_number, issue_url, repo, option, title, created, status, effort, breaking_changes
-
-  Output a summary table when done.
-  ```
+- **prompt**: `"Analyze GitHub issue {repo}#{number}. The repository is {repo}."`
 
 After spawning all tasks, wait for completion using TaskOutput.
 

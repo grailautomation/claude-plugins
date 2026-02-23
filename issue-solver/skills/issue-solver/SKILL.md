@@ -9,11 +9,11 @@ A two-phase approach to solving GitHub issues with AI assistance.
 
 ## Quick Reference
 
-| Task | Command | Agent |
-|------|---------|-------|
+| Task | How | Agent |
+|------|-----|-------|
 | Generate plans (single) | `/issue-solver:solve 123` | issue-solver |
 | Generate plans (batch) | `/issue-solver:solve 1 2 3` | issue-solver (via Task) |
-| Execute plan | `/issue-solver:implement 123 2` | plan-implementer |
+| Execute plan | "implement option 1 for issue 123" | plan-implementer |
 
 ## Parallelism Approaches
 
@@ -42,10 +42,12 @@ Each plan includes:
 - Pros/cons and effort estimate
 
 ### Phase 2: Implement (Execution)
-Executes a chosen plan by creating a feature branch and commits.
+The `plan-implementer` agent executes a chosen plan.
 
 **Input**: Issue + option number, OR path to plan file
-**Output**: Git commits on a new feature branch
+**Output**: Git commits on a new branch in `.worktrees/{branch_name}`
+
+The agent handles the full lifecycle: worktree creation, code changes, commit, merge options, and cleanup. You can defer merging by choosing "Leave it" to keep the worktree for later.
 
 **Prerequisites**:
 - Clean git working directory

@@ -76,9 +76,3 @@ High-level explanation of this solution strategy.
 ### Step 2: {Description}
 ...
 ```
-
-## Reading Plans Programmatically
-
-The `issue_solver.plan_parser` module provides:
-- `parse_plan(path)` -> `Plan` dataclass
-- `Plan.steps` -> list of `ImplementationStep`

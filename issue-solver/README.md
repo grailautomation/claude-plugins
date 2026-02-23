@@ -5,7 +5,7 @@ A Claude Code plugin for analyzing GitHub issues and implementing AI-generated s
 ## Features
 
 - **Solve**: Analyze GitHub issues and generate 2-4 solution plans
-- **Implement**: Execute solution plans by creating branches and implementing changes
+- **Implement**: Execute solution plans via worktrees with automated branching, commits, and merge options
 - **Parallel Processing**: Solve multiple issues concurrently using Task tool
 
 ## Requirements
@@ -48,18 +48,22 @@ Then add to your Claude Code settings.
 
 ### Implement Plans
 
-```bash
-# Implement by issue and option number
-/issue-solver:implement 123 1
+The `plan-implementer` agent handles implementation. Invoke it naturally:
 
-# Implement by plan path
-/issue-solver:implement plans/issue-123/option-1-fix.md
 ```
+implement option 1 for issue 123
+go with option 2 for issue 456
+implement plans/issue-123/option-1-fix.md
+```
+
+It creates a worktree in `.worktrees/`, implements the plan, commits, and offers merge options (including "leave it" to defer merging).
 
 ## Output Structure
 
 ```
-plans/
+.worktrees/                          ← gitignored, created during implementation
+└── issue-123-minimal-fix/           ← worktree per implementation
+plans/                               ← gitignored, created during solving
 └── issue-123/
     ├── option-1-minimal-fix.md
     ├── option-2-refactor.md
@@ -74,12 +78,16 @@ Each plan file contains:
 
 ## Agents
 
-This plugin provides two agents:
-
 | Agent | Description | Trigger Phrases |
 |-------|-------------|-----------------|
-| `issue-solver` | Analyzes issues and generates plans | "solve issue", "analyze issue", "create plan for" |
-| `plan-implementer` | Executes solution plans | "implement plan", "execute option", "go with option" |
+| `issue-solver` | Analyzes one issue, generates 2-4 plans | "solve issue", "analyze issue", "create plan for" |
+| `plan-implementer` | Implements a chosen plan via worktree | "implement plan", "execute option", "go with option" |
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `/issue-solver:solve` | Dispatch single or batch issue solving |
 
 ## License
 
