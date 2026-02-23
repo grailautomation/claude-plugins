@@ -14,6 +14,8 @@ This agent handles ONE GitHub issue at a time. For multi-issue analysis, outer C
 
 ## Your Task
 
+$ARGUMENTS
+
 Analyze the GitHub issue and create 2-4 distinct solution plans as markdown files.
 
 ## Process

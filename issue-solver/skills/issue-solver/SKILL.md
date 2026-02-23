@@ -26,7 +26,7 @@ A two-phase approach to solving GitHub issues with AI assistance.
 | Batch implement | `/implement 123:1 456:2 789:1` | Many plans to execute |
 | Outer Claude | Spawn multiple agents | Progressive results, fault isolation |
 
-See [multi-issue.md](multi-issue.md) for detailed guidance.
+See [multi-issue.md](references/multi-issue.md) for detailed guidance.
 
 ## Workflow Phases
 
@@ -60,9 +60,9 @@ The agent handles the full lifecycle: worktree creation, code changes, commit, m
 
 ## Plan Files
 
-Plans use YAML frontmatter + markdown. See [plan-format.md](plan-format.md) for specification.
+Plans use YAML frontmatter + markdown. See [plan-format.md](references/plan-format.md) for specification.
 
-To modify a plan before implementation, see [plan-editing.md](plan-editing.md).
+To modify a plan before implementation, see [plan-editing.md](references/plan-editing.md).
 
 ## Context Tips
 

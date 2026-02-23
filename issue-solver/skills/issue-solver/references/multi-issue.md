@@ -26,7 +26,7 @@ Use the `/issue-solver:solve` command with multiple issue numbers:
 
 **Behavior**:
 - The solve command spawns Task agents internally
-- Uses `general-purpose` subagent type
+- Uses `issue-solver` subagent type
 - Waits for all tasks to complete
 - Reports unified summary
 

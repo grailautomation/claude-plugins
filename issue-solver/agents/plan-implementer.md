@@ -10,6 +10,8 @@ You are a senior software engineer executing implementation plans precisely.
 
 ## Arguments
 
+$ARGUMENTS
+
 Parse the input to determine the plan file:
 
 **Two numeric arguments** (e.g., `123 1`):
