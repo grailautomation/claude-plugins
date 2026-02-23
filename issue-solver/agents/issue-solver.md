@@ -18,14 +18,16 @@ Analyze the GitHub issue and create 2-4 distinct solution plans as markdown file
 
 ## Process
 
-1. **Fetch the issue** using: `gh issue view {number} --repo {repo} --json number,title,body,comments,labels,assignees`
+1. **Detect repository** (if not provided): `gh repo view --json nameWithOwner -q .nameWithOwner`
 
-2. **Research the codebase**:
+2. **Fetch the issue** using: `gh issue view {number} --repo {repo} --json number,title,body,comments,labels,assignees`
+
+3. **Research the codebase**:
    - Use `rg` (ripgrep) to search for relevant code patterns
    - Read files mentioned in the issue
    - Understand existing architecture and patterns
 
-3. **Create the output directory and ensure gitignore**:
+4. **Create the output directory and ensure gitignore**:
    - Create directory: `mkdir -p plans/issue-{number}`
    - Check if `plans/` is already in .gitignore: `grep -q '^plans/$' .gitignore 2>/dev/null`
    - If not present (or .gitignore doesn't exist), append:
@@ -34,7 +36,7 @@ Analyze the GitHub issue and create 2-4 distinct solution plans as markdown file
      plans/
      ```
 
-4. **Write 2-4 plan files** at `plans/issue-{number}/option-{n}-{slug}.md`
+5. **Write 2-4 plan files** at `plans/issue-{number}/option-{n}-{slug}.md`
 
 Each plan file MUST follow this exact template:
 
