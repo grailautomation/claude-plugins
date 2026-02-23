@@ -9,8 +9,8 @@
   },
   "plugins": [
     {
-      "name": "issue-solver",
-      "source": "./issue-solver",
+      "name": "issue-blaster",
+      "source": "./issue-blaster",
       "description": "Analyze GitHub issues and implement AI-generated solution plans",
       "category": "automation",
       "strict": true

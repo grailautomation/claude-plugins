@@ -35,14 +35,14 @@ gh issue view {number} --repo {repo} --json number
 
 #### Single Issue
 If only one issue number is provided:
-- Use the issue-solver agent directly to analyze the issue
+- Use the issue-blaster agent directly to analyze the issue
 - The agent will create plans in `plans/issue-{N}/`
 
 #### Multiple Issues (Parallel)
 If multiple issue numbers are provided, spawn parallel Task agents:
 
 For EACH issue number, use the Task tool with:
-- **subagent_type**: `"issue-solver"`
+- **subagent_type**: `"issue-blaster"`
 - **run_in_background**: `true`
 - **description**: `"Solving issue #{N}"`
 - **prompt**: `"Analyze GitHub issue {repo}#{number}. The repository is {repo}."`

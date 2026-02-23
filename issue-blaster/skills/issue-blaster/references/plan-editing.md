@@ -1,6 +1,6 @@
 ---
 name: plan-editing
-description: How to modify issue-solver plans before implementation
+description: How to modify issue-blaster plans before implementation
 ---
 
 # Editing Plans

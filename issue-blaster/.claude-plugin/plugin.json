@@ -1,5 +1,5 @@
 {
-  "name": "issue-solver",
+  "name": "issue-blaster",
   "version": "1.0.0",
   "description": "Analyze GitHub issues and implement AI-generated solution plans (pure plugin - no Python required)",
   "author": {

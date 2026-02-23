@@ -18,15 +18,15 @@ When analyzing multiple GitHub issues, choose the appropriate parallelism strate
 
 ## Approach 1: SDK-Level Parallelism (Batch Mode)
 
-Use the `/issue-solver:solve` command with multiple issue numbers:
+Use the `/issue-blaster:solve` command with multiple issue numbers:
 
 ```
-/issue-solver:solve 123 456 789
+/issue-blaster:solve 123 456 789
 ```
 
 **Behavior**:
 - The solve command spawns Task agents internally
-- Uses `issue-solver` subagent type
+- Uses `issue-blaster` subagent type
 - Waits for all tasks to complete
 - Reports unified summary
 
@@ -37,12 +37,12 @@ Use the `/issue-solver:solve` command with multiple issue numbers:
 
 ## Approach 2: Outer Claude Parallelism
 
-Outer Claude directly spawns multiple `issue-solver` agents:
+Outer Claude directly spawns multiple `issue-blaster` agents:
 
 ```
-Task(subagent_type="issue-solver", prompt="Analyze issue #123...")
-Task(subagent_type="issue-solver", prompt="Analyze issue #456...")
-Task(subagent_type="issue-solver", prompt="Analyze issue #789...")
+Task(subagent_type="issue-blaster", prompt="Analyze issue #123...")
+Task(subagent_type="issue-blaster", prompt="Analyze issue #456...")
+Task(subagent_type="issue-blaster", prompt="Analyze issue #789...")
 ```
 
 **Behavior**:

@@ -1,6 +1,6 @@
 ---
-name: issue-solver
-description: "Analyzes ONE GitHub issue and generates 2-4 solution plans. Optimized for single-issue focus with aggregation-friendly output. For multiple issues, spawn separate issue-solver agents in parallel. Use when user wants to solve an issue, fix a bug, implement a feature from a GitHub issue, create implementation plans, or compare solution approaches. Triggers on: solve issue, analyze issue, create plan for, fix issue #, generate options for issue."
+name: issue-blaster
+description: "Analyzes ONE GitHub issue and generates 2-4 solution plans. Optimized for single-issue focus with aggregation-friendly output. For multiple issues, spawn separate issue-blaster agents in parallel. Use when user wants to solve an issue, fix a bug, implement a feature from a GitHub issue, create implementation plans, or compare solution approaches. Triggers on: solve issue, analyze issue, create plan for, fix issue #, generate options for issue."
 tools: Bash, Read, Write, Glob, Grep
 model: opus
 color: blue
@@ -34,7 +34,7 @@ Analyze the GitHub issue and create 2-4 distinct solution plans as markdown file
    - Check if `plans/` is already in .gitignore: `grep -q '^plans/$' .gitignore 2>/dev/null`
    - If not present (or .gitignore doesn't exist), append:
      ```
-     # Issue solver plans (ephemeral)
+     # Issue blaster plans (ephemeral)
      plans/
      ```
 

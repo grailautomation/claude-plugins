@@ -1,9 +1,9 @@
 ---
-name: issue-solver
+name: issue-blaster
 description: Workflow for analyzing GitHub issues, generating solution plans, and implementing chosen approaches. Use when working with GitHub issues, creating implementation plans, comparing solution options, editing plans, or implementing solutions.
 ---
 
-# issue-solver Workflow
+# issue-blaster Workflow
 
 A two-phase approach to solving GitHub issues with AI assistance.
 
@@ -11,11 +11,11 @@ A two-phase approach to solving GitHub issues with AI assistance.
 
 | Task | How | Agent |
 |------|-----|-------|
-| Generate plans (single) | `/issue-solver:solve 123` | issue-solver |
-| Generate plans (batch) | `/issue-solver:solve 1 2 3` | issue-solver (via Task) |
-| Execute plan (single) | `/issue-solver:implement 123:1` | plan-implementer |
-| Execute plans (parallel) | `/issue-solver:implement 123:1 456:2` | plan-implementer (via Task) |
-| Execute plan (direct) | `@issue-solver:plan-implementer 123 1` | plan-implementer |
+| Generate plans (single) | `/issue-blaster:solve 123` | issue-blaster |
+| Generate plans (batch) | `/issue-blaster:solve 1 2 3` | issue-blaster (via Task) |
+| Execute plan (single) | `/issue-blaster:implement 123:1` | plan-implementer |
+| Execute plans (parallel) | `/issue-blaster:implement 123:1 456:2` | plan-implementer (via Task) |
+| Execute plan (direct) | `@issue-blaster:plan-implementer 123 1` | plan-implementer |
 
 ## Parallelism Approaches
 
@@ -52,7 +52,7 @@ The `plan-implementer` agent executes a chosen plan.
 
 The agent handles the full lifecycle: worktree creation, code changes, commit, merge options, and cleanup. You can defer merging by choosing "Leave it" to keep the worktree for later.
 
-**Parallel Implementing**: `/issue-solver:implement 123:1 456:2` dispatches multiple plan-implementer agents concurrently, each in its own worktree.
+**Parallel Implementing**: `/issue-blaster:implement 123:1 456:2` dispatches multiple plan-implementer agents concurrently, each in its own worktree.
 
 **Prerequisites**:
 - Clean git working directory

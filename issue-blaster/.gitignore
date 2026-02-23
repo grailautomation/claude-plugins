@@ -12,6 +12,6 @@ wheels/
 # Environment variables
 .env
 
-# Issue solver runtime output
+# Issue blaster runtime output
 plans/
 .worktrees/

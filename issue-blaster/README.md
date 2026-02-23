@@ -1,4 +1,4 @@
-# Issue Solver
+# Issue Blaster
 
 A Claude Code plugin for analyzing GitHub issues and implementing AI-generated solution plans.
 
@@ -20,13 +20,13 @@ A Claude Code plugin for analyzing GitHub issues and implementing AI-generated s
 
 ```bash
 # Install from marketplace (when published)
-/plugin install issue-solver@claude-plugins
+/plugin install issue-blaster@claude-plugins
 ```
 
 ### Manual Installation
 
 ```bash
-git clone https://github.com/kreitter/issue-solver ~/.claude-plugins/issue-solver
+git clone https://github.com/kreitter/issue-blaster ~/.claude-plugins/issue-blaster
 ```
 
 Then add to your Claude Code settings.
@@ -37,29 +37,29 @@ Then add to your Claude Code settings.
 
 ```bash
 # Solve a single issue
-/issue-solver:solve 123
+/issue-blaster:solve 123
 
 # Solve multiple issues in parallel
-/issue-solver:solve 1 2 3
+/issue-blaster:solve 1 2 3
 
 # Specify repository explicitly
-/issue-solver:solve 123 --repo owner/repo
+/issue-blaster:solve 123 --repo owner/repo
 ```
 
 ### Implement Plans
 
 ```bash
 # Implement a single plan
-/issue-solver:implement 123:1
+/issue-blaster:implement 123:1
 
 # Implement multiple plans in parallel
-/issue-solver:implement 123:1 456:2 789:1
+/issue-blaster:implement 123:1 456:2 789:1
 
 # Implement by plan path
-/issue-solver:implement plans/issue-123/option-1-fix.md
+/issue-blaster:implement plans/issue-123/option-1-fix.md
 
 # Or invoke the agent directly
-@issue-solver:plan-implementer 123 1
+@issue-blaster:plan-implementer 123 1
 ```
 
 Each implementation creates a worktree in `.worktrees/`, makes the code changes, commits, and offers merge options (including "leave it" to defer merging).
@@ -86,15 +86,15 @@ Each plan file contains:
 
 | Agent | Description | Trigger Phrases |
 |-------|-------------|-----------------|
-| `issue-solver` | Analyzes one issue, generates 2-4 plans | "solve issue", "analyze issue", "create plan for" |
+| `issue-blaster` | Analyzes one issue, generates 2-4 plans | "solve issue", "analyze issue", "create plan for" |
 | `plan-implementer` | Implements a chosen plan via worktree | "implement plan", "execute option", "go with option" |
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `/issue-solver:solve` | Dispatch single or batch issue solving |
-| `/issue-solver:implement` | Dispatch single or parallel plan implementation |
+| `/issue-blaster:solve` | Dispatch single or batch issue solving |
+| `/issue-blaster:implement` | Dispatch single or parallel plan implementation |
 
 ## License
 

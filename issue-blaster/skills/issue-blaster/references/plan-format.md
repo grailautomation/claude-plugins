@@ -1,6 +1,6 @@
 ---
 name: plan-format
-description: Specification for issue-solver plan file format
+description: Specification for issue-blaster plan file format
 ---
 
 # Plan File Format
