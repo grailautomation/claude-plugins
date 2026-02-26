@@ -98,6 +98,13 @@
       "description": "Comprehensive reference for the python-quickbooks library — QuickBooks Online API",
       "category": "reference",
       "strict": true
+    },
+    {
+      "name": "context7",
+      "source": "./context7",
+      "description": "Context7 MCP documentation lookup for up-to-date library docs",
+      "category": "reference",
+      "strict": true
     }
   ]
 }
