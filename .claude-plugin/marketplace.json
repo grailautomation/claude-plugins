@@ -119,6 +119,13 @@
       "description": "Karabiner-Elements configuration and keyboard customization for macOS",
       "category": "utilities",
       "strict": true
+    },
+    {
+      "name": "python-patterns",
+      "source": "./python-patterns",
+      "description": "Idiomatic Python patterns, best practices, and code review reference",
+      "category": "reference",
+      "strict": true
     }
   ]
 }
