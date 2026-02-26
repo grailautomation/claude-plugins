@@ -105,6 +105,13 @@
       "description": "Context7 MCP documentation lookup for up-to-date library docs",
       "category": "reference",
       "strict": true
+    },
+    {
+      "name": "openapi-spec-generation",
+      "source": "./openapi-spec-generation",
+      "description": "OpenAPI 3.1 specification generation, validation, and SDK workflows",
+      "category": "development",
+      "strict": true
     }
   ]
 }

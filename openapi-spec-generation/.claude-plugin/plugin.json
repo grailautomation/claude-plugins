@@ -1,0 +1,5 @@
+{
+  "name": "openapi-spec-generation",
+  "description": "OpenAPI 3.1 specification generation, validation, and SDK workflows",
+  "author": "Grail Automation"
+}
