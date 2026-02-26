@@ -1,0 +1,27 @@
+{
+    "key_codes": {
+        "letters": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
+        "numbers": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+        "function_keys": ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "f13", "f14", "f15", "f16", "f17", "f18", "f19", "f20"],
+        "modifiers": {
+            "left": ["left_control", "left_shift", "left_option", "left_command"],
+            "right": ["right_control", "right_shift", "right_option", "right_command"],
+            "special": ["fn", "caps_lock"]
+        },
+        "navigation": ["up_arrow", "down_arrow", "left_arrow", "right_arrow", "page_up", "page_down", "home", "end"],
+        "editing": ["delete_or_backspace", "delete_forward", "return_or_enter", "escape", "tab", "spacebar"],
+        "punctuation": ["hyphen", "equal_sign", "open_bracket", "close_bracket", "backslash", "semicolon", "quote", "grave_accent_and_tilde", "comma", "period", "slash"],
+        "keypad": ["keypad_0", "keypad_1", "keypad_2", "keypad_3", "keypad_4", "keypad_5", "keypad_6", "keypad_7", "keypad_8", "keypad_9", "keypad_period", "keypad_plus", "keypad_hyphen", "keypad_asterisk", "keypad_slash", "keypad_equal_sign", "keypad_enter"],
+        "special": ["vk_none", "print_screen", "scroll_lock", "pause", "insert"],
+        "international": ["international1", "international2", "international3", "international4", "international5", "lang1", "lang2", "lang3", "lang4", "lang5", "japanese_eisuu", "japanese_kana", "japanese_pc_nfer", "japanese_pc_xfer", "japanese_pc_katakana"]
+    },
+    "consumer_key_codes": {
+        "media": ["play_or_pause", "fastforward", "rewind", "scan_next_track", "scan_previous_track", "eject"],
+        "volume": ["mute", "volume_increment", "volume_decrement"],
+        "display": ["display_brightness_increment", "display_brightness_decrement"],
+        "keyboard": ["illumination_increment", "illumination_decrement"],
+        "power": ["power", "menu", "al_terminal_lock_or_screensaver"]
+    },
+    "apple_vendor_key_codes": ["mission_control", "launchpad", "dashboard", "expose_all", "expose_desktop", "brightness_up", "brightness_down", "spotlight"],
+    "pointing_buttons": ["button1", "button2", "button3", "button4", "button5", "button6", "button7", "button8"]
+}

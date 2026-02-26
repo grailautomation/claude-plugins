@@ -112,6 +112,13 @@
       "description": "OpenAPI 3.1 specification generation, validation, and SDK workflows",
       "category": "development",
       "strict": true
+    },
+    {
+      "name": "karabiner-elements",
+      "source": "./karabiner-elements",
+      "description": "Karabiner-Elements configuration and keyboard customization for macOS",
+      "category": "utilities",
+      "strict": true
     }
   ]
 }
