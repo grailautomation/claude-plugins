@@ -1,3 +1,9 @@
+---
+name: doc-site-analysis
+description: Systematic approach for analyzing API documentation site structure, discovering HTML patterns, framework signatures, and extraction strategies to inform scraper code generation.
+user-invocable: false
+---
+
 # Doc Site Analysis Skill
 
 When analyzing an API documentation page to understand its structure and extraction patterns, follow this systematic approach.

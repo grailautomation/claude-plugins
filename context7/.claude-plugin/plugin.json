@@ -1,5 +1,8 @@
 {
   "name": "context7",
   "description": "Context7 MCP documentation lookup for up-to-date library docs",
-  "author": "Grail Automation"
+  "author": {
+    "name": "Dave Kreitter",
+    "email": "dave@grailautomation.com"
+  }
 }

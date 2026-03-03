@@ -1,12 +1,6 @@
 ---
 description: Generate a complete API documentation scraper from a URL
-arguments:
-  - name: url
-    description: The API documentation URL to analyze
-    required: true
-  - name: output
-    description: Output directory for the generated scraper (default: current directory)
-    required: false
+argument-hint: "<url> [--output <dir>]"
 ---
 
 # Create Scraper

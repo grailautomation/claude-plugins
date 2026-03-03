@@ -17,7 +17,6 @@ description: |
   <commentary>The assistant passes the plan content it already has in context — not a file path — because $ARGUMENTS is interpolated directly into the agent's system prompt.</commentary>
   </example>
 model: opus
-color: cyan
 ---
 
 You are a staff software engineer tasked with reviewing the plan below.

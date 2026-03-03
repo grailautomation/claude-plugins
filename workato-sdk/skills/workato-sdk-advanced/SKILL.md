@@ -1,5 +1,5 @@
 ---
-name: Workato SDK Advanced
+name: workato-sdk-advanced
 description: This skill should be used when the user asks about "connector planning", "code patterns", "defining schema", "best practices workato", "error handling workato", "connector architecture", "object_definitions patterns", "reusable methods", or needs advanced guidance for building production-quality Workato connectors.
 version: 0.1.0
 ---

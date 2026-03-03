@@ -1,5 +1,8 @@
 {
   "name": "python-patterns",
   "description": "Idiomatic Python patterns, best practices, and code review reference",
-  "author": "Grail Automation"
+  "author": {
+    "name": "Dave Kreitter",
+    "email": "dave@grailautomation.com"
+  }
 }

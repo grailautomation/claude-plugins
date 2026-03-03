@@ -1,6 +1,6 @@
 ---
 description: Get full schema for a Salesforce object - field names, types, picklist values, relationship names. Use before writing SOQL to discover custom fields (ending in __c) and relationship traversal names.
-allowed-tools: ["Bash"]
+allowed-tools: Bash
 ---
 
 # Describe Salesforce Object

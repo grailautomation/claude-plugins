@@ -1,3 +1,9 @@
+---
+name: scraper-architecture
+description: Architectural guidance for designing API documentation scrapers, including data models, parser patterns, formatter patterns, CLI design, and project structure.
+user-invocable: false
+---
+
 # Scraper Architecture Skill
 
 When designing an API documentation scraper, follow this architectural guidance to create a maintainable, well-structured codebase.

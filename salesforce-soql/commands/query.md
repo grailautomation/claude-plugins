@@ -1,6 +1,6 @@
 ---
 description: Execute SOQL queries with built-in handling for common gotchas (Stage name variations, null comparison escaping, Long Text Area filtering, Bulk API field flattening, History object quirks). Use instead of raw `sf data query` commands.
-allowed-tools: ["Bash", "Read"]
+allowed-tools: Bash, Read
 ---
 
 # Execute SOQL Query

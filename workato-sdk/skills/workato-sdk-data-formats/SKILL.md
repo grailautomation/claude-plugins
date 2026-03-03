@@ -1,5 +1,5 @@
 ---
-name: Workato SDK Data Formats
+name: workato-sdk-data-formats
 description: This skill should be used when the user asks about "request_format", "response_format", "xml format workato", "json format workato", "multipart form", "form-url-encoded", "parse xml", "build xml", or needs to handle different data formats in a Workato connector.
 version: 0.1.0
 ---

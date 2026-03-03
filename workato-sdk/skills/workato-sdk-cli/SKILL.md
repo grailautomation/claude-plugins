@@ -1,5 +1,5 @@
 ---
-name: Workato SDK CLI
+name: workato-sdk-cli
 description: This skill should be used when the user asks about "workato cli", "workato gem", "run connector locally", "rspec test", "write connector tests", "vcr cassettes", "connector_spec", "workato exec", "workato push", "workato generate", or needs to test and develop Workato connectors locally.
 version: 0.1.0
 ---

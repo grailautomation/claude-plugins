@@ -1,5 +1,5 @@
 ---
-name: Workato SDK Reference
+name: workato-sdk-reference
 description: This skill should be used when the user asks about "sdk reference", "actions block reference", "triggers block reference", "object_definitions", "methods block", "pick_lists", "schema block", "http methods workato", "ruby methods workato", or needs API reference documentation for Workato SDK blocks and methods.
 version: 0.1.0
 ---

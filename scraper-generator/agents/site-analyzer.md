@@ -1,6 +1,7 @@
 ---
+name: site-analyzer
 description: Analyzes API documentation site structure and patterns for scraper generation
-allowed-tools: WebFetch, Read, Write, Grep, Glob
+tools: WebFetch, Read, Write, Grep, Glob
 model: opus
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: Workato SDK Quickstart
+name: workato-sdk-quickstart
 description: This skill should be used when the user asks about "getting started workato sdk", "first connector", "connector quickstart", "share connector", "version control connector", "workato walkthrough", "connector examples", or is new to building Workato custom connectors.
 version: 0.1.0
 ---

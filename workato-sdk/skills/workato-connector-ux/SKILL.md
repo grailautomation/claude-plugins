@@ -1,5 +1,5 @@
 ---
-name: Workato Connector UX
+name: workato-connector-ux
 description: This skill should be used when the user asks to "build a Workato connector", "create a custom connector", "improve connector UX", "add input fields to connector", "make fields sticky", "use extends_schema", "add dynamic fields", or is working with Workato SDK Ruby DSL for custom connectors. Also use proactively when implementing connector actions or configuring input field visibility.
 version: 0.1.0
 ---

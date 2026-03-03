@@ -140,6 +140,13 @@
       "description": "uv package manager for fast Python dependency management and project workflows",
       "category": "reference",
       "strict": true
+    },
+    {
+      "name": "oasb-scaffold",
+      "source": "./oasb-scaffold",
+      "description": "OASBuilder pipeline package conventions for scaffolding new stages",
+      "category": "development",
+      "strict": true
     }
   ]
 }

@@ -1,5 +1,5 @@
 ---
-name: Namecheap DNS Management
+name: namecheap-dns
 description: This skill should be used when the user asks to "list my domains", "check domain DNS", "update DNS records", "point domain to Cloudflare", "change nameservers", "transfer nameservers", or mentions Namecheap domain management. Provides guidance for managing domains and DNS through the Namecheap API.
 version: 0.1.0
 ---

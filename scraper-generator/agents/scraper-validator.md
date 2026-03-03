@@ -1,6 +1,7 @@
 ---
+name: scraper-validator
 description: Validates generated scraper by running it and checking outputs
-allowed-tools: Bash, Read, Grep, Glob
+tools: Bash, Read, Grep, Glob
 model: opus
 ---
 

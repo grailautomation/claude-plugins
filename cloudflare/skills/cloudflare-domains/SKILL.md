@@ -1,5 +1,5 @@
 ---
-name: Cloudflare Domains
+name: cloudflare-domains
 description: This skill should be used when the user asks to "list my domains", "manage DNS", "deploy to Cloudflare Pages", "create a landing page", "connect domain to Pages", "check my zones", "add DNS record", "set up a parked domain", or is working with Cloudflare Workers, Pages, KV, R2, D1, or DNS. Also use proactively when the user is working on static sites, landing pages, or domain management tasks.
 version: 0.1.0
 ---

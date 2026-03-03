@@ -1,5 +1,5 @@
 ---
-name: Workato SDK Triggers
+name: workato-sdk-triggers
 description: This skill should be used when the user asks about "build trigger", "webhook trigger", "poll trigger", "dynamic webhook", "static webhook", "hybrid trigger", "dedup", "trigger_limit", "closure", or needs to implement triggers for a Workato custom connector.
 version: 0.1.0
 ---

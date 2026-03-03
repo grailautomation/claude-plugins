@@ -1,3 +1,9 @@
+---
+name: code-generation
+description: Python code generation patterns and best practices for API documentation scrapers. Covers library choices, multi-strategy extraction, error handling, type annotations, and code organization.
+user-invocable: false
+---
+
 # Code Generation Skill
 
 When generating Python code for an API documentation scraper, follow these patterns and best practices.

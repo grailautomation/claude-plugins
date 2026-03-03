@@ -1,6 +1,7 @@
 ---
+name: code-generator
 description: Generates Python scraper code based on site analysis
-allowed-tools: Read, Write, Glob, Grep
+tools: Read, Write, Glob, Grep
 model: opus
 ---
 

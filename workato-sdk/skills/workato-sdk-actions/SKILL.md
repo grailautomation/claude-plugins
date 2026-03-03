@@ -1,5 +1,5 @@
 ---
-name: Workato SDK Actions
+name: workato-sdk-actions
 description: This skill should be used when the user asks about "build action", "create action", "execute block", "input_fields", "output_fields", "streaming action", "multistep action", "config_fields", "wait for resume", or needs to implement actions for a Workato custom connector.
 version: 0.1.0
 ---

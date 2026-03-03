@@ -1,5 +1,5 @@
 ---
-name: Workato SDK Authentication
+name: workato-sdk-authentication
 description: This skill should be used when the user asks about "connector authentication", "oauth workato", "api key auth", "jwt authentication", "aws auth connector", "basic auth connector", "multi_auth", "connection block", or needs to implement authentication for a Workato custom connector.
 version: 0.1.0
 ---
