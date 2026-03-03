@@ -1,0 +1,9 @@
+{
+  "name": "oasb-scaffold",
+  "description": "OASBuilder pipeline package conventions for scaffolding new stages",
+  "author": {
+    "name": "Dave Kreitter",
+    "email": "dave@grailautomation.com"
+  },
+  "keywords": ["oasbuilder", "openapi", "pipeline", "scaffolding", "python"]
+}
