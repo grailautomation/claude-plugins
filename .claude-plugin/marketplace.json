@@ -37,6 +37,13 @@
       "strict": true
     },
     {
+      "name": "workato-api",
+      "source": "./workato-api",
+      "description": "Workato Developer API reference and execution framework for workspace management",
+      "category": "integrations",
+      "strict": true
+    },
+    {
       "name": "workato-sdk",
       "source": "./workato-sdk",
       "description": "Workato Connector SDK best practices for recipe developer UX",
