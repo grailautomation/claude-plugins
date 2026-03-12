@@ -147,6 +147,13 @@
       "description": "OASBuilder pipeline package conventions for scaffolding new stages",
       "category": "development",
       "strict": true
+    },
+    {
+      "name": "workato-recipe",
+      "source": "./workato-recipe",
+      "description": "Parse and analyze Workato recipe JSON exports for logic, data flow, field mappings, error handling, and control flow",
+      "category": "integrations",
+      "strict": true
     }
   ]
 }
