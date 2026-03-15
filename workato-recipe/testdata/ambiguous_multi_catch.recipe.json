@@ -1,0 +1,48 @@
+{
+  "name": "ambiguous_multi_catch",
+  "version": 1,
+  "code": {
+    "number": 0,
+    "provider": "clock",
+    "name": "scheduled_event",
+    "input": {
+      "cron": "0 12 * * *"
+    },
+    "block": [
+      {
+        "number": 1,
+        "keyword": "try",
+        "block": [
+          {
+            "number": 2,
+            "keyword": "action",
+            "provider": "salesforce",
+            "name": "update",
+            "input": {
+              "sobject": "Account"
+            }
+          },
+          {
+            "number": 3,
+            "keyword": "catch",
+            "input": {
+              "max_retry_count": "1",
+              "retry_interval": "3"
+            },
+            "block": []
+          },
+          {
+            "number": 4,
+            "keyword": "catch",
+            "input": {
+              "max_retry_count": "1",
+              "retry_interval": "5"
+            },
+            "block": []
+          }
+        ]
+      }
+    ]
+  },
+  "config": []
+}

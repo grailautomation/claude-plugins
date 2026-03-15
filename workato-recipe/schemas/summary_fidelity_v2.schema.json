@@ -1,0 +1,366 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "summary_fidelity_v2.schema.json",
+  "title": "Workato Summary Fidelity Projection v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "version",
+    "trigger",
+    "connections",
+    "statistics",
+    "control_flow",
+    "error_handling"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": [
+        "integer",
+        "number"
+      ]
+    },
+    "version_comment": {
+      "type": "string"
+    },
+    "trigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "action",
+        "key_inputs"
+      ],
+      "properties": {
+        "provider": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "key_inputs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "concurrency": {
+      "type": [
+        "integer",
+        "number"
+      ]
+    },
+    "connections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "provider"
+        ],
+        "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "connection": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_blocks",
+        "max_depth",
+        "by_keyword",
+        "by_provider"
+      ],
+      "properties": {
+        "total_blocks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_depth": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "by_keyword": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "by_provider": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "project_properties": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "callable": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/callableField"
+          }
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/callableField"
+          }
+        },
+        "parameters_raw": {
+          "type": "string"
+        },
+        "results_raw": {
+          "type": "string"
+        }
+      }
+    },
+    "control_flow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blocks"
+      ],
+      "properties": {
+        "blocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/controlFlowBlock"
+          }
+        }
+      }
+    },
+    "error_handling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "try_catch_pairs",
+        "stop_blocks"
+      ],
+      "properties": {
+        "try_catch_pairs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/tryCatchPair"
+          }
+        },
+        "stop_blocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stopBlock"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "callableField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "type",
+        "label"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    "controlFlowBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "number",
+        "keyword",
+        "provider",
+        "name",
+        "depth",
+        "parent_number",
+        "child_numbers",
+        "skip"
+      ],
+      "properties": {
+        "number": {
+          "type": "integer"
+        },
+        "keyword": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "depth": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "parent_number": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "child_numbers": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "skip": {
+          "type": "boolean"
+        }
+      }
+    },
+    "filterCondition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lhs",
+        "op",
+        "rhs"
+      ],
+      "properties": {
+        "lhs": {
+          "type": "string"
+        },
+        "op": {
+          "type": "string"
+        },
+        "rhs": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "filter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operator",
+        "conditions"
+      ],
+      "properties": {
+        "operator": {
+          "type": "string"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/filterCondition"
+          }
+        }
+      }
+    },
+    "tryCatchPair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "try_block",
+        "catch_block",
+        "retry_count",
+        "retry_interval_seconds",
+        "filter",
+        "catch_action_numbers"
+      ],
+      "properties": {
+        "try_block": {
+          "type": "integer"
+        },
+        "catch_block": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "retry_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retry_interval_seconds": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "filter": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/filter"
+            }
+          ]
+        },
+        "catch_action_numbers": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "stopBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "number",
+        "stop_with_error",
+        "stop_reason_raw",
+        "skip"
+      ],
+      "properties": {
+        "number": {
+          "type": "integer"
+        },
+        "stop_with_error": {
+          "type": "boolean"
+        },
+        "stop_reason_raw": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "skip": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

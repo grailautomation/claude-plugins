@@ -11,10 +11,12 @@ Strips ~90-98% of UI/schema bloat and produces 6 focused view files:
 
 Usage:
   uv run python extract_views.py path/to/recipe.json
+  uv run python extract_views.py --recipe path/to/recipe.json
   uv run python extract_views.py --all [--include-archived]
   uv run python extract_views.py --force path/to/recipe.json
 """
 
+import argparse
 import json
 import re
 import sys
@@ -22,7 +24,7 @@ from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Any
 
-EXTRACTOR_VERSION = "1"
+EXTRACTOR_VERSION = "8"
 
 # Keys to strip from block nodes (peers of 'input')
 BLOCK_BLOAT_KEYS = {
@@ -153,6 +155,7 @@ class BlockInfo:
     provider: str
     name: str
     depth: int
+    parent_number: int | None
     as_id: str
     comment: str
     skip: bool
@@ -178,9 +181,15 @@ class BlockWalker:
     def walk(self, root: dict) -> list[BlockInfo]:
         # Root is the trigger block
         self._process_trigger(root)
-        for child in root.get("block", []):
+        children = root.get("block", [])
+        child_numbers = []
+        for child in children:
             if child is not None:
-                self._walk_block(child, depth=1)
+                child_numbers.append(child.get("number", -1))
+                self._walk_block(child, depth=1, parent_number=self.blocks[0].number)
+        # Populate trigger's child_numbers so _find_parent() can find it
+        if self.blocks:
+            self.blocks[0].child_numbers = child_numbers
         return self.blocks
 
     def _process_trigger(self, root: dict) -> None:
@@ -193,18 +202,22 @@ class BlockWalker:
         raw_input = root.get("input", {})
         cleaned = self._clean_input(raw_input) if isinstance(raw_input, dict) else {}
 
+        # Block-level filter for trigger (same pattern as catch filter in _walk_block)
+        trigger_filter = root.get("filter")
+
         info = BlockInfo(
             number=number,
             keyword="trigger",
             provider=provider,
             name=name,
             depth=0,
+            parent_number=None,
             as_id=as_id,
             comment="",
             skip=False,
             input=cleaned,
             source=None,
-            filter=None,
+            filter=trigger_filter,
             repeat_mode="",
             batch_size="",
         )
@@ -222,7 +235,25 @@ class BlockWalker:
             if isinstance(v, str) and len(v) > 0:
                 self.trigger_info["key_inputs"][k] = v
 
-    def _walk_block(self, block: dict, depth: int) -> None:
+        # Render trigger filter conditions into trigger_info for summary.json
+        if trigger_filter and isinstance(trigger_filter, dict):
+            conditions = trigger_filter.get("conditions", [])
+            operand = trigger_filter.get("operand", "and")
+            rendered_conditions = []
+            for cond in conditions:
+                lhs = self.renderer.render(cond.get("lhs", ""))
+                op = cond.get("operand", "?").upper()
+                rhs = cond.get("rhs", "")
+                entry: dict[str, str] = {"lhs": lhs, "op": op}
+                if rhs:
+                    entry["rhs"] = self.renderer.render(rhs)
+                rendered_conditions.append(entry)
+            self.trigger_info["filter"] = {
+                "operand": operand,
+                "conditions": rendered_conditions,
+            }
+
+    def _walk_block(self, block: dict, depth: int, parent_number: int) -> None:
         number = block.get("number", -1)
         keyword = block.get("keyword", "unknown")
         provider = block.get("provider", "")
@@ -252,6 +283,7 @@ class BlockWalker:
             provider=provider,
             name=name,
             depth=depth,
+            parent_number=parent_number,
             as_id=as_id,
             comment=comment,
             skip=skip,
@@ -270,11 +302,29 @@ class BlockWalker:
         for child in children:
             if child is not None:
                 child_numbers.append(child.get("number", -1))
-                self._walk_block(child, depth + 1)
+                self._walk_block(child, depth + 1, parent_number=number)
         info.child_numbers = child_numbers
 
     def _clean_input(self, inp: dict) -> dict:
         return {k: v for k, v in inp.items() if k not in INPUT_BLOAT_KEYS}
+
+
+def _collect_project_props(obj: Any, props: set[str]) -> None:
+    """Recursively walk all values to find project_property datapill references."""
+    if isinstance(obj, dict):
+        if obj.get("pill_type") == "project_property":
+            name = obj.get("property_name")
+            if name:
+                props.add(name)
+        for v in obj.values():
+            _collect_project_props(v, props)
+    elif isinstance(obj, list):
+        for item in obj:
+            _collect_project_props(item, props)
+    elif isinstance(obj, str) and "project_property" in obj:
+        # Handle serialized JSON inside strings (e.g., datapill references)
+        for m in re.finditer(r'"property_name"\s*:\s*"([^"]+)"', obj):
+            props.add(m.group(1))
 
 
 # ---------------------------------------------------------------------------
@@ -295,10 +345,8 @@ def generate_summary(recipe: dict, blocks: list[BlockInfo], trigger_info: dict) 
         if b.depth > max_depth:
             max_depth = b.depth
 
-    # Scan for project property references
-    raw_text = json.dumps(recipe.get("code", {}))
-    for m in re.finditer(r'"pill_type"\s*:\s*"project_property"\s*,\s*"property_name"\s*:\s*"([^"]+)"', raw_text):
-        project_props.add(m.group(1))
+    # Scan for project property references by walking all string values
+    _collect_project_props(recipe.get("code", {}), project_props)
 
     # Connections from config
     connections = []
@@ -345,6 +393,9 @@ def generate_summary(recipe: dict, blocks: list[BlockInfo], trigger_info: dict) 
         summary["version_comment"] = vc
 
     summary["trigger"] = trigger_info
+    concurrency = recipe.get("concurrency")
+    if concurrency is not None:
+        summary["concurrency"] = concurrency
     summary["connections"] = connections
     summary["statistics"] = {
         "total_blocks": len(blocks),
@@ -352,6 +403,10 @@ def generate_summary(recipe: dict, blocks: list[BlockInfo], trigger_info: dict) 
         "by_keyword": dict(sorted(keyword_counts.items())),
         "by_provider": dict(sorted(provider_counts.items())),
     }
+    summary["control_flow"] = {
+        "blocks": build_control_flow_summary(blocks),
+    }
+    summary["error_handling"] = build_error_handling_summary(blocks)
     if project_props:
         summary["project_properties"] = sorted(project_props)
     if callable_params:
@@ -360,8 +415,118 @@ def generate_summary(recipe: dict, blocks: list[BlockInfo], trigger_info: dict) 
     return summary
 
 
+def build_control_flow_summary(blocks: list[BlockInfo]) -> list[dict[str, Any]]:
+    return [
+        {
+            "number": b.number,
+            "keyword": b.keyword,
+            "provider": b.provider,
+            "name": b.name,
+            "depth": b.depth,
+            "parent_number": b.parent_number,
+            "child_numbers": list(b.child_numbers),
+            "skip": b.skip,
+        }
+        for b in blocks
+    ]
+
+
+def _parse_retry_count(value: Any) -> int:
+    if isinstance(value, int) and not isinstance(value, bool):
+        return value
+    if isinstance(value, str) and value.isdigit():
+        return int(value)
+    return 0
+
+
+def _parse_retry_interval_seconds(value: Any) -> int | None:
+    if isinstance(value, int) and not isinstance(value, bool):
+        return value
+    if isinstance(value, str) and value.isdigit():
+        return int(value)
+    return None
+
+
+def _normalize_filter(filter_data: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not filter_data:
+        return None
+    return {
+        "operator": str(filter_data.get("operator", filter_data.get("operand", "and"))).upper(),
+        "conditions": [
+            {
+                "lhs": "" if cond.get("lhs") is None else str(cond.get("lhs", "")),
+                "op": str(cond.get("op", cond.get("operand", ""))).upper(),
+                "rhs": None if "rhs" not in cond or cond.get("rhs") is None else str(cond.get("rhs")),
+            }
+            for cond in filter_data.get("conditions", [])
+        ],
+    }
+
+
+def _build_try_catch_pairs(blocks: list[BlockInfo]) -> list[tuple[BlockInfo, BlockInfo | None]]:
+    block_by_number = {b.number: b for b in blocks}
+    pairs: list[tuple[BlockInfo, BlockInfo | None]] = []
+    for block in blocks:
+        if block.keyword != "try":
+            continue
+
+        child_catch = next(
+            (
+                block_by_number[child_number]
+                for child_number in block.child_numbers
+                if child_number in block_by_number and block_by_number[child_number].keyword == "catch"
+            ),
+            None,
+        )
+        if child_catch is not None:
+            pairs.append((block, child_catch))
+            continue
+
+        sibling_catch: BlockInfo | None = None
+        if block.parent_number is not None:
+            parent = block_by_number.get(block.parent_number)
+            if parent is not None:
+                siblings = parent.child_numbers
+                try_index = siblings.index(block.number) if block.number in siblings else -1
+                if 0 <= try_index + 1 < len(siblings):
+                    next_block = block_by_number.get(siblings[try_index + 1])
+                    if next_block is not None and next_block.keyword == "catch":
+                        sibling_catch = next_block
+        pairs.append((block, sibling_catch))
+    return pairs
+
+
+def build_error_handling_summary(blocks: list[BlockInfo]) -> dict[str, Any]:
+    return {
+        "try_catch_pairs": [
+            {
+                "try_block": try_block.number,
+                "catch_block": catch_block.number if catch_block is not None else None,
+                "retry_count": _parse_retry_count(catch_block.input.get("max_retry_count")) if catch_block else 0,
+                "retry_interval_seconds": (
+                    _parse_retry_interval_seconds(catch_block.input.get("retry_interval")) if catch_block else None
+                ),
+                "filter": _normalize_filter(catch_block.filter) if catch_block else None,
+                "catch_action_numbers": list(catch_block.child_numbers) if catch_block else [],
+            }
+            for try_block, catch_block in _build_try_catch_pairs(blocks)
+        ],
+        "stop_blocks": [
+            {
+                "number": b.number,
+                "stop_with_error": str(b.input.get("stop_with_error", "false")).lower() == "true",
+                "stop_reason_raw": None if b.input.get("stop_reason") is None else str(b.input.get("stop_reason")),
+                "skip": b.skip,
+            }
+            for b in blocks
+            if b.keyword == "stop"
+        ],
+    }
+
+
 def generate_skeleton(blocks: list[BlockInfo], renderer: DatapillRenderer) -> str:
     """Generate skeleton.md — one line per block with indentation."""
+    header = "# Skeleton\n\nBlock 0 (TRIGGER) is the root at depth 0. The explicit [depth=... parent=...] metadata is authoritative.\n\n"
     lines = []
     for b in blocks:
         indent = "  " * b.depth
@@ -384,19 +549,24 @@ def generate_skeleton(blocks: list[BlockInfo], renderer: DatapillRenderer) -> st
                 mode_info += f" batch_size={b.batch_size}"
             parts.append(f"{src} ({mode_info})")
         elif b.keyword == "catch":
-            catch_info = []
             retry = b.input.get("max_retry_count")
             interval = b.input.get("retry_interval")
             if retry and str(retry) != "0":
-                catch_info.append(f"retry: {retry}x @ {interval}s")
-            if catch_info:
-                parts.append(" ".join(catch_info))
+                parts.append(f"retry: {retry}x @ {interval}s")
+            else:
+                interval_str = f" (interval={interval}s)" if interval else ""
+                parts.append(f"retry: none{interval_str}")
         elif b.keyword == "stop":
             err = b.input.get("stop_with_error", "false")
             if err == "true":
                 parts.append("[error]")
             else:
                 parts.append("[success]")
+
+        # Add depth/parent metadata
+        parent = _find_parent(blocks, b.number)
+        parent_label = f"block_{parent.number}" if parent else "root"
+        parts.append(f"[depth={b.depth} parent={parent_label}]")
 
         line = " ".join(parts)
 
@@ -419,7 +589,7 @@ def generate_skeleton(blocks: list[BlockInfo], renderer: DatapillRenderer) -> st
 
         lines.append(line)
 
-    return "\n".join(lines) + "\n"
+    return header + "\n".join(lines) + "\n"
 
 
 def _format_condition_inline(inp: dict, renderer: DatapillRenderer, max_len: int = 120) -> str:
@@ -579,7 +749,10 @@ def generate_mappings(blocks: list[BlockInfo], renderer: DatapillRenderer) -> st
                     lines.append(f"- **{k}:** `{rendered}`")
             elif isinstance(v, list):
                 rendered = renderer.render(json.dumps(v, separators=(",", ":")))
-                lines.append(f"- **{k}:** `{_truncate(rendered, 120)}`")
+                truncated = _truncate(rendered, 120)
+                if len(rendered) > 120:
+                    truncated += f" [{len(rendered)} chars total]"
+                lines.append(f"- **{k}:** `{truncated}`")
             else:
                 lines.append(f"- **{k}:** `{v}`")
 
@@ -610,6 +783,47 @@ def generate_conditions(blocks: list[BlockInfo], renderer: DatapillRenderer) -> 
                 else:
                     lines.append(f"{i}. `{lhs}` **{op}**")
 
+            # Branch context: true branch, else/elsif, fallthrough
+            block_by_number = {bl.number: bl for bl in blocks}
+            if b.child_numbers:
+                true_nums = [n for n in b.child_numbers
+                             if block_by_number.get(n) and block_by_number[n].keyword not in ("elsif", "else")]
+                # Else/ELSIF from own children (IF blocks nest elsif/else as children)
+                else_nums = [n for n in b.child_numbers
+                             if block_by_number.get(n) and block_by_number[n].keyword in ("elsif", "else")]
+                if true_nums:
+                    lines.append(f"\n**True branch blocks:** {', '.join(str(n) for n in true_nums)}")
+            else:
+                else_nums = []
+            # Also check parent siblings for elsif/else (ELSIF blocks have next elsif as sibling)
+            parent = _find_parent(blocks, b.number) if b.keyword in ("if", "elsif") else None
+            if parent:
+                siblings = parent.child_numbers
+                my_idx = siblings.index(b.number) if b.number in siblings else -1
+                if my_idx >= 0:
+                    for sib_num in siblings[my_idx + 1:]:
+                        sib = block_by_number.get(sib_num)
+                        if sib and sib.keyword in ("elsif", "else"):
+                            if sib_num not in else_nums:
+                                else_nums.append(sib_num)
+                        elif sib and sib.keyword == "catch":
+                            continue
+                        else:
+                            break
+            if else_nums:
+                lines.append(f"**Else/ELSIF branch blocks:** {', '.join(str(n) for n in else_nums)}")
+            # Fallthrough: next sibling in parent after this IF chain (only when no else branch)
+            if not else_nums and parent:
+                siblings = parent.child_numbers
+                my_idx = siblings.index(b.number) if b.number in siblings else -1
+                if my_idx >= 0:
+                    for sib_num in siblings[my_idx + 1:]:
+                        sib = block_by_number.get(sib_num)
+                        if sib and sib.keyword in ("elsif", "else", "catch"):
+                            continue
+                        lines.append(f"**Fallthrough next block:** {sib_num}")
+                        break
+
             # Show first child
             if b.child_numbers:
                 first_child = b.child_numbers[0]
@@ -620,6 +834,26 @@ def generate_conditions(blocks: list[BlockInfo], renderer: DatapillRenderer) -> 
                                  + ")")
             else:
                 lines.append("\n→ [empty branch]")
+
+            sections.append("\n".join(lines))
+
+        elif b.keyword == "trigger" and b.filter:
+            filt = b.filter
+            conditions = filt.get("conditions", [])
+            operand = filt.get("operand", "and").upper()
+
+            lines = [f"## Block {b.number}: TRIGGER (with filter)\n"]
+            lines.append(f"**Compound operator:** {operand}\n")
+
+            for i, cond in enumerate(conditions, 1):
+                lhs = renderer.render(cond.get("lhs", ""))
+                op = cond.get("operand", "?").upper()
+                rhs = cond.get("rhs", "")
+                if rhs:
+                    rhs = renderer.render(rhs)
+                    lines.append(f"{i}. `{lhs}` **{op}** `{rhs}`")
+                else:
+                    lines.append(f"{i}. `{lhs}` **{op}**")
 
             sections.append("\n".join(lines))
 
@@ -730,34 +964,8 @@ def generate_variables(blocks: list[BlockInfo], renderer: DatapillRenderer) -> s
 def generate_errors(blocks: list[BlockInfo], renderer: DatapillRenderer) -> str:
     """Generate errors.md — try/catch pairs and stop blocks."""
     sections = []
-
-    # Build try→catch mapping
-    # Try blocks and their corresponding catch blocks are siblings
-    # We need to find catch blocks that follow try blocks at the same depth
-    try_catch_pairs: list[tuple[BlockInfo, BlockInfo | None]] = []
-
-    # Group blocks by their parent (using depth/sequence)
-    block_by_number = {b.number: b for b in blocks}
-
-    # Find try blocks and match with following catch
-    for b in blocks:
-        if b.keyword == "try":
-            # Find the catch that follows this try at the same depth
-            # Look for a catch in the same parent's children
-            parent = _find_parent(blocks, b.number)
-            if parent:
-                siblings = parent.child_numbers
-                try_idx = siblings.index(b.number) if b.number in siblings else -1
-                if try_idx >= 0 and try_idx + 1 < len(siblings):
-                    next_num = siblings[try_idx + 1]
-                    next_block = block_by_number.get(next_num)
-                    if next_block and next_block.keyword == "catch":
-                        try_catch_pairs.append((b, next_block))
-                        continue
-            try_catch_pairs.append((b, None))
-
-    if try_catch_pairs:
-        for try_block, catch_block in try_catch_pairs:
+    if _build_try_catch_pairs(blocks):
+        for try_block, catch_block in _build_try_catch_pairs(blocks):
             lines = [f"## Try block {try_block.number}"]
             if catch_block:
                 lines[0] += f" / Catch block {catch_block.number}\n"
@@ -791,7 +999,7 @@ def generate_errors(blocks: list[BlockInfo], renderer: DatapillRenderer) -> str:
                 if catch_block.child_numbers:
                     lines.append(f"**Catch actions:** blocks {', '.join(str(n) for n in catch_block.child_numbers)}")
                 else:
-                    lines.append("**Catch actions:** [empty — error suppressed]")
+                    lines.append("**Catch actions:** [empty — error caught, recipe continues]")
             else:
                 lines.append("\n**Catch:** not found (orphaned try)\n")
 
@@ -817,8 +1025,11 @@ def generate_errors(blocks: list[BlockInfo], renderer: DatapillRenderer) -> str:
 
 def _find_parent(blocks: list[BlockInfo], child_number: int) -> BlockInfo | None:
     """Find the parent block that contains child_number in its child_numbers."""
+    child = next((b for b in blocks if b.number == child_number), None)
+    if child is None or child.parent_number is None:
+        return None
     for b in blocks:
-        if child_number in b.child_numbers:
+        if b.number == child.parent_number:
             return b
     return None
 
@@ -987,28 +1198,58 @@ def discover_recipes(project_root: Path, include_archived: bool = False) -> list
     return recipes
 
 
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Extract focused view files from Workato recipe JSON exports."
+    )
+    parser.add_argument(
+        "recipe_path",
+        nargs="?",
+        help="Path to a .recipe.json export",
+    )
+    parser.add_argument(
+        "--recipe",
+        dest="recipe_flag",
+        help="Path to a .recipe.json export",
+    )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="Process all recipes under global-context/sources/workato",
+    )
+    parser.add_argument(
+        "--include-archived",
+        action="store_true",
+        help="Include archived recipes when used with --all",
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Re-extract even if cached views are current",
+    )
+
+    args = parser.parse_args(argv)
+
+    if args.recipe_flag and args.recipe_path:
+        parser.error("Use either a positional recipe path or --recipe, not both.")
+    if args.include_archived and not args.all:
+        parser.error("--include-archived requires --all.")
+    if not args.all and not (args.recipe_flag or args.recipe_path):
+        parser.error("Provide a recipe path or --all.")
+
+    return args
+
+
 def main() -> None:
-    args = sys.argv[1:]
-
-    if not args:
-        print(__doc__, file=sys.stderr)
-        sys.exit(1)
-
+    args = parse_args(sys.argv[1:])
     project_root = Path.cwd()
-    force = "--force" in args
-    include_archived = "--include-archived" in args
-    all_mode = "--all" in args
-
-    # Strip flags
-    positional = [a for a in args if not a.startswith("--")]
-
-    if all_mode:
-        recipes = discover_recipes(project_root, include_archived)
+    if args.all:
+        recipes = discover_recipes(project_root, args.include_archived)
         print(f"Found {len(recipes)} recipes", file=sys.stderr)
         errors = []
         for recipe_path in recipes:
             try:
-                views_dir = extract_views(recipe_path, project_root, force)
+                views_dir = extract_views(recipe_path, project_root, args.force)
                 print(views_dir)
             except Exception as e:
                 errors.append((recipe_path, e))
@@ -1019,16 +1260,13 @@ def main() -> None:
                 print(f"  {p.name}: {e}", file=sys.stderr)
             sys.exit(1)
         print(f"\nProcessed {len(recipes) - len(errors)}/{len(recipes)} recipes", file=sys.stderr)
-    elif positional:
-        recipe_path = Path(positional[0])
+    else:
+        recipe_path = Path(args.recipe_flag or args.recipe_path)
         if not recipe_path.exists():
             print(f"ERROR: File not found: {recipe_path}", file=sys.stderr)
             sys.exit(1)
-        views_dir = extract_views(recipe_path, project_root, force)
+        views_dir = extract_views(recipe_path, project_root, args.force)
         print(views_dir)
-    else:
-        print("ERROR: Provide a recipe path or --all", file=sys.stderr)
-        sys.exit(1)
 
 
 if __name__ == "__main__":

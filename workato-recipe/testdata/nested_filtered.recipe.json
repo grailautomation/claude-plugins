@@ -1,0 +1,101 @@
+{
+  "name": "nested_filtered",
+  "version": 1,
+  "version_comment": "fixture",
+  "code": {
+    "number": 0,
+    "provider": "clock",
+    "name": "scheduled_event",
+    "input": {
+      "cron": "0 * * * *"
+    },
+    "block": [
+      {
+        "number": 1,
+        "keyword": "try",
+        "block": [
+          {
+            "number": 2,
+            "keyword": "action",
+            "provider": "db",
+            "name": "query",
+            "as": "db_query",
+            "input": {
+              "sql": "select * from contacts"
+            }
+          },
+          {
+            "number": 3,
+            "keyword": "try",
+            "skip": true,
+            "block": [
+              {
+                "number": 4,
+                "keyword": "action",
+                "provider": "zoominfo",
+                "name": "lookup_contacts",
+                "input": {
+                  "department": "Sales"
+                }
+              },
+              {
+                "number": 5,
+                "keyword": "catch",
+                "input": {
+                  "max_retry_count": "1",
+                  "retry_interval": "1"
+                },
+                "filter": {
+                  "operand": "and",
+                  "conditions": [
+                    {
+                      "lhs": "$.message",
+                      "operand": "contains",
+                      "rhs": "429"
+                    },
+                    {
+                      "lhs": "$.retry_after",
+                      "operand": "present"
+                    },
+                    {
+                      "lhs": "$.service",
+                      "operand": "equals",
+                      "rhs": ""
+                    }
+                  ]
+                },
+                "block": []
+              }
+            ]
+          },
+          {
+            "number": 6,
+            "keyword": "stop",
+            "skip": true,
+            "input": {
+              "stop_with_error": "false",
+              "stop_reason": "=_dp('{\"pill_type\":\"output\",\"provider\":\"db\",\"line\":\"db_query\",\"path\":[\"rows_processed\"]}')"
+            }
+          }
+        ]
+      },
+      {
+        "number": 7,
+        "keyword": "action",
+        "provider": "workato",
+        "name": "done",
+        "input": {
+          "note": "finished"
+        }
+      }
+    ]
+  },
+  "config": [
+    {
+      "provider": "db",
+      "account_id": {
+        "name": "Warehouse"
+      }
+    }
+  ]
+}

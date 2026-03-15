@@ -1,0 +1,39 @@
+{
+  "name": "orphaned_try",
+  "version": 1,
+  "code": {
+    "number": 0,
+    "provider": "clock",
+    "name": "scheduled_event",
+    "input": {
+      "cron": "*/5 * * * *"
+    },
+    "block": [
+      {
+        "number": 1,
+        "keyword": "try",
+        "block": [
+          {
+            "number": 2,
+            "keyword": "action",
+            "provider": "api",
+            "name": "fetch",
+            "input": {
+              "path": "/contacts"
+            }
+          }
+        ]
+      },
+      {
+        "number": 3,
+        "keyword": "action",
+        "provider": "workato",
+        "name": "continue",
+        "input": {
+          "note": "next"
+        }
+      }
+    ]
+  },
+  "config": []
+}

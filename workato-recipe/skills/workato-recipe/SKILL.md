@@ -33,6 +33,9 @@ The script outputs the views directory path to stdout. Views are cached in
 
 Use `--force` to regenerate. Use `--all` to process all non-archived recipes.
 
+Developer utilities live at the plugin root `cli.py` entry point. Consumers
+should call that stable CLI rather than depending on internal script paths.
+
 ### 3. Select analysis depth
 
 Based on the argument or question:
@@ -55,7 +58,7 @@ Based on the argument or question:
 
 | File | Content | Size (typical) |
 |------|---------|----------------|
-| `summary.json` | Metadata, trigger, connections, stats | ~1.5KB |
+| `summary.json` | Metadata plus structured control-flow and error-handling contract | ~4-8KB |
 | `skeleton.md` | One-line-per-block control flow tree | ~3KB |
 | `mappings.md` | Field→value mappings per action block | ~25KB |
 | `conditions.md` | if/elsif/while/catch condition details | ~5KB |

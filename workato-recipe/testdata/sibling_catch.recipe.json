@@ -1,0 +1,57 @@
+{
+  "name": "sibling_catch",
+  "version": 1,
+  "code": {
+    "number": 0,
+    "provider": "clock",
+    "name": "scheduled_event",
+    "input": {
+      "cron": "0 0 * * *"
+    },
+    "block": [
+      {
+        "number": 1,
+        "keyword": "try",
+        "block": [
+          {
+            "number": 2,
+            "keyword": "action",
+            "provider": "netsuite",
+            "name": "create_record",
+            "input": {
+              "entity": "sales_order"
+            }
+          }
+        ]
+      },
+      {
+        "number": 3,
+        "keyword": "catch",
+        "input": {
+          "max_retry_count": "2",
+          "retry_interval": "5"
+        },
+        "block": [
+          {
+            "number": 4,
+            "keyword": "action",
+            "provider": "logger",
+            "name": "warn",
+            "input": {
+              "message": "retry exhausted"
+            }
+          }
+        ]
+      },
+      {
+        "number": 5,
+        "keyword": "stop",
+        "input": {
+          "stop_with_error": "true",
+          "stop_reason": "hard fail"
+        }
+      }
+    ]
+  },
+  "config": []
+}
