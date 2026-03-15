@@ -657,7 +657,7 @@ def generate_mappings(blocks: list[BlockInfo], renderer: DatapillRenderer) -> st
                             val = data.get(vname, "") if isinstance(data, dict) else ""
                             if val:
                                 val = renderer.render(str(val))
-                            lines.append(f"| {vname} | {vtype} | {_truncate(val, 80)} |")
+                            lines.append(f"| {vname} | {vtype} | {_smart_truncate("variables", val, b.provider).replace("\n", " ")} |")
                     except json.JSONDecodeError:
                         lines.append(f"Schema (raw): `{schema_json[:200]}`")
             sections.append("\n".join(lines))
@@ -678,7 +678,7 @@ def generate_mappings(blocks: list[BlockInfo], renderer: DatapillRenderer) -> st
                 if field_mappings:
                     for k, v in field_mappings.items():
                         rendered = renderer.render(str(v))
-                        lines.append(f"- **{k}:** `{_truncate(rendered, 120)}`")
+                        lines.append(f"- **{k}:** `{_smart_truncate(k, rendered, b.provider)}`")
             sections.append("\n".join(lines))
             continue
 
@@ -694,7 +694,7 @@ def generate_mappings(blocks: list[BlockInfo], renderer: DatapillRenderer) -> st
                 if k == "name":
                     continue
                 rendered = renderer.render(str(v))
-                lines.append(f"- **{k}:** `{_truncate(rendered, 120)}`")
+                lines.append(f"- **{k}:** `{_smart_truncate(k, rendered, b.provider)}`")
             if var_field and var_field != var_name_raw:
                 lines.insert(1, f"**Target variable:** {var_field}\n")
             sections.append("\n".join(lines))
@@ -705,7 +705,7 @@ def generate_mappings(blocks: list[BlockInfo], renderer: DatapillRenderer) -> st
             lines = [f"## Block {b.number}: {b.provider}.{b.name}\n"]
             for k, v in b.input.items():
                 rendered = renderer.render(str(v))
-                lines.append(f"- **{k}:** `{_truncate(rendered, 120)}`")
+                lines.append(f"- **{k}:** `{_smart_truncate(k, rendered, b.provider)}`")
             sections.append("\n".join(lines))
             continue
 
@@ -722,7 +722,7 @@ def generate_mappings(blocks: list[BlockInfo], renderer: DatapillRenderer) -> st
             if isinstance(params, dict):
                 for k, v in params.items():
                     rendered = renderer.render(str(v))
-                    lines.append(f"- **{k}:** `{_truncate(rendered, 120)}`")
+                    lines.append(f"- **{k}:** `{_smart_truncate(k, rendered, b.provider)}`")
             sections.append("\n".join(lines))
             continue
 
@@ -734,25 +734,24 @@ def generate_mappings(blocks: list[BlockInfo], renderer: DatapillRenderer) -> st
 
         lines = [f"## Block {b.number}: {b.provider}.{b.name}\n"]
         for k, v in interesting.items():
-            if isinstance(v, dict):
-                rendered_dict = _render_dict_values(v, renderer)
+            if isinstance(v, (dict, list)):
+                rendered_dict = _flatten_payload(v, renderer)
                 if rendered_dict:
                     lines.append(f"**{k}:**")
                     for dk, dv in rendered_dict.items():
-                        lines.append(f"- {dk}: `{_truncate(dv, 120)}`")
+                        truncated = _smart_truncate(dk, dv, b.provider)
+                        if "\n" in truncated:
+                            lines.append(f"- {dk}:\n```\n{truncated}\n```")
+                        else:
+                            lines.append(f"- {dk}: `{truncated}`")
                     lines.append("")
             elif isinstance(v, str):
                 rendered = renderer.render(v)
-                if "\n" in rendered or len(rendered) > 100:
-                    lines.append(f"**{k}:**\n```\n{rendered}\n```\n")
+                truncated = _smart_truncate(k, rendered, b.provider)
+                if "\n" in truncated or len(truncated) > 100:
+                    lines.append(f"**{k}:**\n```\n{truncated}\n```\n")
                 else:
-                    lines.append(f"- **{k}:** `{rendered}`")
-            elif isinstance(v, list):
-                rendered = renderer.render(json.dumps(v, separators=(",", ":")))
-                truncated = _truncate(rendered, 120)
-                if len(rendered) > 120:
-                    truncated += f" [{len(rendered)} chars total]"
-                lines.append(f"- **{k}:** `{truncated}`")
+                    lines.append(f"- **{k}:** `{truncated}`")
             else:
                 lines.append(f"- **{k}:** `{v}`")
 
@@ -1034,21 +1033,45 @@ def _find_parent(blocks: list[BlockInfo], child_number: int) -> BlockInfo | None
     return None
 
 
-def _render_dict_values(d: dict, renderer: DatapillRenderer) -> dict[str, str]:
-    """Render all string values in a dict through the datapill renderer."""
+def _smart_truncate(key: str, val: str, provider: str = "") -> str:
+    """Apply contextual truncation limits based on field name and provider."""
+    # Keys that almost certainly contain logic, code, or complex queries.
+    logic_keys = {"code", "sql", "query", "formula", "condition", "script", "message"}
+    
+    # Providers that are inherently code/logic based.
+    logic_providers = {"workato_ruby"}
+
+    key_lower = str(key).lower()
+    
+    # 1. Bypass limit for known logic fields or providers
+    if any(lk in key_lower for lk in logic_keys) or provider in logic_providers:
+        max_len = 5000 
+    # 2. Variable assignments often contain complex multi-line formulas
+    elif key_lower == "value" or key_lower.startswith("variables"):
+        max_len = 2000
+    # 3. Standard data mappings
+    else:
+        max_len = 200
+
+    if len(val) > max_len:
+        return val[:max_len - 3] + "..."
+    return val
+
+def _flatten_payload(data: Any, renderer: DatapillRenderer, prefix: str = "") -> dict[str, str]:
+    """Recursively flatten dicts and lists into a single-level dictionary of rendered strings."""
     result = {}
-    for k, v in d.items():
-        if isinstance(v, str):
-            result[k] = renderer.render(v)
-        elif isinstance(v, dict):
-            # Flatten nested dicts
-            for nk, nv in v.items():
-                if isinstance(nv, str):
-                    result[f"{k}.{nk}"] = renderer.render(nv)
-                else:
-                    result[f"{k}.{nk}"] = str(nv)[:120]
-        else:
-            result[k] = str(v)[:120]
+    if isinstance(data, dict):
+        for k, v in data.items():
+            new_key = f"{prefix}.{k}" if prefix else str(k)
+            result.update(_flatten_payload(v, renderer, new_key))
+    elif isinstance(data, list):
+        for i, v in enumerate(data):
+            new_key = f"{prefix}[{i}]"
+            result.update(_flatten_payload(v, renderer, new_key))
+    else:
+        # It's a scalar value. Render it.
+        rendered = renderer.render(str(data)) if data is not None else ""
+        result[prefix] = rendered
     return result
 
 
