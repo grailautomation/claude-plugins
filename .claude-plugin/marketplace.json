@@ -154,6 +154,13 @@
       "description": "Parse and analyze Workato recipe JSON exports for logic, data flow, field mappings, error handling, and control flow",
       "category": "integrations",
       "strict": true
+    },
+    {
+      "name": "google-workspace",
+      "source": "./google-workspace",
+      "description": "Google Workspace CLI (gws) skills for Gmail, Drive, Calendar, Sheets, Docs, Slides, Chat, Meet, Tasks, Forms, Keep, and cross-service workflows",
+      "category": "integrations",
+      "strict": true
     }
   ]
 }
