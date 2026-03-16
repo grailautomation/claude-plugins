@@ -5,7 +5,7 @@ description: >-
   a Workato recipe's logic, data flow, field mappings, error handling, or
   control flow. Also use when the user references a .recipe.json file or asks
   to debug a Workato integration.
-argument-hint: "<path> [overview|structure|deep|<question>]"
+argument-hint: "<path> [overview|deep|<question>]"
 ---
 
 # Workato Recipe Analyzer
@@ -45,27 +45,16 @@ Based on the argument or question:
 - Report: recipe name, version, trigger, connections, block/provider counts
 - For callable recipes, show parameters and results
 
-**structure** (argument contains "structure" or "skeleton" or "flow"):
-- Read `summary.json` + `skeleton.md`
-- Present the control flow tree with key decision points highlighted
-- Note the waterfall pattern if present (nested if/elsif chains)
-
 **deep** (argument contains "deep", a specific question, or a block reference):
 - Spawn the `workato-recipe:recipe-analyzer` subagent with the views directory path and question
-- The subagent reads all 6 view files and provides detailed analysis
+- The subagent reads `summary.json` and `unified_logic.md` to provide detailed analysis
 
 ## View Files
 
 | File | Content | Size (typical) |
 |------|---------|----------------|
 | `summary.json` | Metadata plus structured control-flow and error-handling contract | ~4-8KB |
-| `skeleton.md` | One-line-per-block control flow tree | ~3KB |
-| `mappings.md` | Field→value mappings per action block | ~25KB |
-| `conditions.md` | if/elsif/while/catch condition details | ~5KB |
-| `variables.md` | Variable declarations and update locations | ~4KB |
-| `errors.md` | Try/catch pairs and stop blocks | ~2KB |
-
-Cross-reference between views using **block numbers** (consistent across all files).
+| `unified_logic.md` | Single unified document with control flow, mappings, variables, and error handling | ~20-30KB |
 
 ## References
 

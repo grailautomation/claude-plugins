@@ -1,8 +1,9 @@
 # View File Formats
 
+The `extract_views.py` script distills Workato recipes into two focused views to provide maximum comprehension while eliminating 90%+ of the UI/schema token bloat.
+
 All view files use **block numbers** as the primary cross-reference key.
-A block number is consistent across all views — block 42 in `skeleton.md`
-is the same block 42 in `mappings.md`, `conditions.md`, etc.
+A block number is consistent across all views — block 42 in `summary.json` is the same block 42 in `unified_logic.md`.
 
 ## summary.json
 
@@ -32,91 +33,52 @@ Recipe-level metadata. Read this first for orientation.
 }
 ```
 
-## skeleton.md
+## unified_logic.md
 
-One line per block, indented by depth (2 spaces per level). Provides the
-complete control flow structure at a glance.
+The complete logic of the recipe, presented as a top-down, hierarchical flow. This single file combines the control flow structure, condition statements, variable mutations, and field mappings into one cohesive document.
 
-```
-0: TRIGGER databricks.new_rows_sql_batch
-  1: TRY
-    2: ACTION workato_variable.declare_variable
-    3: ACTION salesforce.search_sobjects  — "Check for Contract with Stripe Sub ID"
-    4: IF [block_2:workato_variable.determined_account_id] BLANK AND ...
-      5: ACTION workato_variable.update_variables
-    93: CATCH retry: 3x @ 10s
-      94: ACTION workato_db_table.upsert_record
-```
-
-Format:
-- `N: KEYWORD [provider.name]` — block number, keyword (uppercased), optional action
-- `IF`/`ELSIF` — inline condition (truncated to ~120 chars)
-- `FOREACH` — source datapill + repeat_mode/batch_size
-- `CATCH` — retry settings if non-zero
-- `STOP [error]` or `STOP [success]` — with rendered reason
-- `[SKIPPED]` suffix for disabled blocks
-- `— "comment"` suffix for blocks with human comments
-
-## mappings.md
-
-Field-to-value mappings per action block. Only blocks with non-empty input.
-
-Sections separated by `---`. Each section header: `## Block N: provider.name`
-
-Content varies by action type:
-- **declare_variable**: table of variable names, types, initial values
-- **declare_list**: name, source datapill, field mappings
-- **update_variables**: target variable name + new value
-- **call_recipe**: recipe reference + parameter mappings
-- **Generic actions**: field→rendered value pairs
-
-Datapill references are rendered: `[block_N:provider.path]` instead of raw `_dp()` JSON.
-
-## conditions.md
-
-Detailed condition breakdown for `if`, `elsif`, `while_condition`, and `catch` (with filter) blocks.
+### Structural Example
 
 ```markdown
-## Block 4: IF
+# Unified Logic
 
-**Compound operator:** AND
+Block 0 (TRIGGER) is the root at depth 0. The explicit [depth=... parent=...] metadata is authoritative.
 
-1. `[block_2:workato_variable.determined_account_id]` **BLANK**
-2. `[block_3:salesforce.Contract.[*].AccountId]` **PRESENT**
-3. `=[project:house_accounts].match?([block_3:...AccountId])` **IS_NOT_TRUE**
-
-→ First child: block 5 (action workato_variable.update_variables)
+0: TRIGGER databricks.new_rows_sql_batch [depth=0 parent=root]
+  [Inputs]:
+    - **sql**:
+      ```
+      SELECT * FROM ...
+      ```
+1: TRY [depth=1 parent=block_0]
+  2: ACTION workato_variable.declare_variable [depth=2 parent=block_1]
+    -> DECLARES:
+      - determined_account_id = ``
+  3: ACTION salesforce.search_sobjects [depth=2 parent=block_1]
+    // Check Salesforce for a Contract with the matching Stripe Subscription ID.
+    [Inputs]:
+      - **limit**: `150`
+      - **Stripe_Subscription_Id__c**: `[block_0:databricks.rows.[*].id]`
+  4: IF [depth=2 parent=block_1]
+    [AND]:
+      1. `[block_2:workato_variable.determined_account_id]` **BLANK**
+      2. `[block_3:salesforce.Contract.[*].AccountId]` **PRESENT**
+    -> True branch blocks: 5
+    -> Fallthrough next block: 6
+    5: ACTION workato_variable.update_variables [depth=3 parent=block_4]
+      -> MUTATES [determined_account_id]:
+        - determined_account_id = `[block_3:salesforce.Contract.[*].AccountId]`
+  93: CATCH [depth=2 parent=block_1]
+    Retry: 3x @ 10s
+    94: ACTION workato_db_table.upsert_record [depth=3 parent=block_93]
 ```
 
-## variables.md
-
-### Declarations section
-Table: variable name, type, initial value, declaring block number.
-Includes both `declare_variable` (scalar) and `declare_list` entries.
-
-### Updates section
-Grouped by variable name. Each entry: block number + rendered new value.
-
-## errors.md
-
-### Try/Catch pairs
-- Try block number and matching catch block number
-- Retry settings (count × interval)
-- Catch filter conditions (if any)
-- Catch actions or `[empty — error suppressed]`
-
-### Stop blocks
-- Block number with `[ERROR]` or `[SUCCESS]` status
-- Rendered stop reason
-
-## Cross-Referencing Strategy
-
-1. Start with `skeleton.md` to identify the relevant section of the recipe
-2. Note block numbers of interest
-3. Look up those block numbers in the relevant detail view:
-   - Data flow question → `mappings.md`
-   - Branching logic → `conditions.md`
-   - Variable state → `variables.md`
-   - Error handling → `errors.md`
-4. Rendered datapill references (e.g., `[block_3:salesforce.Contract.[*].AccountId]`)
-   tell you which upstream block produces the data — trace backward through the skeleton
+### Format Highlights
+- **Headers:** `N: KEYWORD [provider.action] [depth=D parent=P]`. Explicit depth and parent markers are authoritative.
+- **Conditions (`IF`/`ELSIF`/`WHILE`/`CATCH`):** Rendered explicitly with compound operators (`[AND]:`, `[OR]:`) and numbered lists of conditions.
+- **Branch Annotations:** Explicit tracking of control flow resolving `IF`/`ELSIF` blocks (e.g., `-> True branch blocks: 5`, `-> Else/ELSIF branch blocks: ...`, `-> Fallthrough next block: 6`).
+- **State Mutations:** Explicit markers for variable and list modifications (e.g., `-> DECLARES:`, `-> MUTATES [target]:`).
+- **Loops (`FOREACH`/`REPEAT`):** Explicitly lists `Source`, `Repeat Mode`, and `Batch Size` where applicable.
+- **Datapills:** Rendered cleanly (e.g., `[block_3:salesforce.Contract.[*].AccountId]`) instead of raw `_dp()` JSON, allowing you to easily trace data lineage back to its source block.
+- **Skipped Blocks:** Prefixed with `[SKIPPED]`.
+- **Comments:** Developer comments are prefixed with `//`.
