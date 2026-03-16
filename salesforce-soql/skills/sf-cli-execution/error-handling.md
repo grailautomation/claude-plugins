@@ -252,12 +252,40 @@ These errors are specific to `sf data import bulk`, `sf data update bulk`, `sf d
 
 **Cause**: Partial failure — some records succeeded, others failed. The job itself completed.
 
-**Solution**: This is informational, not a total failure. Inspect the details:
+**Critical:** When `--json` is used, this error changes the response shape. Instead of `{"status": 0, "result": {...}}`, the CLI returns an error envelope:
+
+```json
+{
+  "name": "FailedRecordDetailsError",
+  "status": 1,
+  "message": "Job finished being processed but failed to process 200 records.",
+  "data": {"jobId": "750TN...", "state": "JobComplete"}
+}
+```
+
+The error envelope does **not** include record counts. You must follow up:
 
 ```bash
 sf data bulk results --job-id <JOB_ID> --target-org myorg --json
 # Then review the failed-records CSV for per-row error reasons
 ```
+
+See `sf-bulk-operations` skill for full parsing strategy.
+
+---
+
+### UNABLE_TO_LOCK_ROW
+
+**Error**: `unable to obtain exclusive access to this record or 200 records: 001xxx,001yyy,...`
+
+**Cause**: Another process holds a lock on the same records. The Bulk API processes records in batches of 200 — when a batch conflicts with a concurrent operation, all 200 records in that batch fail. Common causes:
+1. **Concurrent bulk jobs** — running multiple bulk updates on the same object simultaneously
+2. **Automation** — Workato/Flow/Trigger processing records in parallel
+3. **User activity** — records being edited in the UI during the bulk operation
+
+**Solution**: Retry the entire file after a short delay (10-30 seconds). Updates are idempotent — re-setting the same value on already-updated rows is harmless. The `UNABLE_TO_LOCK_ROW` error is transient; the same records usually succeed on retry once the conflicting lock is released.
+
+**Prevention**: Run bulk updates sequentially, not in parallel. Avoid running bulk jobs during peak automation windows.
 
 ---
 

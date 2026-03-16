@@ -99,9 +99,82 @@ sf data import resume --job-id <JOB_ID> --target-org myorg --wait 10 --json
 sf data update resume --job-id <JOB_ID> --target-org myorg --wait 10 --json
 ```
 
+## JSON Response Shapes (Critical for Programmatic Use)
+
+`sf data update bulk --json` returns **two completely different JSON shapes** depending on whether all records succeeded or some failed. Code that parses bulk operation results must handle both.
+
+### Full Success (status: 0)
+
+All records processed without error:
+
+```json
+{
+  "status": 0,
+  "result": {
+    "id": "750TN00000iZJOGYA4",
+    "processedRecords": 17956,
+    "failedRecords": 0,
+    "status": "JobComplete",
+    "operation": "update",
+    "object": "Account"
+  }
+}
+```
+
+Record counts and job state are directly in `result`.
+
+### Partial Failure (status: 1, FailedRecordDetailsError)
+
+Some records failed — the CLI wraps the response in an **error envelope** with a different shape:
+
+```json
+{
+  "name": "FailedRecordDetailsError",
+  "message": "Job finished being processed but failed to process 200 records.",
+  "exitCode": 1,
+  "status": 1,
+  "data": {
+    "jobId": "750TN00000iZk9tYAC",
+    "state": "JobComplete"
+  },
+  "actions": [
+    "Get the job results by running: \"sf data bulk results -o myorg --job-id 750TN...\"."
+  ],
+  "context": "DataUpdateBulk",
+  "commandName": "DataUpdateBulk"
+}
+```
+
+**The error envelope does NOT contain record counts.** Only `data.jobId` and `data.state`. To get `processedRecords`/`failedRecords`, you must follow up with `sf data bulk results`.
+
+### Parsing Strategy for Scripts
+
+```python
+payload = json.loads(stdout)
+
+if payload.get("status") == 0:
+    # Success — counts in result
+    result = payload["result"]
+    processed = result["processedRecords"]
+    failed = result["failedRecords"]
+else:
+    # Error envelope — check if job completed with failures
+    err_data = payload.get("data", {})
+    job_id = err_data.get("jobId")
+    job_state = err_data.get("state")
+
+    if job_state == "JobComplete" and job_id:
+        # Job completed but had failures — fetch counts separately
+        # Run: sf data bulk results --job-id <job_id> --target-org <org> --json
+        pass
+    else:
+        # Real failure — job didn't complete
+        raise RuntimeError(payload.get("message", "Unknown error"))
+```
+
 ## Inspecting Results
 
-After a job completes (or partially fails):
+After a job completes (or partially fails), fetch detailed results:
 
 ```bash
 sf data bulk results --job-id <JOB_ID> --target-org myorg --json
@@ -124,16 +197,17 @@ Returns:
 }
 ```
 
+**Side effect:** This command writes `<JOB_ID>-success-records.csv` and `<JOB_ID>-failed-records.csv` to the **current working directory**. These can be large (3+ MB for 18K rows).
+
 The failed records CSV includes the error reason per row:
 
 ```
 "sf__Id","sf__Error",Id,My_Field__c
-"","INVALID_CROSS_REFERENCE_KEY:invalid cross reference id:--","001xxx","value"
+"","UNABLE_TO_LOCK_ROW:unable to obtain exclusive access to this record or 200 records: 001xxx,001yyy,...:--","001xxx","value"
+"","INVALID_CROSS_REFERENCE_KEY:invalid cross reference id:--","001zzz","value"
 ```
 
 ### Clean Up Result Files
-
-Bulk results write CSV files to the current directory. Clean up after inspection:
 
 ```bash
 rm -f <JOB_ID>-success-records.csv <JOB_ID>-failed-records.csv
