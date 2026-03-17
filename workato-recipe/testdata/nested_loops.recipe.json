@@ -1,0 +1,43 @@
+{
+  "name": "nested_loops",
+  "version": 1,
+  "code": {
+    "number": 0,
+    "provider": "clock",
+    "name": "scheduled_event",
+    "input": {
+      "cron": "0 * * * *"
+    },
+    "block": [
+      {
+        "number": 1,
+        "keyword": "foreach",
+        "source": "#{_dp('{\"pill_type\":\"output\",\"provider\":\"outer_source\",\"line\":\"outer_rows\",\"path\":[\"items\"]}')}",
+        "repeat_mode": "batch",
+        "batch_size": "100",
+        "clear_scope": "true",
+        "block": [
+          {
+            "number": 2,
+            "keyword": "foreach",
+            "source": "#{_dp('{\"pill_type\":\"output\",\"provider\":\"inner_source\",\"line\":\"inner_rows\",\"path\":[\"items\"]}')}",
+            "repeat_mode": "simple",
+            "clear_scope": "false",
+            "block": [
+              {
+                "number": 3,
+                "keyword": "action",
+                "provider": "logger",
+                "name": "info",
+                "input": {
+                  "message": "nested"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "config": []
+}

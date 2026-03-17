@@ -1,0 +1,46 @@
+{
+  "name": "repeat_while",
+  "version": 1,
+  "code": {
+    "number": 0,
+    "provider": "clock",
+    "name": "scheduled_event",
+    "input": {
+      "cron": "0 * * * *"
+    },
+    "block": [
+      {
+        "number": 1,
+        "keyword": "repeat",
+        "block": [
+          {
+            "number": 2,
+            "keyword": "action",
+            "provider": "workato_variable",
+            "name": "update_variables",
+            "input": {
+              "name": "cursor:cursor",
+              "value": "next"
+            }
+          },
+          {
+            "number": 3,
+            "keyword": "while_condition",
+            "input": {
+              "type": "compound",
+              "operand": "and",
+              "conditions": [
+                {
+                  "operand": "present",
+                  "lhs": "#{_dp('{\"pill_type\":\"output\",\"provider\":\"workato_variable\",\"line\":\"cursor_var\",\"path\":[\"cursor\"]}')}",
+                  "rhs": ""
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "config": []
+}

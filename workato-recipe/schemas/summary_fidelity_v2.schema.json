@@ -11,6 +11,7 @@
     "connections",
     "statistics",
     "control_flow",
+    "loop_handling",
     "error_handling"
   ],
   "properties": {
@@ -152,6 +153,21 @@
         }
       }
     },
+    "loop_handling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "loop_blocks"
+      ],
+      "properties": {
+        "loop_blocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/loopBlock"
+          }
+        }
+      }
+    },
     "error_handling": {
       "type": "object",
       "additionalProperties": false,
@@ -281,6 +297,95 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/filterCondition"
+          }
+        }
+      }
+    },
+    "whileCondition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "number",
+        "filter"
+      ],
+      "properties": {
+        "number": {
+          "type": "integer"
+        },
+        "filter": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/filter"
+            }
+          ]
+        }
+      }
+    },
+    "loopBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "number",
+        "keyword",
+        "skip",
+        "source_raw",
+        "repeat_mode",
+        "batch_size",
+        "clear_scope",
+        "while_conditions",
+        "body_block_numbers"
+      ],
+      "properties": {
+        "number": {
+          "type": "integer"
+        },
+        "keyword": {
+          "type": "string",
+          "enum": [
+            "foreach",
+            "repeat"
+          ]
+        },
+        "skip": {
+          "type": "boolean"
+        },
+        "source_raw": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "repeat_mode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "batch_size": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "clear_scope": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "while_conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/whileCondition"
+          }
+        },
+        "body_block_numbers": {
+          "type": "array",
+          "items": {
+            "type": "integer"
           }
         }
       }

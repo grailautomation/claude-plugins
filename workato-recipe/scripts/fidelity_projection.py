@@ -143,6 +143,25 @@ def normalize_filter(filter_data: dict[str, Any] | None) -> dict[str, Any] | Non
     }
 
 
+# Extracted summaries may still carry "" sentinel values from extractor-side
+# defaults, while raw recipe projection sees None for missing keys. Both must
+# collapse to the same null contract value.
+def normalize_optional_string(value: Any) -> str | None:
+    if value in (None, ""):
+        return None
+    return str(value)
+
+
+def normalize_optional_serialized_string(value: Any) -> str | None:
+    if value in (None, ""):
+        return None
+    if isinstance(value, str):
+        return value
+    if isinstance(value, (dict, list)):
+        return json.dumps(value, sort_keys=True)
+    return str(value)
+
+
 def walk_raw_blocks(
     block: dict[str, Any],
     *,
@@ -162,6 +181,10 @@ def walk_raw_blocks(
         "skip": bool(block.get("skip", False)),
         "input": clean_input(block.get("input", {}) if isinstance(block.get("input"), dict) else {}),
         "filter": block.get("filter"),
+        "source": block.get("source"),
+        "repeat_mode": block.get("repeat_mode"),
+        "batch_size": block.get("batch_size"),
+        "clear_scope": block.get("clear_scope"),
     }
 
     walked = [current]
@@ -244,6 +267,70 @@ def normalize_control_flow_blocks(blocks: list[dict[str, Any]]) -> list[dict[str
             "skip": bool(block.get("skip", False)),
         }
         for block in blocks
+    ]
+
+
+def build_loop_blocks_from_raw(raw_blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    block_by_number = _block_by_number(raw_blocks)
+    loop_blocks: list[dict[str, Any]] = []
+
+    for block in raw_blocks:
+        if block["keyword"] not in {"foreach", "repeat"}:
+            continue
+
+        while_conditions: list[dict[str, Any]] = []
+        body_block_numbers: list[int] = []
+        for child_number in block["child_numbers"]:
+            child = block_by_number.get(int(child_number))
+            if child is None:
+                continue
+            if child["keyword"] == "while_condition":
+                while_conditions.append(
+                    {
+                        "number": int(child["number"]),
+                        "filter": normalize_filter(child["input"]),
+                    }
+                )
+                continue
+            body_block_numbers.append(int(child["number"]))
+
+        loop_blocks.append(
+            {
+                "number": int(block["number"]),
+                "keyword": str(block["keyword"]),
+                "skip": bool(block["skip"]),
+                "source_raw": normalize_optional_serialized_string(block.get("source")),
+                "repeat_mode": normalize_optional_string(block.get("repeat_mode")),
+                "batch_size": normalize_optional_string(block.get("batch_size")),
+                "clear_scope": normalize_optional_string(block.get("clear_scope")),
+                "while_conditions": while_conditions,
+                "body_block_numbers": body_block_numbers,
+            }
+        )
+
+    return loop_blocks
+
+
+def normalize_loop_blocks(loop_blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        {
+            "number": int(loop_block["number"]),
+            "keyword": str(loop_block["keyword"]),
+            "skip": bool(loop_block.get("skip", False)),
+            "source_raw": normalize_optional_serialized_string(loop_block.get("source_raw")),
+            "repeat_mode": normalize_optional_string(loop_block.get("repeat_mode")),
+            "batch_size": normalize_optional_string(loop_block.get("batch_size")),
+            "clear_scope": normalize_optional_string(loop_block.get("clear_scope")),
+            "while_conditions": [
+                {
+                    "number": int(item["number"]),
+                    "filter": normalize_filter(item.get("filter")),
+                }
+                for item in loop_block.get("while_conditions", [])
+            ],
+            "body_block_numbers": [int(value) for value in loop_block.get("body_block_numbers", [])],
+        }
+        for loop_block in loop_blocks
     ]
 
 
@@ -471,6 +558,109 @@ def validate_error_handling_projection(
     return errors
 
 
+def validate_loop_handling_projection(
+    control_flow_blocks: list[dict[str, Any]],
+    loop_handling: dict[str, Any],
+) -> list[str]:
+    errors: list[str] = []
+    block_by_number = _block_by_number(control_flow_blocks)
+    projected_loop_blocks = loop_handling["loop_blocks"]
+
+    expected_loop_numbers = {
+        int(block["number"])
+        for block in control_flow_blocks
+        if block["keyword"] in {"foreach", "repeat"}
+    }
+    expected_while_numbers = {
+        int(block["number"])
+        for block in control_flow_blocks
+        if block["keyword"] == "while_condition"
+    }
+
+    for block in control_flow_blocks:
+        if block["keyword"] != "while_condition":
+            continue
+        parent_number = block["parent_number"]
+        parent = None if parent_number is None else block_by_number.get(int(parent_number))
+        if parent is None or parent["keyword"] not in {"foreach", "repeat"}:
+            raise ProjectionError(
+                f"while_condition block {block['number']} has non-loop parent "
+                f"{parent_number if parent_number is not None else 'None'}"
+            )
+
+    seen_loop_numbers: set[int] = set()
+    seen_while_numbers: set[int] = set()
+
+    for loop_block in projected_loop_blocks:
+        loop_number = int(loop_block["number"])
+        if loop_number in seen_loop_numbers:
+            errors.append(f"loop block {loop_number} appears more than once in loop_handling")
+        seen_loop_numbers.add(loop_number)
+
+        control_flow_block = block_by_number.get(loop_number)
+        if control_flow_block is None or control_flow_block["keyword"] not in {"foreach", "repeat"}:
+            errors.append(f"loop_handling references non-loop block {loop_number}")
+            continue
+
+        if str(loop_block["keyword"]) != str(control_flow_block["keyword"]):
+            errors.append(f"loop block {loop_number} keyword does not match control_flow")
+        if bool(loop_block["skip"]) != bool(control_flow_block["skip"]):
+            errors.append(f"loop block {loop_number} skip does not match control_flow")
+
+        direct_children = [int(value) for value in control_flow_block["child_numbers"]]
+        expected_loop_while_numbers = [
+            child_number
+            for child_number in direct_children
+            if block_by_number[child_number]["keyword"] == "while_condition"
+        ]
+        expected_body_numbers = [
+            child_number
+            for child_number in direct_children
+            if block_by_number[child_number]["keyword"] != "while_condition"
+        ]
+
+        actual_while_numbers: list[int] = []
+        for item in loop_block.get("while_conditions", []):
+            while_number = int(item["number"])
+            actual_while_numbers.append(while_number)
+
+            while_block = block_by_number.get(while_number)
+            if while_block is None or while_block["keyword"] != "while_condition":
+                errors.append(f"loop block {loop_number} references non-while_condition block {while_number}")
+                continue
+            if int(while_block["parent_number"]) != loop_number:
+                errors.append(f"while_condition block {while_number} is not a direct child of loop block {loop_number}")
+            if while_number in seen_while_numbers:
+                errors.append(f"while_condition block {while_number} appears more than once in loop_handling")
+            seen_while_numbers.add(while_number)
+
+        actual_body_numbers = [int(value) for value in loop_block.get("body_block_numbers", [])]
+        for body_number in actual_body_numbers:
+            body_block = block_by_number.get(body_number)
+            if body_block is None:
+                errors.append(f"loop block {loop_number} references missing body block {body_number}")
+                continue
+            if int(body_block["parent_number"]) != loop_number:
+                errors.append(f"body block {body_number} is not a direct child of loop block {loop_number}")
+            if body_block["keyword"] == "while_condition":
+                errors.append(f"loop block {loop_number} body_block_numbers incorrectly includes while_condition {body_number}")
+
+        if actual_while_numbers != expected_loop_while_numbers:
+            errors.append(f"loop block {loop_number} while_conditions do not match direct-child while_condition blocks")
+        if actual_body_numbers != expected_body_numbers:
+            errors.append(f"loop block {loop_number} body_block_numbers do not match remaining direct children")
+
+    missing_loops = sorted(expected_loop_numbers - seen_loop_numbers)
+    if missing_loops:
+        errors.append(f"missing loop_blocks for loop blocks: {missing_loops}")
+
+    missing_while_conditions = sorted(expected_while_numbers - seen_while_numbers)
+    if missing_while_conditions:
+        errors.append(f"missing while_conditions for while_condition blocks: {missing_while_conditions}")
+
+    return errors
+
+
 def project_expected_summary(recipe: dict[str, Any]) -> dict[str, Any]:
     trigger = recipe["code"]
     trigger_input = clean_input(trigger.get("input", {}) if isinstance(trigger.get("input"), dict) else {})
@@ -482,10 +672,16 @@ def project_expected_summary(recipe: dict[str, Any]) -> dict[str, Any]:
 
     try_catch_pairs = build_try_catch_pairs_from_raw(raw_blocks)
     stop_blocks = build_stop_blocks_from_raw(raw_blocks)
+    loop_handling = {
+        "loop_blocks": build_loop_blocks_from_raw(raw_blocks),
+    }
     error_handling = {
         "try_catch_pairs": try_catch_pairs,
         "stop_blocks": stop_blocks,
     }
+    loop_handling_errors = validate_loop_handling_projection(control_flow_blocks, loop_handling)
+    if loop_handling_errors:
+        raise ProjectionError(loop_handling_errors)
     error_handling_errors = validate_error_handling_projection(control_flow_blocks, error_handling)
     if error_handling_errors:
         raise ProjectionError(error_handling_errors)
@@ -530,6 +726,7 @@ def project_expected_summary(recipe: dict[str, Any]) -> dict[str, Any]:
         "control_flow": {
             "blocks": control_flow_blocks,
         },
+        "loop_handling": loop_handling,
         "error_handling": error_handling,
     }
 
@@ -559,10 +756,16 @@ def project_extracted_summary(summary: dict[str, Any]) -> dict[str, Any]:
     if control_flow_errors:
         raise ProjectionError(control_flow_errors)
 
+    loop_handling = {
+        "loop_blocks": normalize_loop_blocks(summary["loop_handling"]["loop_blocks"]),
+    }
     error_handling = {
         "try_catch_pairs": normalize_try_catch_pairs(summary["error_handling"]["try_catch_pairs"]),
         "stop_blocks": normalize_stop_blocks(summary["error_handling"]["stop_blocks"]),
     }
+    loop_handling_errors = validate_loop_handling_projection(control_flow_blocks, loop_handling)
+    if loop_handling_errors:
+        raise ProjectionError(loop_handling_errors)
     error_handling_errors = validate_error_handling_projection(control_flow_blocks, error_handling)
     if error_handling_errors:
         raise ProjectionError(error_handling_errors)
@@ -580,6 +783,7 @@ def project_extracted_summary(summary: dict[str, Any]) -> dict[str, Any]:
         "control_flow": {
             "blocks": control_flow_blocks,
         },
+        "loop_handling": loop_handling,
         "error_handling": error_handling,
     }
 

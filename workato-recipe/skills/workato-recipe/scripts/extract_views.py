@@ -23,7 +23,7 @@ from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Any
 
-EXTRACTOR_VERSION = "9"
+EXTRACTOR_VERSION = "10"
 
 # Keys to strip from block nodes (peers of 'input')
 BLOCK_BLOAT_KEYS = {
@@ -163,6 +163,7 @@ class BlockInfo:
     filter: Any  # catch filter (block-level)
     repeat_mode: str  # foreach
     batch_size: str  # foreach
+    clear_scope: str  # foreach/repeat
     child_numbers: list[int] = field(default_factory=list)
 
 
@@ -219,6 +220,7 @@ class BlockWalker:
             filter=trigger_filter,
             repeat_mode="",
             batch_size="",
+            clear_scope="",
         )
         self.renderer.register_block(info)
         self.blocks.append(info)
@@ -270,8 +272,9 @@ class BlockWalker:
 
         # Block-level fields for foreach
         source = block.get("source")
-        repeat_mode = block.get("repeat_mode", "")
+        repeat_mode = str(block.get("repeat_mode", ""))
         batch_size = str(block.get("batch_size", ""))
+        clear_scope = str(block.get("clear_scope", ""))
 
         # Block-level filter for catch
         block_filter = block.get("filter")
@@ -291,6 +294,7 @@ class BlockWalker:
             filter=block_filter,
             repeat_mode=repeat_mode,
             batch_size=batch_size,
+            clear_scope=clear_scope,
         )
         self.renderer.register_block(info)
         self.blocks.append(info)
@@ -324,6 +328,27 @@ def _collect_project_props(obj: Any, props: set[str]) -> None:
         # Handle serialized JSON inside strings (e.g., datapill references)
         for m in re.finditer(r'"property_name"\s*:\s*"([^"]+)"', obj):
             props.add(m.group(1))
+
+
+# This duplication is intentional: these helpers must stay behaviorally aligned
+# with normalize_optional_string() and normalize_optional_serialized_string() in
+# scripts/fidelity_projection.py.
+def _normalize_optional_string(value: Any) -> str | None:
+    # _walk_block() defaults absent loop metadata fields to "", but the fidelity
+    # contract canonicalizes both "" and None to JSON null.
+    if value in (None, ""):
+        return None
+    return str(value)
+
+
+def _normalize_optional_serialized_string(value: Any) -> str | None:
+    if value in (None, ""):
+        return None
+    if isinstance(value, str):
+        return value
+    if isinstance(value, (dict, list)):
+        return json.dumps(value, sort_keys=True)
+    return str(value)
 
 
 # ---------------------------------------------------------------------------
@@ -405,6 +430,7 @@ def generate_summary(recipe: dict, blocks: list[BlockInfo], trigger_info: dict) 
     summary["control_flow"] = {
         "blocks": build_control_flow_summary(blocks),
     }
+    summary["loop_handling"] = build_loop_handling_summary(blocks)
     summary["error_handling"] = build_error_handling_summary(blocks)
     if project_props:
         summary["project_properties"] = sorted(project_props)
@@ -428,6 +454,49 @@ def build_control_flow_summary(blocks: list[BlockInfo]) -> list[dict[str, Any]]:
         }
         for b in blocks
     ]
+
+
+def build_loop_handling_summary(blocks: list[BlockInfo]) -> dict[str, Any]:
+    block_by_number = {block.number: block for block in blocks}
+    loop_blocks: list[dict[str, Any]] = []
+
+    for block in blocks:
+        if block.keyword not in {"foreach", "repeat"}:
+            continue
+
+        while_conditions: list[dict[str, Any]] = []
+        body_block_numbers: list[int] = []
+        for child_number in block.child_numbers:
+            child = block_by_number.get(child_number)
+            if child is None:
+                continue
+            if child.keyword == "while_condition":
+                while_conditions.append(
+                    {
+                        "number": child.number,
+                        "filter": _normalize_filter(child.input),
+                    }
+                )
+                continue
+            body_block_numbers.append(child.number)
+
+        loop_blocks.append(
+            {
+                "number": block.number,
+                "keyword": block.keyword,
+                "skip": block.skip,
+                "source_raw": _normalize_optional_serialized_string(block.source),
+                "repeat_mode": _normalize_optional_string(block.repeat_mode),
+                "batch_size": _normalize_optional_string(block.batch_size),
+                "clear_scope": _normalize_optional_string(block.clear_scope),
+                "while_conditions": while_conditions,
+                "body_block_numbers": body_block_numbers,
+            }
+        )
+
+    return {
+        "loop_blocks": loop_blocks,
+    }
 
 
 def _parse_retry_count(value: Any) -> int:
