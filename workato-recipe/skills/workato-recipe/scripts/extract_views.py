@@ -161,9 +161,9 @@ class BlockInfo:
     input: dict
     source: Any  # foreach source (block-level)
     filter: Any  # catch filter (block-level)
-    repeat_mode: str  # foreach
-    batch_size: str  # foreach
-    clear_scope: str  # foreach/repeat
+    repeat_mode: str | None  # foreach
+    batch_size: str | None  # foreach
+    clear_scope: str | None  # foreach/repeat
     child_numbers: list[int] = field(default_factory=list)
 
 
@@ -218,9 +218,9 @@ class BlockWalker:
             input=cleaned,
             source=None,
             filter=trigger_filter,
-            repeat_mode="",
-            batch_size="",
-            clear_scope="",
+            repeat_mode=None,
+            batch_size=None,
+            clear_scope=None,
         )
         self.renderer.register_block(info)
         self.blocks.append(info)
@@ -272,9 +272,9 @@ class BlockWalker:
 
         # Block-level fields for foreach
         source = block.get("source")
-        repeat_mode = str(block.get("repeat_mode", ""))
-        batch_size = str(block.get("batch_size", ""))
-        clear_scope = str(block.get("clear_scope", ""))
+        repeat_mode = block.get("repeat_mode")
+        batch_size = block.get("batch_size")
+        clear_scope = block.get("clear_scope")
 
         # Block-level filter for catch
         block_filter = block.get("filter")
@@ -334,8 +334,9 @@ def _collect_project_props(obj: Any, props: set[str]) -> None:
 # with normalize_optional_string() and normalize_optional_serialized_string() in
 # scripts/fidelity_projection.py.
 def _normalize_optional_string(value: Any) -> str | None:
-    # _walk_block() defaults absent loop metadata fields to "", but the fidelity
-    # contract canonicalizes both "" and None to JSON null.
+    # Loop metadata now flows through BlockInfo as str | None, so None is the
+    # normal missing-value path on both extractor and raw-projection sides. The
+    # "" collapse remains as a defensive safety net, not a load-bearing branch.
     if value in (None, ""):
         return None
     return str(value)

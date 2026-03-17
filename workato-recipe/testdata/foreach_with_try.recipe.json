@@ -1,0 +1,59 @@
+{
+  "name": "foreach_with_try",
+  "version": 1,
+  "code": {
+    "number": 0,
+    "provider": "clock",
+    "name": "scheduled_event",
+    "input": {
+      "cron": "0 * * * *"
+    },
+    "block": [
+      {
+        "number": 1,
+        "keyword": "foreach",
+        "source": "#{_dp('{\"pill_type\":\"output\",\"provider\":\"list_source\",\"line\":\"loop_rows\",\"path\":[\"items\"]}')}",
+        "repeat_mode": "batch",
+        "batch_size": "250",
+        "clear_scope": "true",
+        "block": [
+          {
+            "number": 2,
+            "keyword": "try",
+            "block": [
+              {
+                "number": 3,
+                "keyword": "action",
+                "provider": "logger",
+                "name": "info",
+                "input": {
+                  "message": "inside try"
+                }
+              },
+              {
+                "number": 4,
+                "keyword": "catch",
+                "input": {
+                  "max_retry_count": "1",
+                  "retry_interval": "5"
+                },
+                "block": [
+                  {
+                    "number": 5,
+                    "keyword": "action",
+                    "provider": "logger",
+                    "name": "error",
+                    "input": {
+                      "message": "inside catch"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "config": []
+}

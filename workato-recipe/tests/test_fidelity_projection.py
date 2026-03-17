@@ -7,13 +7,18 @@ from pathlib import Path
 
 PLUGIN_ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS_DIR = PLUGIN_ROOT / "scripts"
+EXTRACTOR_SCRIPTS_DIR = PLUGIN_ROOT / "skills" / "workato-recipe" / "scripts"
 
+sys.path.insert(0, str(EXTRACTOR_SCRIPTS_DIR))
 sys.path.insert(0, str(SCRIPTS_DIR))
 
+from extract_views import _normalize_optional_serialized_string as extractor_normalize_optional_serialized_string  # noqa: E402
 from fidelity_projection import (  # noqa: E402
     ProjectionError,
     diff_values,
     load_schema_validator,
+    normalize_loop_blocks,
+    normalize_optional_serialized_string,
     project_expected_summary,
     project_extracted_summary,
     validate_loop_handling_projection,
@@ -199,6 +204,38 @@ class FidelityProjectionTests(unittest.TestCase):
         self.assertEqual(loop_blocks[1]["while_conditions"], [])
         self.assertIsNone(loop_blocks[1]["batch_size"])
 
+    def test_foreach_with_try_projects_both_loop_and_error_handling(self) -> None:
+        projection = project_expected_summary(load_recipe("foreach_with_try.recipe.json"))
+        self.assertEqual(
+            projection["loop_handling"]["loop_blocks"],
+            [
+                {
+                    "number": 1,
+                    "keyword": "foreach",
+                    "skip": False,
+                    "source_raw": "#{_dp('{\"pill_type\":\"output\",\"provider\":\"list_source\",\"line\":\"loop_rows\",\"path\":[\"items\"]}')}",
+                    "repeat_mode": "batch",
+                    "batch_size": "250",
+                    "clear_scope": "true",
+                    "while_conditions": [],
+                    "body_block_numbers": [2],
+                }
+            ],
+        )
+        self.assertEqual(
+            projection["error_handling"]["try_catch_pairs"],
+            [
+                {
+                    "try_block": 2,
+                    "catch_block": 4,
+                    "retry_count": 1,
+                    "retry_interval_seconds": 5,
+                    "filter": None,
+                    "catch_action_numbers": [5],
+                }
+            ],
+        )
+
     def test_ambiguous_multi_catch_raises_projection_error(self) -> None:
         with self.assertRaises(ProjectionError) as ctx:
             project_expected_summary(load_recipe("ambiguous_multi_catch.recipe.json"))
@@ -215,6 +252,7 @@ class FidelityProjectionTests(unittest.TestCase):
             "foreach_simple.recipe.json",
             "repeat_while.recipe.json",
             "nested_loops.recipe.json",
+            "foreach_with_try.recipe.json",
         ):
             with self.subTest(fixture_name=fixture_name):
                 expected = project_expected_summary(load_recipe(fixture_name))
@@ -320,6 +358,25 @@ class FidelityProjectionTests(unittest.TestCase):
             project_extracted_summary(summary)
         self.assertIn("body_block_numbers incorrectly includes while_condition", "; ".join(ctx.exception.errors))
 
+    def test_normalize_loop_blocks_rejects_missing_while_condition_keys(self) -> None:
+        with self.assertRaises(ProjectionError) as ctx:
+            normalize_loop_blocks(
+                [
+                    {
+                        "number": 1,
+                        "keyword": "repeat",
+                        "skip": False,
+                        "source_raw": None,
+                        "repeat_mode": None,
+                        "batch_size": None,
+                        "clear_scope": None,
+                        "while_conditions": [{"number": 3}],
+                        "body_block_numbers": [2],
+                    }
+                ]
+            )
+        self.assertIn("while_conditions[0]", ctx.exception.errors[0])
+
     def test_validate_loop_handling_rejects_while_condition_under_non_loop_parent(self) -> None:
         control_flow_blocks = [
             {
@@ -365,10 +422,32 @@ class FidelityProjectionTests(unittest.TestCase):
             "foreach_simple.recipe.json",
             "repeat_while.recipe.json",
             "nested_loops.recipe.json",
+            "foreach_with_try.recipe.json",
         ):
             with self.subTest(fixture_name=fixture_name):
                 projection = project_expected_summary(load_recipe(fixture_name))
                 self.assertEqual(validate_projection(projection, validator, "expected"), [])
+
+    def test_structured_source_serializes_with_json_dumps(self) -> None:
+        dict_value = {"list": "items"}
+        list_value = ["a", "b"]
+
+        self.assertEqual(
+            extractor_normalize_optional_serialized_string(dict_value),
+            json.dumps(dict_value, sort_keys=True),
+        )
+        self.assertEqual(
+            extractor_normalize_optional_serialized_string(list_value),
+            json.dumps(list_value, sort_keys=True),
+        )
+        self.assertEqual(
+            normalize_optional_serialized_string(dict_value),
+            json.dumps(dict_value, sort_keys=True),
+        )
+        self.assertEqual(
+            normalize_optional_serialized_string(list_value),
+            json.dumps(list_value, sort_keys=True),
+        )
 
     def test_schema_and_diff_helpers_cover_failure_modes(self) -> None:
         validator = load_schema_validator(SCHEMA_FILE)

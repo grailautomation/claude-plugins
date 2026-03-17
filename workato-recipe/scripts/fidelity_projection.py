@@ -143,9 +143,9 @@ def normalize_filter(filter_data: dict[str, Any] | None) -> dict[str, Any] | Non
     }
 
 
-# Extracted summaries may still carry "" sentinel values from extractor-side
-# defaults, while raw recipe projection sees None for missing keys. Both must
-# collapse to the same null contract value.
+# Loop metadata now preserves None directly on both extractor and raw-projection
+# paths. The "" collapse remains as a defensive safety net, but the canonical
+# contract value for absence is still JSON null on both sides.
 def normalize_optional_string(value: Any) -> str | None:
     if value in (None, ""):
         return None
@@ -312,26 +312,56 @@ def build_loop_blocks_from_raw(raw_blocks: list[dict[str, Any]]) -> list[dict[st
 
 
 def normalize_loop_blocks(loop_blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    return [
-        {
-            "number": int(loop_block["number"]),
-            "keyword": str(loop_block["keyword"]),
-            "skip": bool(loop_block.get("skip", False)),
-            "source_raw": normalize_optional_serialized_string(loop_block.get("source_raw")),
-            "repeat_mode": normalize_optional_string(loop_block.get("repeat_mode")),
-            "batch_size": normalize_optional_string(loop_block.get("batch_size")),
-            "clear_scope": normalize_optional_string(loop_block.get("clear_scope")),
-            "while_conditions": [
+    normalized: list[dict[str, Any]] = []
+    required_loop_keys = (
+        "number",
+        "keyword",
+        "skip",
+        "source_raw",
+        "repeat_mode",
+        "batch_size",
+        "clear_scope",
+        "while_conditions",
+        "body_block_numbers",
+    )
+
+    for index, loop_block in enumerate(loop_blocks):
+        missing_loop_keys = [key for key in required_loop_keys if key not in loop_block]
+        if missing_loop_keys:
+            raise ProjectionError(
+                f"loop_blocks[{index}] missing required keys: {missing_loop_keys}"
+            )
+
+        normalized_while_conditions: list[dict[str, Any]] = []
+        for while_index, item in enumerate(loop_block["while_conditions"]):
+            missing_while_keys = [key for key in ("number", "filter") if key not in item]
+            if missing_while_keys:
+                raise ProjectionError(
+                    "loop_blocks"
+                    f"[{index}].while_conditions[{while_index}] missing required keys: {missing_while_keys}"
+                )
+            normalized_while_conditions.append(
                 {
                     "number": int(item["number"]),
-                    "filter": normalize_filter(item.get("filter")),
+                    "filter": normalize_filter(item["filter"]),
                 }
-                for item in loop_block.get("while_conditions", [])
-            ],
-            "body_block_numbers": [int(value) for value in loop_block.get("body_block_numbers", [])],
-        }
-        for loop_block in loop_blocks
-    ]
+            )
+
+        normalized.append(
+            {
+                "number": int(loop_block["number"]),
+                "keyword": str(loop_block["keyword"]),
+                "skip": bool(loop_block["skip"]),
+                "source_raw": normalize_optional_serialized_string(loop_block["source_raw"]),
+                "repeat_mode": normalize_optional_string(loop_block["repeat_mode"]),
+                "batch_size": normalize_optional_string(loop_block["batch_size"]),
+                "clear_scope": normalize_optional_string(loop_block["clear_scope"]),
+                "while_conditions": normalized_while_conditions,
+                "body_block_numbers": [int(value) for value in loop_block["body_block_numbers"]],
+            }
+        )
+
+    return normalized
 
 
 def _block_by_number(blocks: list[dict[str, Any]]) -> dict[int, dict[str, Any]]:

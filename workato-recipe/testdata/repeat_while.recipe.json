@@ -12,6 +12,9 @@
       {
         "number": 1,
         "keyword": "repeat",
+        "repeat_mode": null,
+        "batch_size": null,
+        "clear_scope": null,
         "block": [
           {
             "number": 2,
