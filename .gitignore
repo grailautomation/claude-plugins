@@ -40,3 +40,4 @@ node_modules/
 salesforce-soql/org-schemas/*/
 !salesforce-soql/org-schemas/example-org/
 !salesforce-soql/org-schemas/README.md
+.scratch/
