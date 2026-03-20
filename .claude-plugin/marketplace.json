@@ -168,6 +168,13 @@
       "description": "Browser automation with playwright-cli for web testing, scraping, form filling, screenshots, and data extraction",
       "category": "automation",
       "strict": true
+    },
+    {
+      "name": "espanso",
+      "source": "./espanso",
+      "description": "Espanso text expander for Claude Code",
+      "category": "automation",
+      "strict": true
     }
   ]
 }
