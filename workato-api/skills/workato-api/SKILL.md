@@ -2,17 +2,26 @@
 name: workato-api
 description: >-
   Workato Developer API reference and execution framework. Use this skill whenever:
-  (1) the user asks about Workato recipes, connections, jobs, lookup tables, folders, projects, API platform, or workspace configuration,
-  (2) the user wants to query, inspect, start/stop, or manage anything in their Workato workspace,
-  (3) the user mentions Workato API, Workato automation, recipe lifecycle, deployment, or environment properties,
-  (4) you need to make Workato API calls to answer a question or complete a task.
+  (1) the user asks about Workato recipes, connections, jobs, lookup tables, folders, projects,
+  API platform, or workspace configuration via REST API, curl, or httpx,
+  (2) the user wants to programmatically query, inspect, start/stop, or manage Workato workspace
+  resources via direct API calls (not via the Platform CLI),
+  (3) the user mentions Workato API endpoints, API tokens, API rate limits, or needs
+  request/response schemas for Workato REST resources,
+  (4) you need to make Workato API calls via curl/httpx to answer a question or complete a task.
   This skill covers ALL Workato Developer API endpoints and provides curl-based execution patterns.
   There is no Workato Developer SDK — use bash/curl (or Python httpx) to call the REST API directly.
+  For CLI-based workspace management, use the workato-platform-cli plugin instead.
+  For building custom connectors, use the workato-connector-sdk plugin instead.
 ---
 
 # Workato Developer API
 
 This skill enables you to query and manage a Workato workspace via the Developer API. There is no SDK for the Developer API — all interactions use REST calls via curl or Python httpx.
+
+> **Tip:** For interactive workspace management (pull/push projects, manage recipes/connections),
+> the Workato Platform CLI (`pip install workato-platform-cli`) provides a higher-level interface.
+> See the `workato-platform-cli` plugin.
 
 ## Workspace Configuration
 

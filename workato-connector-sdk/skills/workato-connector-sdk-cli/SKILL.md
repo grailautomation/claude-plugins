@@ -1,6 +1,12 @@
 ---
 name: workato-connector-sdk-cli
-description: This skill should be used when the user asks about "workato cli", "workato gem", "run connector locally", "rspec test", "write connector tests", "vcr cassettes", "connector_spec", "workato exec", "workato push", "workato generate", or needs to test and develop Workato connectors locally.
+description: >-
+  Workato Connector SDK CLI reference (Ruby gem workato-connector-sdk). Use when the user
+  asks about "workato gem", "workato-connector-sdk", "run connector locally", "rspec test",
+  "write connector tests", "vcr cassettes", "connector_spec", "workato exec",
+  "workato push", "workato new connector", "workato generate schema",
+  or needs to develop, test, or debug Workato custom connectors locally with the Ruby CLI.
+  NOT the Platform CLI (Python) for workspace management — use workato-platform-cli for that.
 version: 0.1.0
 ---
 
@@ -9,6 +15,10 @@ version: 0.1.0
 Guide for using the Workato Connector SDK CLI gem to develop, test, and deploy custom connectors locally.
 
 ## Overview
+
+> **Note:** This skill covers the Connector SDK CLI (Ruby gem `workato-connector-sdk`).
+> For the Platform CLI (Python package `workato-platform-cli` for managing workspace
+> recipes, connections, and projects), see the `workato-platform-cli` plugin.
 
 The Workato SDK CLI (`workato-connector-sdk` gem) enables local connector development with:
 - Local execution and testing of connector code

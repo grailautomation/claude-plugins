@@ -44,6 +44,13 @@
       "strict": true
     },
     {
+      "name": "workato-platform-cli",
+      "source": "./workato-platform-cli",
+      "description": "Workato Platform CLI for managing workspace recipes, connections, projects, and deployments",
+      "category": "integrations",
+      "strict": true
+    },
+    {
       "name": "workato-connector-sdk",
       "source": "./workato-connector-sdk",
       "description": "Workato Connector SDK documentation for building custom connectors",
