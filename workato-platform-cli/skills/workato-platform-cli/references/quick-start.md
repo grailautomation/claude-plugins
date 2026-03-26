@@ -10,7 +10,7 @@ Initialize: Configure API credentials with `workato init`.
 
 2
 
-Manage Projects: Use `workato project list` and `workato project use name`.
+Manage Projects: Use `workato projects list` and `workato projects use name`.
 
 3
 

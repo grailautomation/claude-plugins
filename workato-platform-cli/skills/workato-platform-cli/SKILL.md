@@ -57,17 +57,13 @@ API tokens start with `wrk` followed by environment type (e.g., `wrkprod-`). Cre
 
 | Group | Key Commands | Reference |
 |-------|-------------|-----------|
-| **Workspace** | `init`, `workspace`, `assets` | [command-reference.md](references/command-reference.md) |
+| **Setup** | `init`, `workspace`, `profiles` | [overview.md](references/overview.md) |
 | **Projects** | `pull`, `push`, `projects list/use` | [command-reference.md](references/command-reference.md) |
-| **Profiles** | `profiles list/use/status/delete` | [command-reference.md](references/command-reference.md) |
 | **Recipes** | `recipes list/validate/start/stop/update-connection` | [command-reference.md](references/command-reference.md) |
 | **Connections** | `connections list/create/create-oauth/get-oauth-url/update/pick-list` | [command-reference.md](references/command-reference.md) |
 | **Connectors** | `connectors list/parameters` | [command-reference.md](references/command-reference.md) |
-| **API Platform** | `api-collections list/create/list-endpoints/enable-endpoint` | [command-reference.md](references/command-reference.md) |
-| **API Clients** | `api-clients list/create` | [command-reference.md](references/command-reference.md) |
-| **Data Tables** | `data-tables list/create` | [command-reference.md](references/command-reference.md) |
-| **Properties** | `properties list/upsert` | [command-reference.md](references/command-reference.md) |
-| **Help** | `guide topics/search/content` | [command-reference.md](references/command-reference.md) |
+| **API & Data** | `api-collections`, `api-clients`, `data-tables`, `properties` | [command-reference.md](references/command-reference.md) |
+| **Workflows** | Multi-env deployment, CI/CD, recipe lifecycle | [use-cases.md](references/use-cases.md) |
 
 ## Common Workflows
 

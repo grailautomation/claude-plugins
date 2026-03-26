@@ -27,7 +27,7 @@ workato push --restart-recipes
 #### Example
 
 ```bash
-% workato recipe validate --path ./customer_onboarding/google_calendar_recipe.recipe.json
+% workato recipes validate --path ./customer_onboarding/google_calendar_recipe.recipe.json
 ✅ Recipe validation passed (0.1s)                                       
 📄 File: google_calendar_recipe.recipe.json
 % workato push --restart-recipes
@@ -247,7 +247,7 @@ You can handle OAuth flows and credential management programmatically.
 
 ```bash
 workato connections create-oauth --parent-id 123
-workato connections get-oauth-url --id 456
+workato connections get-oauth-url 456
 ```
 
 You can automatically diagnose and resolve common integration issues.
@@ -313,7 +313,7 @@ Centralize API collection management and deployment across multiple environments
 #### Implementation
 
 ```bash
-workato api-collections create --format yaml --content ./api-spec.yaml --name "API-COLLECTION-NAME"
+workato api-collections create --name "Customer API" --project-id 123
 ```
 
 ### Data operations
@@ -322,13 +322,28 @@ Manage large-scale data synchronization and transformation workflows.
 
 #### Benefits
 
+- Batch processing capabilities
+- Data validation and cleansing
+- Error handling and retry logic
+- Audit trails and monitoring
+
 ### Project organization
 
 You can structure projects for scalability and maintainability across large teams.
 
 #### Benefits
 
+- Consistent folder structures
+- Shared naming conventions
+- Access control management
+- Dependency tracking
+
 #### Organization
 
-  
+- Group recipes by business function
+- Use descriptive connection names
+- Implement consistent tagging
+- Regular cleanup and maintenance
+
+
 **Last updated:** 11/3/2025, 7:56:11 PM

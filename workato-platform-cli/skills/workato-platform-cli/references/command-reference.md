@@ -161,6 +161,7 @@ workato push [OPTIONS]
 | --- | --- |
 | **\--force** | Push changes without confirmation prompts. |
 | **\--restart-recipes** | Automatically restart affected running recipes after push. |
+| **\--include-tags** | Include recipe tags in the push. |
 
 ### Result
 
@@ -181,6 +182,8 @@ workato push --force --restart-recipes
 ```
 
 ---
+
+## workato profiles list
 
 List all configured authentication profiles with their regions and status.
 
@@ -203,6 +206,8 @@ workato profiles list
 ```
 
 ---
+
+## workato profiles use
 
 Switch to a different authentication profile for subsequent commands.
 
@@ -232,6 +237,8 @@ workato profiles use production
 
 ---
 
+## workato profiles status
+
 Displays the current active profile and its configuration details.
 
 ### Usage
@@ -245,7 +252,7 @@ workato profiles status
 | Option | Description |
 | --- | --- |
 | **\--verbose, -v** | Optional. Show detailed profile information including API endpoint and authentication status. |
-| **\--json\`** | Optional. Output profile status in JSON format for scripting. |
+| **\--json** | Optional. Output profile status in JSON format for scripting. |
 
 ### Result
 
@@ -272,6 +279,8 @@ workato profiles status --json
 ```
 
 ---
+
+## workato profiles delete
 
 Remove a profile from the CLI configuration.
 
@@ -375,6 +384,7 @@ workato recipes list [OPTIONS]
 | **\--per-page INTEGER** | Number of recipes per page. Default is 10. Maximum is 100. |
 | **\--adapter-names-all TEXT** | Comma-separated adapter names. Recipes must use all specified. |
 | **\--adapter-names-any TEXT** | Comma-separated adapter names. Recipes must use any specified. |
+| **\--stop-cause TEXT** | Filter by stop cause (e.g., `trigger_errors_limit`). |
 | **\--order CHOICE** | Sort order: activity or default. |
 
 ### Result
@@ -523,6 +533,7 @@ workato recipes update-connection RECIPE_ID [OPTIONS]
 
 | Input | Description |
 | --- | --- |
+| **RECIPE_ID** | ID of the recipe to update. |
 
 ### Options
 
@@ -683,6 +694,7 @@ workato connections get-oauth-url CONNECTION_ID [OPTIONS]
 
 | Input | Description |
 | --- | --- |
+| **CONNECTION_ID** | ID of the connection to generate an OAuth URL for. |
 
 ### Options
 
@@ -826,7 +838,7 @@ workato connectors parameters [OPTIONS]
 | --- | --- |
 | **\--provider TEXT** | Show parameters for specific provider or connector. |
 | **\--oauth-only** | Show only OAuth-enabled connectors. |
-| **\--search TEXT** | Search connector names. Case-insensitive). |
+| **\--search TEXT** | Search connector names (case-insensitive). |
 
 ### Result
 
@@ -985,6 +997,8 @@ workato properties upsert --key-value api_endpoint=https://api.example.com
 
 ---
 
+## workato api-collections list
+
 List API collections that expose recipes as REST endpoints for external consumption.
 
 ### Usage
@@ -1013,6 +1027,8 @@ workato api-collections list
 ```
 
 ---
+
+## workato api-collections create
 
 Create a new API collection to group and manage recipe endpoints.
 
@@ -1043,6 +1059,8 @@ workato api-collections create --name 'Customer API'
 
 ---
 
+## workato api-collections list-endpoints
+
 List all API endpoints within a specific collection showing their status and configuration.
 
 ### Usage
@@ -1070,6 +1088,8 @@ workato api-collections list-endpoints --api-collection-id 456
 ```
 
 ---
+
+## workato api-collections enable-endpoint
 
 Enable a specific API endpoint to make it available for external API calls.
 
@@ -1184,6 +1204,8 @@ workato guide topics
 ```
 
 ---
+
+## workato guide search
 
 Search the integrated documentation for specific terms or concepts.
 
