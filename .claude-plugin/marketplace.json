@@ -44,9 +44,9 @@
       "strict": true
     },
     {
-      "name": "workato-sdk",
-      "source": "./workato-sdk",
-      "description": "Workato Connector SDK best practices for recipe developer UX",
+      "name": "workato-connector-sdk",
+      "source": "./workato-connector-sdk",
+      "description": "Workato Connector SDK documentation for building custom connectors",
       "category": "development",
       "strict": true
     },

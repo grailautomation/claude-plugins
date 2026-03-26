@@ -1,4 +1,4 @@
-# Workato SDK Plugin
+# Workato Connector SDK Plugin
 
 Comprehensive Workato Connector SDK documentation and best practices for Claude Code.
 
@@ -18,24 +18,24 @@ This plugin provides expertise for building Workato custom connectors, covering:
 
 | Skill | Triggers When User Asks About |
 |-------|------------------------------|
-| **workato-sdk-quickstart** | "getting started", "first connector", "connector examples", "walkthrough" |
-| **workato-sdk-reference** | "sdk reference", "actions block", "triggers block", "object_definitions", "methods block" |
-| **workato-sdk-cli** | "workato cli", "workato gem", "rspec test", "vcr cassettes", "workato exec" |
+| **workato-connector-sdk-quickstart** | "getting started", "first connector", "connector examples", "walkthrough" |
+| **workato-connector-sdk-reference** | "sdk reference", "actions block", "triggers block", "object_definitions", "methods block" |
+| **workato-connector-sdk-cli** | "workato gem", "rspec test", "vcr cassettes", "workato exec" |
 
 ### Building Connectors
 
 | Skill | Triggers When User Asks About |
 |-------|------------------------------|
-| **workato-sdk-authentication** | "oauth workato", "api key auth", "jwt authentication", "connection block" |
-| **workato-sdk-actions** | "build action", "execute block", "streaming action", "multistep action" |
-| **workato-sdk-triggers** | "poll trigger", "webhook trigger", "dynamic webhook", "dedup", "closure" |
-| **workato-sdk-data-formats** | "request_format", "xml format", "multipart form", "parse xml" |
+| **workato-connector-sdk-authentication** | "oauth workato", "api key auth", "jwt authentication", "connection block" |
+| **workato-connector-sdk-actions** | "build action", "execute block", "streaming action", "multistep action" |
+| **workato-connector-sdk-triggers** | "poll trigger", "webhook trigger", "dynamic webhook", "dedup", "closure" |
+| **workato-connector-sdk-data-formats** | "request_format", "xml format", "multipart form", "parse xml" |
 
 ### Advanced Topics
 
 | Skill | Triggers When User Asks About |
 |-------|------------------------------|
-| **workato-sdk-advanced** | "connector planning", "code patterns", "best practices", "error handling" |
+| **workato-connector-sdk-advanced** | "connector planning", "code patterns", "best practices", "error handling" |
 | **workato-connector-ux** | "sticky fields", "extends_schema", "ngIf", "input field UX" |
 
 ## Installation
@@ -45,19 +45,19 @@ This plugin is part of the local-plugins marketplace. Enable it in Claude Code s
 ## Contents
 
 ```
-workato-sdk/
+workato-connector-sdk/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── skills/
-│   ├── workato-connector-ux/      # UX patterns & field visibility
-│   ├── workato-sdk-quickstart/    # Getting started guide
-│   ├── workato-sdk-reference/     # SDK API reference
-│   ├── workato-sdk-cli/           # CLI & local testing
-│   ├── workato-sdk-authentication/ # Auth implementations
-│   ├── workato-sdk-actions/       # Building actions
-│   ├── workato-sdk-triggers/      # Building triggers
-│   ├── workato-sdk-data-formats/  # Request/response formats
-│   └── workato-sdk-advanced/      # Advanced patterns
+│   ├── workato-connector-ux/                  # UX patterns & field visibility
+│   ├── workato-connector-sdk-quickstart/      # Getting started guide
+│   ├── workato-connector-sdk-reference/       # SDK API reference
+│   ├── workato-connector-sdk-cli/             # CLI & local testing
+│   ├── workato-connector-sdk-authentication/  # Auth implementations
+│   ├── workato-connector-sdk-actions/         # Building actions
+│   ├── workato-connector-sdk-triggers/        # Building triggers
+│   ├── workato-connector-sdk-data-formats/    # Request/response formats
+│   └── workato-connector-sdk-advanced/        # Advanced patterns
 └── README.md
 ```
 
@@ -69,10 +69,10 @@ Each skill contains:
 
 Skills activate automatically based on context:
 
-- "How do I authenticate with OAuth 2.0?" → workato-sdk-authentication
-- "How do I build a polling trigger?" → workato-sdk-triggers
-- "How do I test my connector locally?" → workato-sdk-cli
-- "How do I handle XML responses?" → workato-sdk-data-formats
+- "How do I authenticate with OAuth 2.0?" → workato-connector-sdk-authentication
+- "How do I build a polling trigger?" → workato-connector-sdk-triggers
+- "How do I test my connector locally?" → workato-connector-sdk-cli
+- "How do I handle XML responses?" → workato-connector-sdk-data-formats
 - "How do I make a field always visible?" → workato-connector-ux
 
 ## Documentation Coverage

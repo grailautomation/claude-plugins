@@ -1,0 +1,8 @@
+{
+  "name": "workato-connector-sdk",
+  "description": "Workato Connector SDK documentation for building custom connectors",
+  "author": {
+    "name": "Dave Kreitter",
+    "email": "dave@grailautomation.com"
+  }
+}

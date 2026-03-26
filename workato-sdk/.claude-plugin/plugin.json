@@ -1,8 +1,0 @@
-{
-  "name": "workato-sdk",
-  "description": "Workato Connector SDK best practices for recipe developer UX",
-  "author": {
-    "name": "Dave Kreitter",
-    "email": "dave@grailautomation.com"
-  }
-}
