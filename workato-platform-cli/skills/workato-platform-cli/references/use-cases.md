@@ -225,7 +225,7 @@ Standardize how recipes are created, tested, deployed, and monitored across team
 workato recipes validate --path ./recipe.json
 workato recipes start --id 12345
 workato recipes stop --id 67890
-workato connections create-oauth --parent-id 123
+workato connections create-oauth --parent-id 123 --external-id "user@example.com"
 ```
 
 ## Automation
@@ -246,8 +246,8 @@ You can handle OAuth flows and credential management programmatically.
 #### Commands
 
 ```bash
-workato connections create-oauth --parent-id 123
-workato connections get-oauth-url 456
+workato connections create-oauth --parent-id 123 --external-id "user@example.com"
+workato connections get-oauth-url --id 456
 ```
 
 You can automatically diagnose and resolve common integration issues.
@@ -313,7 +313,7 @@ Centralize API collection management and deployment across multiple environments
 #### Implementation
 
 ```bash
-workato api-collections create --name "Customer API" --project-id 123
+workato api-collections create --name "Customer API" --format json --content ./openapi.json
 ```
 
 ### Data operations

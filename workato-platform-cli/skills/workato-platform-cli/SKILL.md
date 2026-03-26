@@ -3,7 +3,7 @@ name: workato-platform-cli
 description: >-
   Workato Platform CLI reference for managing workspace-level assets. Use when the user
   asks about "workato-platform-cli", "workato platform cli", "workato init",
-  "workato pull project", "workato push project", "workato recipes list",
+  "workato pull", "workato push", "workato recipes list",
   "workato recipes validate", "workato recipes start", "workato recipes stop",
   "workato connections create", "workato connections create-oauth", "workato profiles",
   "workato data-tables", "workato api-collections", "workato properties",
@@ -57,10 +57,10 @@ API tokens start with `wrk` followed by environment type (e.g., `wrkprod-`). Cre
 
 | Group | Key Commands | Reference |
 |-------|-------------|-----------|
-| **Setup** | `init`, `workspace`, `profiles` | [overview.md](references/overview.md) |
-| **Projects** | `pull`, `push`, `projects list/use` | [command-reference.md](references/command-reference.md) |
+| **Setup** | `init`, `workspace`, `profiles`, `guide` | [overview.md](references/overview.md) |
+| **Projects** | `pull`, `push`, `projects list/use/switch`, `assets` | [command-reference.md](references/command-reference.md) |
 | **Recipes** | `recipes list/validate/start/stop/update-connection` | [command-reference.md](references/command-reference.md) |
-| **Connections** | `connections list/create/create-oauth/get-oauth-url/update/pick-list` | [command-reference.md](references/command-reference.md) |
+| **Connections** | `connections list/create/create-oauth/get-oauth-url/update/pick-list/pick-lists` | [command-reference.md](references/command-reference.md) |
 | **Connectors** | `connectors list/parameters` | [command-reference.md](references/command-reference.md) |
 | **API & Data** | `api-collections`, `api-clients`, `data-tables`, `properties` | [command-reference.md](references/command-reference.md) |
 | **Workflows** | Multi-env deployment, CI/CD, recipe lifecycle | [use-cases.md](references/use-cases.md) |
@@ -113,10 +113,10 @@ workato push --restart-recipes --include-tags
 workato connections list --provider salesforce
 
 # Create OAuth connection
-workato connections create-oauth --name 'Prod SF' --provider salesforce
+workato connections create-oauth --parent-id 12345 --external-id "user@example.com"
 
 # Get OAuth URL for headless flows
-workato connections get-oauth-url 12345
+workato connections get-oauth-url --id 12345
 ```
 
 ## Global Options
@@ -131,7 +131,7 @@ workato connections get-oauth-url 12345
 
 - `WORKATO_PROFILE` — Default profile
 - `WORKATO_API_TOKEN` — API token for authentication
-- `WORKATO_API_HOST` — Custom API host URL
+- `WORKATO_HOST` — Custom API host URL
 
 ## Reference Files
 

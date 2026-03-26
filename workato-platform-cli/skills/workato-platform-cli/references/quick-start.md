@@ -30,7 +30,7 @@ Deploy: Push changes with `workato push`.
 
 7
 
-Monitor: Show recipe executions with `workato recipes jobs`.
+Monitor: Show recipe executions with `workato recipes list --running`.
 
 ## Initial commands
 
