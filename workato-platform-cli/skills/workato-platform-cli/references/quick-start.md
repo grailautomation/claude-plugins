@@ -1,118 +1,81 @@
-## Workato Platform CLI quick start
+## Workato Platform CLI Quick Start
 
-This guide walks you through the essential steps to get started with the Workato Platform CLI. You'll learn how to set up your environment, work with recipes and connections, and establish an efficient development workflow.
+Validated against the installed CLI on 2026-03-26: `workato, version 1.0.5`.
 
-## Key development workflow
+This is a short bootstrap flow for the `workato` binary from `workato-platform-cli`.
 
-1
-
-Initialize: Configure API credentials with `workato init`.
-
-2
-
-Manage Projects: Use `workato projects list` and `workato projects use name`.
-
-3
-
-Edit Recipes: Develop JSON recipe files locally.
-
-4
-
-Validate: Run `workato recipes validate` to check syntax.
-
-5
-
-Setup Connections: Create OAuth connections with `workato connections create`.
-
-6
-
-Deploy: Push changes with `workato push`.
-
-7
-
-Monitor: Show recipe executions with `workato recipes list --running`.
-
-## Initial commands
-
-Start using the Platform CLI with the following commands.
-
-List available commands:
+## 1. Install and verify
 
 ```bash
+pip install workato-platform-cli
+workato --version
 workato --help
 ```
 
-List your recipes:
+## 2. Initialize the workspace
+
+Interactive setup:
 
 ```bash
-workato recipes list
+workato init
 ```
 
-List your connections:
+Non-interactive setup:
 
 ```bash
-workato connections list
+export WORKATO_API_TOKEN=...
+export WORKATO_HOST=https://www.workato.com
+
+workato init --non-interactive --project-id 12345
 ```
 
-List current project details:
+## 3. Check current context
 
 ```bash
 workato workspace
+workato assets
 ```
 
-## Example recipe workflow
-
-Validate a recipe file.
+## 4. Select the right project and profile
 
 ```bash
-workato recipes validate --path ./my-recipe.json
+workato projects list --source both
+workato projects use "Customer Onboarding"
+
+workato profiles list
+workato profiles use dev
+workato profiles status
 ```
 
-Push local files to your current Workato project.
+## 5. Validate and deploy recipe changes
 
 ```bash
-workato push
-```
-
-Pull local files from your current Workato project.
-
-```bash
+workato recipes validate --path ./recipes/customer_onboarding.recipe.json
 workato pull
+workato push --restart-recipes
+workato recipes list --running
 ```
 
-This section provides suggested initial actions for different roles.
+`recipes list --running` shows running recipes, not execution logs.
 
-### Individual developers
+## 6. Discover connection parameters before creating connections
 
-Complete the following steps for local-first development with validation and testing:
+```bash
+workato connectors parameters --provider salesforce
+workato connections create --provider salesforce --name "Prod Salesforce"
+```
 
-1
+For runtime OAuth user connections:
 
-Configure your environment with `workato init`.
+```bash
+workato connections create-oauth --parent-id 12345 --external-id "user@example.com"
+workato connections get-oauth-url --id 12345
+```
 
-2
+## 7. Use the built-in CLI documentation
 
-Use `workato recipes validate` for local development.
-
-3
-
-Set up profiles for your environments with `workato profiles use NAME`.
-
-### Development teams
-
-Development teams can use the Platform CLI for the following collaborative workflows with version control integration tasks:
-
-- Establish shared project structures.
-- Implement code review processes for recipes.
-- Use CI/CD pipelines for deployments.
-
-### Enterprise organizations
-
-Enterprise organizations can use the Platform CLI for the following scalable automation with governance and monitoring tasks:
-
-- Create standardized development workflows.
-- Implement proper access controls and environments.
-- Use monitoring and alerting for production systems.
-
-  
-**Last updated:** 11/3/2025, 7:56:11 PM
+```bash
+workato guide topics
+workato guide search recipes
+workato guide content connections
+```

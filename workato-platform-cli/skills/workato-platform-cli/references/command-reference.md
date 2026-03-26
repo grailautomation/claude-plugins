@@ -1,5 +1,7 @@
 # Workato CLI Command Reference
 
+Validated against the installed CLI on 2026-03-26: `workato, version 1.0.5`.
+
 ## workato
 
 ```shell
@@ -1002,11 +1004,11 @@ Options:
 
 ## Environment Variables
 
-The CLI supports the following environment variables:
+The installed CLI directly exposes or resolves these primary user-facing environment variables:
 
-- **WORKATO_PROFILE**: Default profile to use
-- **WORKATO_API_TOKEN**: API token for authentication
-- **WORKATO_HOST**: Custom API host URL (or WORKATO_API_HOST)
+- `WORKATO_PROFILE`: default profile override for the top-level `--profile` option
+- `WORKATO_API_TOKEN`: API token used by `init` and profile resolution
+- `WORKATO_HOST`: API host used by `init` and profile resolution
 
 ## Global Patterns
 
@@ -1014,25 +1016,30 @@ The following patterns apply across all CLI commands and provide consistent beha
 
 ### Authentication
 
-All commands require authentication through:
+The CLI resolves credentials from:
 
-- Profile configuration (recommended)
-- Environment variables
-- Command-line options
+- `--profile` or `WORKATO_PROFILE`
+- profile credentials created with `workato init` or `workato profiles create`
+- `WORKATO_API_TOKEN` and `WORKATO_HOST`
+
+For `workato init --non-interactive`, the installed command requires either `--profile` or both auth inputs, plus `--project-name` or `--project-id`.
 
 ### Pagination
 
-List commands support pagination with:
+Explicit pagination flags are command-specific. In the current CLI, `workato api-collections list` advertises:
 
-- `--page INTEGER`: Page number (default: 1)
-- `--per-page INTEGER`: Items per page (default varies, max: 100)
+- `--page INTEGER`
+- `--per-page INTEGER`
 
 ### Output Formats
 
-Many commands support:
+Output formatting is not global. Verified commands that expose `--output-mode` are:
 
-- `--output-mode table`: Human-readable table (default)
-- `--output-mode json`: Machine-readable JSON
+- `workato init`
+- `workato projects list`
+- `workato profiles list`
+- `workato profiles rename`
+- `workato profiles status`
 
 ## Common Workflows
 
@@ -1055,7 +1062,8 @@ workato recipes list --running
 ### Connection Management
 
 ```bash
-workato connectors list --search salesforce
+workato connectors list --platform
+workato connectors parameters --provider salesforce
 workato connections create --provider salesforce --name "Prod SF"
 workato connections create-oauth --parent-id 123 --external-id "user@example.com"
 ```
