@@ -1,0 +1,36 @@
+{
+  "name": "scraper-generator",
+  "description": "Generate API documentation scraper packages through discovery, architecture planning, Python code generation, and validation.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/scraper-generator",
+  "keywords": [
+    "scraping",
+    "api-docs",
+    "documentation",
+    "code-generation",
+    "python"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Scraper Generator",
+    "shortDescription": "Generate API documentation scrapers",
+    "longDescription": "Use Scraper Generator to analyze API documentation pages, design a parser architecture, generate a Python scraper package, and validate the generated scraper with bundled checks.",
+    "developerName": "Grail Automation",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use scraper-generator to create a scraper for this API documentation page",
+      "Analyze this docs URL and generate a Python scraper",
+      "Validate this generated API docs scraper"
+    ],
+    "brandColor": "#0F766E",
+    "screenshots": []
+  }
+}

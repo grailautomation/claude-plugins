@@ -6,6 +6,7 @@
 # Example: validate-scraper.sh ./workato_scraper connections
 
 set -euo pipefail
+shopt -s nullglob globstar
 
 SCRAPER_DIR="${1:?Usage: validate-scraper.sh <scraper_dir> [section]}"
 SECTION="${2:-}"
@@ -72,7 +73,7 @@ echo ""
 echo "Checking Python syntax..."
 
 syntax_ok=true
-for pyfile in "$SCRAPER_DIR"/*.py "$SCRAPER_DIR"/**/*.py 2>/dev/null; do
+for pyfile in "$SCRAPER_DIR"/**/*.py; do
     if [[ -f "$pyfile" ]]; then
         if python3 -m py_compile "$pyfile" 2>/dev/null; then
             success "$(basename "$pyfile") syntax OK"
