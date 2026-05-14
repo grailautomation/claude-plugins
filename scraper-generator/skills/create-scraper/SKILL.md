@@ -22,12 +22,17 @@ The result is a standalone scraper like `workato_scraper/` that can run forever 
 
 ## Workflow
 
+Resolve the plugin root before loading bundled references:
+
+- In Claude Code, use `${CLAUDE_PLUGIN_ROOT}`.
+- In other runtimes, use the `scraper-generator` plugin directory in the current repository or installed plugin location.
+
 ### Phase 1: Site Analysis
 
 First, understand the target documentation structure.
 
 **Load the doc-site-analysis skill:**
-Read `${CLAUDE_PLUGIN_ROOT}/skills/doc-site-analysis/SKILL.md`
+Read `${PLUGIN_ROOT}/skills/doc-site-analysis/SKILL.md`
 
 **Fetch and analyze the target URL:**
 ```
@@ -55,10 +60,10 @@ Agent: site-analyzer
 Design the scraper based on discovered patterns.
 
 **Load the scraper-architecture skill:**
-Read `${CLAUDE_PLUGIN_ROOT}/skills/scraper-architecture/SKILL.md`
+Read `${PLUGIN_ROOT}/skills/scraper-architecture/SKILL.md`
 
 **Study the reference implementation:**
-Read `${CLAUDE_PLUGIN_ROOT}/skills/scraper-architecture/examples/workato_scraper/`
+Read `${PLUGIN_ROOT}/skills/scraper-architecture/examples/README.md`
 
 Plan:
 - Package structure
@@ -71,7 +76,7 @@ Plan:
 Generate the complete scraper package.
 
 **Load the code-generation skill:**
-Read `${CLAUDE_PLUGIN_ROOT}/skills/code-generation/SKILL.md`
+Read `${PLUGIN_ROOT}/skills/code-generation/SKILL.md`
 
 **Generate all files:**
 
@@ -98,7 +103,7 @@ Verify the generated scraper works.
 
 **Run the validation script:**
 ```bash
-${CLAUDE_PLUGIN_ROOT}/skills/code-generation/scripts/validate-scraper.sh {output}/{name}_scraper
+${PLUGIN_ROOT}/skills/code-generation/scripts/validate-scraper.sh {output}/{name}_scraper
 ```
 
 Or use the validator agent:

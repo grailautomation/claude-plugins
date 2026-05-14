@@ -1,10 +1,6 @@
-# Reference Implementation
+# Reference Implementation Pattern
 
-The `workato_scraper` reference implementation is available at:
-
-**GitHub:** https://github.com/kreitter/workato-api-docs/tree/main/workato_scraper
-
-This is a complete, working example of a scraper generated using the patterns documented in this skill. Study its structure:
+The `workato_scraper` pattern is a complete scraper layout generated using the patterns documented in this skill. Study its structure:
 
 ```
 workato_scraper/
@@ -17,4 +13,4 @@ workato_scraper/
 └── formatters/           # Output formatters (JSON, Markdown, OpenAPI)
 ```
 
-When generating a new scraper, use this as your template and adapt the patterns for the target documentation structure.
+When generating a new scraper, use this structure as the template and adapt the parser strategies for the target documentation site.

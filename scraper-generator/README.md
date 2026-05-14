@@ -19,7 +19,7 @@ The result is a standalone scraper that runs forever without AI assistance.
 /scraper-generator:create-scraper https://docs.example.com/api/users.html
 ```
 
-This generates a complete Python scraper package similar to the [workato_scraper reference implementation](https://github.com/kreitter/workato-api-docs/tree/main/workato_scraper).
+This generates a complete Python scraper package using the patterns documented in the bundled scraper architecture references.
 
 ## Components
 
