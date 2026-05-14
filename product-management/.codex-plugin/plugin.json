@@ -1,0 +1,28 @@
+{
+  "name": "product-management",
+  "version": "0.1.0",
+  "description": "Support product-management workflows including feature specs, roadmaps, research synthesis, stakeholder updates, metrics review, and competitive analysis.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/product-management",
+  "keywords": ["product-management", "roadmap", "research", "metrics", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.codex.json",
+  "interface": {
+    "displayName": "Product Management",
+    "shortDescription": "Product management workflows",
+    "longDescription": "Use Product Management to write specs, plan roadmaps, synthesize research, review metrics, prepare competitive briefs, and update stakeholders with optional MCP-backed product tools.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Use product-management to write a feature spec",
+      "Use product-management to synthesize this research",
+      "Use product-management to review product metrics"
+    ],
+    "brandColor": "#DB2777",
+    "screenshots": []
+  }
+}

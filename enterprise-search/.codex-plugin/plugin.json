@@ -1,0 +1,28 @@
+{
+  "name": "enterprise-search",
+  "version": "0.1.0",
+  "description": "Search and synthesize across connected company tools such as chat, docs, knowledge bases, project trackers, and office suites.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/enterprise-search",
+  "keywords": ["enterprise-search", "knowledge", "search", "synthesis", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.codex.json",
+  "interface": {
+    "displayName": "Enterprise Search",
+    "shortDescription": "Search connected work tools",
+    "longDescription": "Use Enterprise Search to decompose questions, search connected work tools, and synthesize results with source attribution. Codex uses the filtered MCP config for reachable hosted endpoints.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Use enterprise-search to find decisions about this project",
+      "Use enterprise-search to create a weekly digest",
+      "Use enterprise-search to find relevant docs"
+    ],
+    "brandColor": "#0891B2",
+    "screenshots": []
+  }
+}

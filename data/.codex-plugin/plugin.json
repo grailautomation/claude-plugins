@@ -1,0 +1,28 @@
+{
+  "name": "data",
+  "version": "0.1.0",
+  "description": "Write SQL, explore datasets, build dashboards, and generate stakeholder-ready data insights with optional MCP-backed data tools.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/data",
+  "keywords": ["data", "sql", "analytics", "dashboards", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.codex.json",
+  "interface": {
+    "displayName": "Data",
+    "shortDescription": "Analyze data and write SQL",
+    "longDescription": "Use Data to write SQL, explore datasets, validate analyses, create visualizations, and build dashboards. Codex uses the filtered MCP config for reachable hosted MCP endpoints and falls back to pasted files or manual query results when tools are not authenticated.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Use data to analyze this dataset",
+      "Use data to write a SQL query",
+      "Use data to validate this analysis"
+    ],
+    "brandColor": "#2563EB",
+    "screenshots": []
+  }
+}
