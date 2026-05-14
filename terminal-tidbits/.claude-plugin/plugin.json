@@ -2,8 +2,7 @@
   "name": "terminal-tidbits",
   "description": "Personal reference system for terminal commands and concepts you're learning",
   "author": {
-    "name": "Dave Kreitter",
-    "email": "dave@grailautomation.com"
+    "name": "Grail Automation"
   },
   "keywords": ["terminal", "learning", "reference", "commands", "shell"]
 }
