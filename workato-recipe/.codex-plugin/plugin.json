@@ -1,0 +1,40 @@
+{
+  "name": "workato-recipe",
+  "version": "1.1.0",
+  "description": "Parse and analyze Workato recipe JSON exports by extracting focused logic views.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "homepage": "https://docs.workato.com/recipes/",
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/workato-recipe",
+  "keywords": [
+    "workato",
+    "recipes",
+    "json",
+    "integration",
+    "analysis",
+    "data-flow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Workato Recipe Analyzer",
+    "shortDescription": "Extract compact views from Workato recipe exports",
+    "longDescription": "Use Workato Recipe Analyzer to preprocess large Workato recipe JSON exports into focused summary and unified-logic files, then answer questions about control flow, data mappings, error handling, callable recipe parameters, and integration behavior.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://docs.workato.com/recipes/",
+    "defaultPrompt": [
+      "Analyze this Workato recipe export",
+      "Summarize this recipe's control flow",
+      "Trace this field mapping through the recipe"
+    ],
+    "brandColor": "#F45A2A",
+    "screenshots": []
+  }
+}

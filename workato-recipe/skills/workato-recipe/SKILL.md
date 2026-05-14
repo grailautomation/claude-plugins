@@ -24,8 +24,15 @@ Determine the `.recipe.json` path from:
 
 ### 2. Run preprocessing
 
+Resolve `PLUGIN_ROOT` to the root of this plugin before running commands:
+- In Claude Code, use `CLAUDE_PLUGIN_ROOT` when it is available.
+- In Codex, infer it from this skill path: `workato-recipe/skills/workato-recipe/SKILL.md` lives two directories below the plugin root.
+- If neither is obvious, locate the directory containing `workato-recipe/cli.py`.
+
+Call the stable plugin CLI rather than internal scripts:
+
 ```bash
-uv run python "${CLAUDE_SKILL_DIR}/scripts/extract_views.py" "$RECIPE_PATH"
+uv run --project "$PLUGIN_ROOT" python "$PLUGIN_ROOT/cli.py" extract --recipe "$RECIPE_PATH"
 ```
 
 The script outputs the views directory path to stdout. Views are cached in
@@ -46,8 +53,9 @@ Based on the argument or question:
 - For callable recipes, show parameters and results
 
 **deep** (argument contains "deep", a specific question, or a block reference):
-- Spawn the `workato-recipe:recipe-analyzer` subagent with the views directory path and question
-- The subagent reads `summary.json` and `unified_logic.md` to provide detailed analysis
+- Read `summary.json` and `unified_logic.md` from the views directory.
+- Answer the question by tracing block numbers, data pills, branches, and variable mutations.
+- In Claude Code, you may delegate to the `workato-recipe:recipe-analyzer` subagent if it is available. In Codex, analyze inline; Claude subagent definitions are not a Codex plugin interface.
 
 ## View Files
 
@@ -58,5 +66,5 @@ Based on the argument or question:
 
 ## References
 
-- `${CLAUDE_SKILL_DIR}/references/recipe-schema.md` — Recipe JSON structure and datapill syntax
-- `${CLAUDE_SKILL_DIR}/references/view-formats.md` — View file formats and cross-referencing
+- `references/recipe-schema.md` — Recipe JSON structure and datapill syntax
+- `references/view-formats.md` — View file formats and cross-referencing

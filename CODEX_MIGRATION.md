@@ -30,6 +30,7 @@ The tracked Codex marketplace exposes:
 | `salesforce-soql` | Migrated | Salesforce CLI/reference workflow; no bundled MCP and org schemas remain local/ignored. |
 | `oasb-scaffold` | Migrated | Repo-specific OASBuilder convention skill; exposed for personal/repo-local usefulness. |
 | `workato-api` | Migrated | REST reference and curl/httpx execution patterns; credentials come from environment variables or gitignored local notes. |
+| `workato-recipe` | Migrated | Script-backed recipe analysis now uses the stable root CLI and avoids Claude-only path/subagent assumptions for Codex. |
 
 The parked prototype files from the exploratory pass live under
 `.scratch/codex-adapter-prototype/2026-05-14/`. They are intentionally ignored
@@ -46,7 +47,6 @@ homogeneous set.
 | Plugin | Recommendation | Notes |
 | --- | --- | --- |
 | `workato-connector-sdk` | Candidate | Documentation-heavy and portable; verify no stale CLI claims before exposing. |
-| `workato-recipe` | Candidate with scripts | Useful, but scripts and generated view caches need a Codex smoke test. |
 
 ### Already Exposed Or Covered Locally
 

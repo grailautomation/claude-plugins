@@ -1,6 +1,6 @@
 # workato-recipe
 
-Generic Workato recipe extraction and fidelity utilities for Claude Code.
+Generic Workato recipe extraction and fidelity utilities for Claude Code and Codex.
 
 ## Stable CLI Contract
 
