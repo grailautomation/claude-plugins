@@ -1,0 +1,40 @@
+{
+  "name": "salesforce-soql",
+  "version": "0.1.0",
+  "description": "Salesforce data operations using the sf CLI: SOQL queries, schema exploration, and Bulk API 2.0 workflows.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "homepage": "https://developer.salesforce.com/tools/salesforcecli",
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/salesforce-soql",
+  "keywords": [
+    "salesforce",
+    "soql",
+    "sf-cli",
+    "schema",
+    "bulk-api",
+    "data"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Salesforce SOQL",
+    "shortDescription": "Query and inspect Salesforce data with sf CLI guidance",
+    "longDescription": "Use Salesforce SOQL to write and run SOQL queries, inspect object schemas, handle common SOQL and sf CLI gotchas, and prepare Bulk API 2.0 import, update, upsert, and delete workflows.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://developer.salesforce.com/tools/salesforcecli",
+    "defaultPrompt": [
+      "Write a SOQL query for this question",
+      "Explore this Salesforce object schema",
+      "Prepare a Salesforce bulk update"
+    ],
+    "brandColor": "#00A1E0",
+    "screenshots": []
+  }
+}

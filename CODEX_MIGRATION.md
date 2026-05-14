@@ -27,6 +27,8 @@ The tracked Codex marketplace exposes:
 | `openapi-spec-generation` | Migrated | Skill-only OpenAPI workflow with local references. |
 | `python-quickbooks` | Migrated | Skill-only library reference; examples use placeholders rather than live credentials. |
 | `terminal-tidbits` | Migrated | User-data path moved outside the plugin directory; defaults remain plugin-bundled. |
+| `salesforce-soql` | Migrated | Salesforce CLI/reference workflow; no bundled MCP and org schemas remain local/ignored. |
+| `oasb-scaffold` | Migrated | Repo-specific OASBuilder convention skill; exposed for personal/repo-local usefulness. |
 
 The parked prototype files from the exploratory pass live under
 `.scratch/codex-adapter-prototype/2026-05-14/`. They are intentionally ignored
@@ -42,8 +44,6 @@ homogeneous set.
 
 | Plugin | Recommendation | Notes |
 | --- | --- | --- |
-| `oasb-scaffold` | Personal or repo-scoped | Useful to the user, but likely not broadly public outside OASBuilder work. |
-| `salesforce-soql` | Candidate | No bundled MCP, but depends on `sf` CLI and org-local schema hygiene. |
 | `workato-connector-sdk` | Candidate | Documentation-heavy and portable; verify no stale CLI claims before exposing. |
 | `workato-recipe` | Candidate with scripts | Useful, but scripts and generated view caches need a Codex smoke test. |
 | `workato-api` | Candidate with credentials | Requires clear environment-variable credential expectations. |
