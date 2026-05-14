@@ -1,16 +1,17 @@
 # Issue Blaster
 
-A Claude Code plugin for analyzing GitHub issues and implementing AI-generated solution plans.
+A Claude Code and Codex plugin for analyzing GitHub issues and implementing
+AI-generated solution plans.
 
 ## Features
 
 - **Solve**: Analyze GitHub issues and generate 2-4 solution plans
 - **Implement**: Execute solution plans via worktrees with automated branching, commits, and merge options
-- **Parallel Processing**: Solve and implement multiple issues concurrently using Task tool
+- **Parallel Processing**: Solve and implement multiple issues concurrently in Claude Code using the Task tool, or in Codex only when the user explicitly authorizes subagents
 
 ## Requirements
 
-- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code)
+- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) or Codex with this plugin enabled
 - [GitHub CLI](https://cli.github.com/) (`gh`) installed and authenticated
 - [ripgrep](https://github.com/BurntSushi/ripgrep) (`rg`) for code search
 
@@ -30,6 +31,12 @@ claude --plugin-dir /path/to/claude-plugins/issue-blaster
 ```
 
 Or install it from the configured Claude plugin marketplace.
+
+### Codex
+
+The repository marketplace lists this plugin through
+`.agents/plugins/marketplace.json`. Install it from the Grail Automation Codex
+marketplace in Codex after refreshing the local marketplace.
 
 ## Usage
 
@@ -63,6 +70,10 @@ Or install it from the configured Claude plugin marketplace.
 ```
 
 Each implementation creates a worktree in `.worktrees/`, makes the code changes, commits, and offers merge options (including "leave it" to defer merging).
+
+In Codex, implementation follows normal Codex repo workflow. Use worktrees only
+when they reduce risk or when explicitly requested, and do not merge or push
+without the user's intent.
 
 ## Output Structure
 

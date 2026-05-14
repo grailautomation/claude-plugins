@@ -1,0 +1,5 @@
+interface:
+  display_name: "Issue Blaster"
+  short_description: "Plan and implement GitHub issues"
+  brand_color: "#24292F"
+  default_prompt: "Use $issue-blaster to generate implementation options for this GitHub issue."
