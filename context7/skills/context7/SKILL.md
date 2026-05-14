@@ -5,30 +5,33 @@ user-invocable: true
 description: >-
   This skill should be used when the user asks to "fetch current library docs",
   "use Context7", "get up-to-date documentation", "look up the latest API",
-  or when generating code for modern frameworks (Next.js 15, React 19,
-  Tailwind v4, Svelte 5, etc.), when a user requests version-specific library
-  docs, or when troubleshooting potentially outdated API patterns. Skip for
-  vanilla JS/HTML/CSS, stable well-known APIs, or general programming concepts.
+  or when generating code for modern libraries, frameworks, SDKs, APIs, CLIs,
+  or cloud services where current syntax matters. Use when a user requests
+  version-specific docs or when troubleshooting potentially outdated API
+  patterns. Skip for vanilla JS/HTML/CSS, code review, business-logic
+  debugging, refactoring, or general programming concepts.
 ---
 
 # Context7 MCP Usage Guide
 
-Context7 provides current library documentation to prevent hallucinated APIs. It exposes two tools that must be used in sequence.
+Context7 provides current library, framework, SDK, API, CLI, and cloud-service documentation to prevent stale API usage. It exposes two tools that must be used in sequence.
 
 ## Core Workflow
 
 **Step 1: Resolve the library ID**
 ```
-resolve-library-id(libraryName: "next.js")
+resolve-library-id(
+  libraryName: "Next.js",
+  query: "Find current Next.js middleware documentation"
+)
 → Returns: /vercel/next.js (plus metadata, trust scores, versions)
 ```
 
 **Step 2: Fetch documentation**
 ```
 query-docs(
-  context7CompatibleLibraryID: "/vercel/next.js",
-  topic: "middleware",  // optional — focuses results
-  tokens: 5000          // optional — default 5000, min 1000
+  libraryId: "/vercel/next.js",
+  query: "How does middleware work in the current version?"
 )
 ```
 
@@ -58,18 +61,18 @@ Note the `v` prefix on version numbers.
 - Stable, well-documented APIs (lodash basics, moment.js)
 - Non-code tasks
 
-## Using the Topic Parameter
+## Writing Good Queries
 
-Focus documentation retrieval with specific topics:
+Use specific task-oriented queries for both tool calls. Do not send API keys, credentials, personal data, proprietary source code, or other sensitive details in Context7 queries.
 
 ```
 query-docs(
-  context7CompatibleLibraryID: "/supabase/supabase-js",
-  topic: "authentication"  // Much better than fetching all docs
+  libraryId: "/supabase/supabase-js",
+  query: "How do I configure email/password authentication in supabase-js?"
 )
 ```
 
-Good topic values: `routing`, `hooks`, `authentication`, `middleware`, `configuration`, `testing`, `deployment`, `database`, `api`, `components`
+Good query topics include routing, hooks, authentication, middleware, configuration, testing, deployment, database access, API clients, and UI components.
 
 ## Error Handling
 
@@ -77,7 +80,7 @@ See [references/error-handling.md](references/error-handling.md) for common erro
 
 **Quick reference:**
 - "Documentation not found" — Library may not be indexed; check context7.com or try base ID without version
-- Empty results — Try broader topic or remove topic parameter
+- Empty results — Try a broader task-oriented query
 - Rate limit errors — Back off and retry; consider API key for heavy usage
 
 ## High-Value Libraries

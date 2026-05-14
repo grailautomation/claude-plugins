@@ -23,9 +23,9 @@
 - Library has sparse documentation
 
 **Solutions:**
-1. Remove or broaden the `topic` parameter
-2. Increase `tokens` (default 5000, can go higher)
-3. Try without topic first, then refine
+1. Use a fuller task-oriented `query` with the library area included
+2. Try a general setup or usage query first, then refine
+3. If the library has few docs, retry with the base `/org/project` ID
 
 ### Rate Limit Exceeded (HTTP 429)
 
@@ -47,15 +47,16 @@
 
 **Solutions:**
 1. Verify MCP is configured: `claude mcp list`
-2. Try remote server instead of local: `https://mcp.context7.com/mcp`
-3. Replace `npx` with `bunx -y @upstash/context7-mcp`
+2. Test the package directly: `npx -y @upstash/context7-mcp`
+3. Try remote server instead of local: `https://mcp.context7.com/mcp`
+4. Replace `npx` with `bunx -y @upstash/context7-mcp`
 
 ## Fallback Strategies
 
 When Context7 fails, use these fallbacks in order:
 
 1. **Retry with base ID**: Remove version specifier, try `/org/project`
-2. **Broaden query**: Remove topic parameter, increase tokens
+2. **Broaden query**: Use a fuller task-oriented query
 3. **Check availability**: Verify at context7.com before more attempts
 4. **Use training knowledge**: Fall back to built-in knowledge with caveat about potential staleness
 5. **Web search**: Fetch official docs directly as last resort

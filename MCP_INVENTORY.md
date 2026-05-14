@@ -18,6 +18,7 @@ open a GitHub issue instead of silently substituting it.
 | `clickup` | HTTP MCP | `https://mcp.clickup.com/mcp` | `product-management`, `productivity` |  | Claude MCP parity review required |
 | `close` | HTTP MCP | `https://mcp.close.com/mcp` | `sales` |  | Claude MCP parity review required |
 | `cloudflare` | local npm MCP | `npx -y @grailautomation/cloudflare-mcp` | `cloudflare` | `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN` | Public Claude and Codex plugin; npm package exists at `0.1.0`; published `npx` tools/list smoke passed with 28 tools |
+| `context7` | local npm MCP | `npx -y @upstash/context7-mcp` | `context7` |  | Public Claude and Codex plugin; npm package latest observed at `2.2.5`; published `npx` tools/list smoke passed with 2 tools |
 | `datadog` | HTTP MCP | `https://mcp.datadoghq.com/mcp` | `engineering` |  | Claude MCP parity review required |
 | `docusign` | HTTP MCP | `https://mcp.docusign.com/mcp` | `legal` |  | Claude MCP parity review required |
 | `figma` | HTTP MCP | `https://mcp.figma.com/mcp` | `design`, `product-management` |  | Claude MCP parity review required |
