@@ -300,8 +300,16 @@ mcp_files.each do |relative_path|
       next
     end
 
-    has_command = server_config["command"].is_a?(String)
-    has_http = server_config["type"].is_a?(String) && server_config["url"].is_a?(String)
+    command = server_config["command"]
+    type = server_config["type"]
+    url = server_config["url"]
+
+    has_command = command.is_a?(String) && !command.strip.empty?
+    has_http = type.is_a?(String) && !type.strip.empty? && url.is_a?(String) && !url.strip.empty?
+
+    error.call(relative_path, "#{server_name} command must not be empty") if command.is_a?(String) && command.strip.empty?
+    error.call(relative_path, "#{server_name} type must not be empty") if type.is_a?(String) && type.strip.empty?
+    error.call(relative_path, "#{server_name} url must not be empty") if url.is_a?(String) && url.strip.empty?
 
     unless has_command || has_http
       error.call(relative_path, "#{server_name} must declare either command or type/url")
