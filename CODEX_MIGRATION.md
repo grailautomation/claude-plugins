@@ -78,13 +78,18 @@ scope decisions rather than mechanical manifest work.
 | `playwright-cli` | Covered | A user-level Codex `playwright` skill already exists; migrate only if this repo plugin has distinct value. |
 | `cloudflare` | Migrated | This repo's MCP-backed Cloudflare plugin is now exposed directly instead of substituting the native Codex Cloudflare deployment surface. |
 
+### Resolved Non-Candidates
+
+| Plugin | Decision | Notes |
+| --- | --- | --- |
+| `agents` | Claude-only public marketplace plugin | The bundle is a set of Claude subagent definitions, not a Codex plugin surface. `explore`, `plan`, `general-purpose`, and `bash` duplicate Codex's built-in local/delegated work patterns; `statusline-setup` edits Claude Code settings; `claude-code-guide` is the only possible future extraction candidate, but should be rebuilt as a docs-current skill with official-source citation rules before any Codex exposure. |
+
 ### Requires Rewrite Or Connector Review
 
 These should not be mechanically exposed by adding manifests only.
 
 | Plugin group | Required action before listing | Why it is blocked |
 | --- | --- | --- |
-| `agents` | Resolve [issue #29](https://github.com/grailautomation/claude-plugins/issues/29): rewrite only useful agent prompts as Codex skills with `SKILL.md`; keep Claude-only agent files out of Codex manifests. | This plugin is an agent-definition bundle, and Claude subagent metadata is not a Codex plugin interface. |
 | `issue-blaster`, `scraper-generator` | Resolve [issue #23](https://github.com/grailautomation/claude-plugins/issues/23): replace Claude subagent orchestration with Codex-native skill workflows, then smoke-test one end-to-end issue/scraper flow. | Both plugins mix skills with Claude agents and assume delegation surfaces that Codex will not load as plugin skills. |
 | `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` | Resolve [issue #25](https://github.com/grailautomation/claude-plugins/issues/25): map every `.mcp.json` server to either a supported Codex MCP dependency, a Codex app/connector, or an intentional omission; then set explicit auth policy. | They are mostly connector catalogs. Listing them without auth/install mapping would expose broken or misleading integrations. |
 | `google-workspace` | Resolve [issue #27](https://github.com/grailautomation/claude-plugins/issues/27): validate the single broad Google Workspace plugin against existing MCP config, auth setup, and side-effect expectations before listing. | The plugin has many action-oriented recipes, but the accepted architecture is one broad plugin rather than side-effect-based plugin fragmentation. |
@@ -106,7 +111,7 @@ These are working classifications, not final deletion decisions:
 | `espanso`, `karabiner-elements` | `public-marketplace` Claude-only | Keep in the public Claude marketplace as generic macOS config workflows; do not expose to Codex until a side-effect policy and local-config validation path are deliberately designed. |
 | `dev-browser` | `parked` | Do not list for Codex until [issue #20](https://github.com/grailautomation/claude-plugins/issues/20) resolves the keep/retire/validate path. |
 | `playwright-cli` | `public-marketplace` Claude-only | Keep listed for Claude; do not list for Codex unless a concrete gap appears versus the installed Codex `playwright` skill. |
-| `agents` | `parked` | Track extraction decisions in [issue #29](https://github.com/grailautomation/claude-plugins/issues/29); generic explore/plan/bash agents overlap Codex's built-in delegation surfaces. |
+| `agents` | `public-marketplace` Claude-only | Keep listed for Claude; do not add a Codex adapter for the current subagent bundle. Revisit only if `claude-code-guide` is deliberately rebuilt as a current Anthropic/Claude documentation skill. |
 
 ## Migration Rules
 
