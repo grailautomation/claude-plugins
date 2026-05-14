@@ -22,6 +22,10 @@ The tracked Codex marketplace exposes:
 | Plugin | Status | Rationale |
 | --- | --- | --- |
 | `spec-kit` | Migrated | High-value workflow plugin; already structured as skills plus bundled scripts; no MCP or connector dependency. |
+| `uv-package-manager` | Migrated | Skill-only Python tooling workflow; no plugin-local state or connector dependency. |
+| `python-patterns` | Migrated | Skill-only Python reference and review workflow. |
+| `openapi-spec-generation` | Migrated | Skill-only OpenAPI workflow with local references. |
+| `python-quickbooks` | Migrated | Skill-only library reference; examples use placeholders rather than live credentials. |
 
 The parked prototype files from the exploratory pass live under
 `.scratch/codex-adapter-prototype/2026-05-14/`. They are intentionally ignored
@@ -37,11 +41,6 @@ homogeneous set.
 
 | Plugin | Recommendation | Notes |
 | --- | --- | --- |
-| `terminal-tidbits` | Next | Small, skill-only, low-risk Codex packaging candidate. |
-| `uv-package-manager` | Next | Skill-only reference/workflow plugin. |
-| `python-patterns` | Next | Skill-only reference plugin. |
-| `python-quickbooks` | Next | Skill-only library reference; verify examples remain generic. |
-| `openapi-spec-generation` | Next | Skill-only reference/workflow plugin. |
 | `oasb-scaffold` | Personal or repo-scoped | Useful to the user, but likely not broadly public outside OASBuilder work. |
 | `salesforce-soql` | Candidate | No bundled MCP, but depends on `sf` CLI and org-local schema hygiene. |
 | `workato-connector-sdk` | Candidate | Documentation-heavy and portable; verify no stale CLI claims before exposing. |
@@ -69,6 +68,7 @@ These should not be mechanically exposed by adding manifests only.
 | `cloudflare`, `namecheap` | MCP server packaging and credential setup need Codex manifest and install-path review. |
 | `jq-for-clawd` | Claude session-history assumptions need a Codex session-log rewrite. |
 | `dev-browser` | Overlaps existing browser tooling and needs runtime/tooling validation. |
+| `terminal-tidbits` | Stores user data in the plugin directory and assumes `${CLAUDE_PLUGIN_ROOT}`; needs a Codex-safe user-data path before listing. |
 | `espanso`, `karabiner-elements` | Likely personal machine-automation skills rather than public marketplace plugins. |
 
 ## Migration Rules

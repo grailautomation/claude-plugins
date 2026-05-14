@@ -1,0 +1,40 @@
+{
+  "name": "openapi-spec-generation",
+  "version": "0.1.0",
+  "description": "OpenAPI 3.1 specification generation, validation, and SDK workflow guidance.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "homepage": "https://spec.openapis.org/oas/latest.html",
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/openapi-spec-generation",
+  "keywords": [
+    "openapi",
+    "api-design",
+    "specification",
+    "sdk-generation",
+    "validation",
+    "documentation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "OpenAPI Spec Generation",
+    "shortDescription": "Design, validate, and generate OpenAPI 3.1 specs",
+    "longDescription": "Use OpenAPI Spec Generation for design-first and code-first API specifications, validation and linting workflows, documentation patterns, and SDK generation guidance.",
+    "developerName": "Grail Automation",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://spec.openapis.org/oas/latest.html",
+    "defaultPrompt": [
+      "Generate an OpenAPI spec for this API",
+      "Validate this OpenAPI contract",
+      "Plan SDK generation from this spec"
+    ],
+    "brandColor": "#6BA539",
+    "screenshots": []
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "uv-package-manager",
+  "version": "0.1.0",
+  "description": "uv package manager workflows for fast Python dependency management, project setup, locking, and CI integration.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "homepage": "https://docs.astral.sh/uv/",
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/uv-package-manager",
+  "keywords": [
+    "uv",
+    "python",
+    "package-manager",
+    "dependencies",
+    "virtualenv",
+    "lockfiles"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "uv Package Manager",
+    "shortDescription": "Set up and manage Python projects with uv",
+    "longDescription": "Use uv Package Manager for fast Python project setup, dependency management, virtual environments, lockfiles, Python version management, Docker and CI patterns, and migration from pip, pip-tools, or Poetry.",
+    "developerName": "Grail Automation",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://docs.astral.sh/uv/",
+    "defaultPrompt": [
+      "Set up this Python project with uv",
+      "Migrate this project from pip to uv",
+      "Review this repo's uv dependency workflow"
+    ],
+    "brandColor": "#5B5BD6",
+    "screenshots": []
+  }
+}
