@@ -5,6 +5,9 @@ not a Codex migration approval list. Preserve Claude MCP parity by default; if a
 native Codex app/connector looks materially better for a specific dependency,
 open a GitHub issue instead of silently substituting it.
 
+Connector-heavy domain pack review is tracked in
+[issue #25](https://github.com/grailautomation/claude-plugins/issues/25).
+
 ## Current Servers
 
 | Server | Kind | Current config | Used by | Env vars | Current disposition |
