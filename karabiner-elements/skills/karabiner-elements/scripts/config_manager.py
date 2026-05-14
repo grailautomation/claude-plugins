@@ -5,15 +5,24 @@ Safe utilities for reading and modifying Karabiner configurations.
 """
 
 import json
+import os
 import sys
 import shutil
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, Dict, Any, List
 
-CONFIG_PATH = Path.home() / '.config/karabiner/karabiner.json'
-COMPLEX_MODS_DIR = Path.home() / '.config/karabiner/assets/complex_modifications'
-BACKUP_DIR = Path.home() / '.config/karabiner/backups'
+def env_path(name: str, default: Path) -> Path:
+    """Resolve a path from an environment override or a default."""
+    return Path(os.environ.get(name, str(default))).expanduser()
+
+
+CONFIG_PATH = env_path('KARABINER_CONFIG_FILE', Path.home() / '.config/karabiner/karabiner.json')
+COMPLEX_MODS_DIR = env_path(
+    'KARABINER_COMPLEX_MODS_DIR',
+    Path.home() / '.config/karabiner/assets/complex_modifications',
+)
+BACKUP_DIR = env_path('KARABINER_BACKUP_DIR', Path.home() / '.config/karabiner/backups')
 
 def backup_config() -> Path:
     """Create a timestamped backup of the current config."""

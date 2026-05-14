@@ -1,5 +1,7 @@
 ---
 name: espanso
+user-invocable: true
+allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]
 description: >
   Espanso text expander configuration, match authoring, and workflow automation on macOS.
   Use when the user asks to: create or edit espanso matches/triggers, set up text snippets,
@@ -15,6 +17,14 @@ description: >
 Espanso is a cross-platform text expander written in Rust. It intercepts keystrokes and
 replaces trigger strings with defined expansions. Config is YAML-based.
 
+## Safety Rules
+
+- Treat Espanso config as user machine state. Read the current config before editing it.
+- Resolve the config directory from `ESPANSO_CONFIG_DIR` when set; otherwise use the macOS default path.
+- Back up the specific file you will edit before making changes.
+- Ask before replacing an existing trigger or adding a shell/script expansion with side effects.
+- Prefer focused edits to one match file instead of rewriting the full config tree.
+
 ## Config Locations (macOS)
 
 | File | Purpose |
@@ -23,7 +33,16 @@ replaces trigger strings with defined expansions. Config is YAML-based.
 | `$CONFIG/match/base.yml` | Default matches (always active) |
 | `$CONFIG/match/packages/` | Third-party packages |
 
-`$CONFIG` = `~/Library/Application Support/espanso`
+`$CONFIG` = `${ESPANSO_CONFIG_DIR:-$HOME/Library/Application Support/espanso}`
+
+Back up a match file before editing:
+
+```bash
+CONFIG="${ESPANSO_CONFIG_DIR:-$HOME/Library/Application Support/espanso}"
+TARGET="$CONFIG/match/base.yml"
+mkdir -p "$CONFIG/backups"
+cp "$TARGET" "$CONFIG/backups/$(basename "$TARGET").$(date +%Y%m%d%H%M%S).bak"
+```
 
 ## Core Concepts
 
@@ -38,7 +57,7 @@ replaces trigger strings with defined expansions. Config is YAML-based.
 ```yaml
 matches:
   - trigger: ":sig"
-    replace: "Best Regards,\nDave"
+    replace: "Best regards,\nYour Name"
 
   # word: true — only fires when surrounded by word separators
   - trigger: "teh"
@@ -102,7 +121,7 @@ Forms prompt the user with a popup before expanding.
 
 ```yaml
   - trigger: ":email"
-    replace: "Hi {{form1.name}},\n\n{{form1.body}}\n\nBest,\nDave"
+    replace: "Hi {{form1.name}},\n\n{{form1.body}}\n\nBest,\nYour Name"
     vars:
       - name: form1
         type: form
@@ -154,7 +173,9 @@ match/
 
 ## Workflow
 
-1. Edit any file under `$CONFIG/match/` — espanso auto-reloads on save
-2. Config changes (`$CONFIG/config/`) require `espanso restart`
-3. Use `espanso match list` to verify a trigger is registered
-4. Use `espanso log` to debug unexpected behavior
+1. Resolve `$CONFIG` and inspect the target match/config file
+2. Back up the target file before editing
+3. Edit one focused file under `$CONFIG/match/` when adding snippets
+4. Restart Espanso after config changes under `$CONFIG/config/`
+5. Use `espanso match list` to verify a trigger is registered
+6. Use `espanso log` to debug unexpected behavior

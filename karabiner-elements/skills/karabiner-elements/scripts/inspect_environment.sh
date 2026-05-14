@@ -3,9 +3,9 @@
 # Gathers information about the current Karabiner configuration
 set -uo pipefail
 
-CLI_PATH="/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
-CONFIG_PATH="$HOME/.config/karabiner/karabiner.json"
-DEVICES_PATH="$HOME/.local/share/karabiner/karabiner_grabber_devices.json"
+CLI_PATH="${KARABINER_CLI_PATH:-/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli}"
+CONFIG_PATH="${KARABINER_CONFIG_FILE:-$HOME/.config/karabiner/karabiner.json}"
+DEVICES_PATH="${KARABINER_DEVICES_FILE:-$HOME/.local/share/karabiner/karabiner_grabber_devices.json}"
 
 echo "=== Karabiner-Elements Environment Report ==="
 echo ""

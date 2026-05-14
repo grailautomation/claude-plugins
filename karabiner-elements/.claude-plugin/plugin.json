@@ -2,7 +2,6 @@
   "name": "karabiner-elements",
   "description": "Karabiner-Elements configuration and keyboard customization for macOS",
   "author": {
-    "name": "Dave Kreitter",
-    "email": "dave@grailautomation.com"
+    "name": "Grail Automation"
   }
 }

@@ -2,6 +2,7 @@
 name: karabiner-elements
 version: 0.1.0
 user-invocable: true
+allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]
 description: >-
   This skill should be used when the user asks to "remap keys", "set up a
   hyper key", "create Karabiner rules", "configure keyboard shortcuts",
@@ -14,13 +15,22 @@ description: >-
 
 Configure, customize, and troubleshoot Karabiner-Elements on macOS — including key remapping, complex modifications, profiles, and device-specific rules.
 
+## Safety Rules
+
+- Treat Karabiner configuration as user machine state. Read the current config before editing it.
+- Resolve paths from environment variables when set; otherwise use Karabiner's macOS defaults.
+- Back up `karabiner.json` before any write.
+- Prefer adding focused complex modification files over rewriting unrelated profile data.
+- Lint complex modifications with `karabiner_cli` when the CLI is available.
+- Do not run uninstall, root-owned environment-file edits, or other destructive maintenance commands unless the user explicitly asks for that action.
+
 ## Important Paths
 
 ```
-CONFIG_FILE: ~/.config/karabiner/karabiner.json
-COMPLEX_MODS_DIR: ~/.config/karabiner/assets/complex_modifications/
-CLI_PATH: /Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli
-DEVICES_FILE: ~/.local/share/karabiner/karabiner_grabber_devices.json
+CONFIG_FILE: ${KARABINER_CONFIG_FILE:-$HOME/.config/karabiner/karabiner.json}
+COMPLEX_MODS_DIR: ${KARABINER_COMPLEX_MODS_DIR:-$HOME/.config/karabiner/assets/complex_modifications}
+CLI_PATH: ${KARABINER_CLI_PATH:-/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli}
+DEVICES_FILE: ${KARABINER_DEVICES_FILE:-$HOME/.local/share/karabiner/karabiner_grabber_devices.json}
 LOG_DIR: /var/log/karabiner/
 ```
 
@@ -50,19 +60,19 @@ The main `karabiner.json` structure:
 
 ```bash
 # Profile management
-'$CLI_PATH' --list-profile-names
-'$CLI_PATH' --show-current-profile-name
-'$CLI_PATH' --select-profile 'Profile Name'
+"$CLI_PATH" --list-profile-names
+"$CLI_PATH" --show-current-profile-name
+"$CLI_PATH" --select-profile 'Profile Name'
 
 # Variable management
-'$CLI_PATH' --set-variables '{"my_var":1, "another_var":true}'
+"$CLI_PATH" --set-variables '{"my_var":1, "another_var":true}'
 
 # Configuration validation
-'$CLI_PATH' --lint-complex-modifications "~/.config/karabiner/assets/complex_modifications/*.json"
+"$CLI_PATH" --lint-complex-modifications "$COMPLEX_MODS_DIR"/*.json
 
 # Version and help
-'$CLI_PATH' --version
-'$CLI_PATH' --help
+"$CLI_PATH" --version
+"$CLI_PATH" --help
 ```
 
 ## Environment Inspection
