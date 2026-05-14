@@ -1,13 +1,15 @@
 ---
 name: create-scraper
-description: Generate a complete API documentation scraper from a URL
+description: Generate a complete API documentation scraper from a URL. Use for API docs scraper generation, docs site analysis, parser architecture, Python scraper package creation, and validation.
 argument-hint: "<url> [--output <dir>]"
 disable-model-invocation: true
 ---
 
 # Create Scraper
 
-Generate a complete, production-ready API documentation scraper.
+Generate a complete, production-ready API documentation scraper. This workflow
+supports Claude Code slash-command/subagent usage and Codex direct workflow
+usage.
 
 ## What This Command Does
 
@@ -25,7 +27,13 @@ The result is a standalone scraper like `workato_scraper/` that can run forever 
 Resolve the plugin root before loading bundled references:
 
 - In Claude Code, use `${CLAUDE_PLUGIN_ROOT}`.
-- In other runtimes, use the `scraper-generator` plugin directory in the current repository or installed plugin location.
+- In Codex from this repository, use `<repo-root>/scraper-generator`.
+- In Codex from an installed plugin skill, resolve the plugin root as the
+  directory two levels above this `SKILL.md`.
+
+Codex does not load Claude plugin subagents or `Task` dispatch from this plugin.
+Run the phases inline unless the user explicitly asks for Codex subagents or
+parallel agent work.
 
 ### Phase 1: Site Analysis
 
@@ -34,10 +42,16 @@ First, understand the target documentation structure.
 **Load the doc-site-analysis skill:**
 Read `${PLUGIN_ROOT}/skills/doc-site-analysis/SKILL.md`
 
-**Fetch and analyze the target URL:**
+**Fetch and analyze the target URL in Claude Code:**
 ```
 WebFetch {url}
 ```
+
+**Fetch and analyze the target URL in Codex:**
+Use an available repo-safe fetch method, such as `curl -L`, `python3` with
+`urllib.request`, or Playwright only when static HTML is insufficient. Save a
+small HTML sample under the chosen output directory when it helps make the
+analysis repeatable.
 
 Identify:
 - Documentation framework (VuePress, Docusaurus, etc.)
@@ -49,11 +63,16 @@ Identify:
 **Document findings:**
 Write analysis to `{output}/site-analysis.md`
 
-Use the site-analyzer agent if the analysis is complex:
+Use the site-analyzer agent in Claude Code if the analysis is complex:
 ```
 Task: Analyze the API documentation structure at {url}
 Agent: site-analyzer
 ```
+
+In Codex, perform this analysis inline by reading
+`${PLUGIN_ROOT}/skills/doc-site-analysis/SKILL.md` and its targeted references.
+Spawn a Codex subagent only when the user explicitly authorizes parallel agent
+work.
 
 ### Phase 2: Architecture Design
 
@@ -91,11 +110,15 @@ Read `${PLUGIN_ROOT}/skills/code-generation/SKILL.md`
 9. `pyproject.toml` - Package configuration
 10. `README.md` - Usage documentation
 
-Use the code-generator agent for complex implementations:
+Use the code-generator agent in Claude Code for complex implementations:
 ```
 Task: Generate scraper code based on site-analysis.md
 Agent: code-generator
 ```
+
+In Codex, generate the package inline using
+`${PLUGIN_ROOT}/skills/code-generation/SKILL.md` and the architecture
+references. Keep generated files inside the requested output directory.
 
 ### Phase 4: Validation
 
@@ -106,11 +129,16 @@ Verify the generated scraper works.
 ${PLUGIN_ROOT}/skills/code-generation/scripts/validate-scraper.sh {output}/{name}_scraper
 ```
 
-Or use the validator agent:
+Or use the validator agent in Claude Code:
 ```
 Task: Validate the generated scraper at {output}/{name}_scraper
 Agent: scraper-validator
 ```
+
+In Codex, run the validation script directly from the resolved plugin root. If
+the generated scraper has dependencies that are not installed, create an
+isolated virtual environment inside the output directory or clearly report the
+missing dependency as a validation blocker.
 
 **Check:**
 - Package imports without errors
