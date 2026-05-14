@@ -2,7 +2,6 @@
   "name": "scraper-generator",
   "description": "Generate custom API documentation scrapers through guided discovery and code generation",
   "author": {
-    "name": "Dave Kreitter",
-    "email": "dave@grailautomation.com"
+    "name": "Grail Automation"
   }
 }

@@ -2,8 +2,7 @@
   "name": "issue-blaster",
   "description": "Analyze GitHub issues and implement AI-generated solution plans (pure plugin - no Python required)",
   "author": {
-    "name": "Dave Kreitter",
-    "email": "dave@grailautomation.com"
+    "name": "Grail Automation"
   },
   "repository": "https://github.com/kreitter/claude-plugins",
   "keywords": ["github", "issues", "automation", "planning", "implementation"]

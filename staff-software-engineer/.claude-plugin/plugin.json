@@ -2,8 +2,7 @@
   "name": "staff-software-engineer",
   "description": "Staff software engineer agent for reviewing implementation plans",
   "author": {
-    "name": "Dave Kreitter",
-    "email": "dave@grailautomation.com"
+    "name": "Grail Automation"
   },
   "keywords": ["review", "planning", "architecture"]
 }

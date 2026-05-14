@@ -127,7 +127,7 @@ ruby scripts/validate_repo.rb
 
 # Check tracked files for email addresses (excluding example.com and plugin infra files)
 git grep -n -E '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' -- '*.md' | rg -v '@example|CLAUDE.md'
-git grep -n -E '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' -- '*.md' '*.json' | rg -v '@example|CLAUDE.md|plugin.json|marketplace.json'
+git grep -n -E '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' -- '*.md' '*.json' | rg -v '@example|CLAUDE.md|marketplace.json'
 
 # Check for Salesforce org IDs
 git grep -n -E '00D[A-Za-z0-9]{15}' -- '*.md' | rg -v '00D000000000000|data:image'

@@ -326,7 +326,6 @@ end
 
 email_pattern = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/
 files.grep(/\.(md|json)\z/).each do |relative_path|
-  next if relative_path.end_with?("plugin.json")
   next if relative_path.end_with?("marketplace.json")
   next if ["AGENTS.md", "CLAUDE.md"].include?(relative_path)
 
