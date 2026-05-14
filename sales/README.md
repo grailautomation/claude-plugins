@@ -5,7 +5,7 @@ A sales productivity plugin primarily designed for [Cowork](https://claude.com/p
 ## Installation
 
 ```bash
-claude plugins add knowledge-work-plugins/sales
+claude plugin install sales@grail-automation
 ```
 
 ## Commands
@@ -14,9 +14,9 @@ Explicit workflows you invoke with a slash command:
 
 | Command | Description |
 |---|---|
-| `/call-summary` | Process call notes or transcript — extract action items, draft follow-up, generate internal summary |
-| `/forecast` | Generate a weighted sales forecast — upload CSV or describe your pipeline, set quota, get projections |
-| `/pipeline-review` | Analyze pipeline health — prioritize deals, flag risks, get weekly action plan |
+| `/sales:call-summary` | Process call notes or transcript — extract action items, draft follow-up, generate internal summary |
+| `/sales:forecast` | Generate a weighted sales forecast — upload CSV or describe your pipeline, set quota, get projections |
+| `/sales:pipeline-review` | Analyze pipeline health — prioritize deals, flag risks, get weekly action plan |
 
 All commands work **standalone** (paste notes, upload CSV, or describe your situation) and get **supercharged** with MCP connectors.
 
@@ -38,7 +38,7 @@ Domain knowledge Claude uses automatically when relevant:
 ### After a Call
 
 ```
-/call-summary
+/sales:call-summary
 ```
 
 Paste your notes or transcript. Get a structured summary, action items with owners, and a draft follow-up email. If CRM is connected, offers to log the activity and create tasks.
@@ -46,7 +46,7 @@ Paste your notes or transcript. Get a structured summary, action items with owne
 ### Weekly Forecast
 
 ```
-/forecast
+/sales:forecast
 ```
 
 Upload a CSV export from your CRM (or paste your deals). Tell me your quota and timeline. Get a weighted forecast with best/likely/worst scenarios, commit vs. upside breakdown, and gap analysis.
@@ -54,7 +54,7 @@ Upload a CSV export from your CRM (or paste your deals). Tell me your quota and 
 ### Pipeline Review
 
 ```
-/pipeline-review
+/sales:pipeline-review
 ```
 
 Upload a CSV or describe your pipeline. Get a health score, deal prioritization, risk flags (stale deals, past close dates, single-threaded), and a weekly action plan.

@@ -4,8 +4,8 @@ Run SOQL queries against Salesforce orgs using the `sf` CLI directly from Claude
 
 ## Features
 
-- **Query Execution**: Run SOQL queries with `/query`
-- **Schema Discovery**: Describe objects with `/describe`
+- **Query Execution**: Run SOQL queries with `/salesforce-soql:query`
+- **Schema Discovery**: Describe objects with `/salesforce-soql:describe`
 - **Object Reference**: Built-in documentation for standard Salesforce objects
 - **SOQL Syntax Guide**: Complete reference for SOQL clauses and functions
 - **Query Patterns**: Common query patterns and examples
@@ -24,19 +24,19 @@ Run SOQL queries against Salesforce orgs using the `sf` CLI directly from Claude
 sf org list
 
 # Run a query
-/query SELECT Id, Name FROM Account LIMIT 10
+/salesforce-soql:query SELECT Id, Name FROM Account LIMIT 10
 
 # Describe an object
-/describe Account
+/salesforce-soql:describe Account
 ```
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `/query <SOQL>` | Execute a SOQL query |
-| `/describe <Object>` | Get object schema and fields |
-| `/explore-schema` | Interactive schema exploration |
+| `/salesforce-soql:query <SOQL>` | Execute a SOQL query |
+| `/salesforce-soql:describe <Object>` | Get object schema and fields |
+| `/salesforce-soql:explore-schema` | Interactive schema exploration |
 
 ## Skills (Auto-Invoked)
 
@@ -67,11 +67,10 @@ See `org-schemas/example-org/` for an example.
 ```
 salesforce-soql/
 ├── .claude-plugin/plugin.json
-├── commands/
-│   ├── query.md
-│   ├── describe.md
-│   └── explore-schema.md
 ├── skills/
+│   ├── query/
+│   ├── describe/
+│   ├── explore-schema/
 │   ├── salesforce-reference/
 │   ├── soql-syntax/
 │   ├── query-patterns/

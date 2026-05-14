@@ -10,9 +10,9 @@ Plugins are **tool-agnostic** — they describe workflows in terms of categories
 
 | Category | Placeholder | Included servers | Other options |
 |----------|-------------|-----------------|---------------|
-| Data warehouse | `~~data warehouse` | Snowflake\*, Databricks\*, BigQuery | Redshift, PostgreSQL, MySQL |
+| Data warehouse | `~~data warehouse` | BigQuery | Snowflake, Databricks, Redshift, PostgreSQL, MySQL |
 | Notebook | `~~notebook` | Hex | Jupyter, Deepnote, Observable |
 | Product analytics | `~~product analytics` | Amplitude | Mixpanel, Heap |
 | Project tracker | `~~project tracker` | Atlassian (Jira/Confluence) | Linear, Asana |
 
-\* Placeholder — MCP URL not yet configured
+Snowflake and Databricks endpoints vary by account/workspace. Configure them in user, project, or local MCP settings with environment-variable-backed URLs instead of publishing empty marketplace defaults.

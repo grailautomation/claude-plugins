@@ -5,7 +5,7 @@ A business operations plugin primarily designed for [Cowork](https://claude.com/
 ## Installation
 
 ```bash
-claude plugins add knowledge-work-plugins/operations
+claude plugin install operations@grail-automation
 ```
 
 ## Commands
@@ -14,12 +14,12 @@ Explicit workflows you invoke with a slash command:
 
 | Command | Description |
 |---|---|
-| `/vendor-review` | Evaluate a vendor — cost analysis, risk assessment, contract summary, and renewal recommendation |
-| `/process-doc` | Document a business process — flowcharts, RACI matrices, SOPs, and runbooks |
-| `/change-request` | Create a change management request — impact analysis, rollback plan, approval routing |
-| `/capacity-plan` | Plan resource capacity — workload analysis, headcount modeling, utilization forecasting |
-| `/status-report` | Generate a status report — project updates, KPIs, risks, and action items for leadership |
-| `/runbook` | Create or update an operational runbook — step-by-step procedures for recurring tasks |
+| `/operations:vendor-review` | Evaluate a vendor — cost analysis, risk assessment, contract summary, and renewal recommendation |
+| `/operations:process-doc` | Document a business process — flowcharts, RACI matrices, SOPs, and runbooks |
+| `/operations:change-request` | Create a change management request — impact analysis, rollback plan, approval routing |
+| `/operations:capacity-plan` | Plan resource capacity — workload analysis, headcount modeling, utilization forecasting |
+| `/operations:status-report` | Generate a status report — project updates, KPIs, risks, and action items for leadership |
+| `/operations:runbook` | Create or update an operational runbook — step-by-step procedures for recurring tasks |
 
 All commands work **standalone** (provide context and details) and get **supercharged** with MCP connectors.
 
@@ -41,7 +41,7 @@ Domain knowledge Claude uses automatically when relevant:
 ### Evaluating a Vendor
 
 ```
-/vendor-review
+/operations:vendor-review
 ```
 
 Provide the vendor name, contract details, or upload a proposal. Get a structured evaluation with cost analysis, risk flags, and a recommendation.
@@ -49,7 +49,7 @@ Provide the vendor name, contract details, or upload a proposal. Get a structure
 ### Documenting a Process
 
 ```
-/process-doc employee offboarding
+/operations:process-doc employee offboarding
 ```
 
 Describe the process or walk me through it. Get a complete SOP with flowchart, RACI matrix, and step-by-step procedures.
@@ -57,7 +57,7 @@ Describe the process or walk me through it. Get a complete SOP with flowchart, R
 ### Submitting a Change Request
 
 ```
-/change-request
+/operations:change-request
 ```
 
 Describe the change. Get an impact analysis, risk assessment, rollback plan, and communication template ready for approval.
@@ -65,7 +65,7 @@ Describe the change. Get an impact analysis, risk assessment, rollback plan, and
 ### Planning Capacity
 
 ```
-/capacity-plan
+/operations:capacity-plan
 ```
 
 Upload team data or describe your resources. Get utilization analysis, bottleneck identification, and headcount recommendations.
@@ -73,7 +73,7 @@ Upload team data or describe your resources. Get utilization analysis, bottlenec
 ### Leadership Status Report
 
 ```
-/status-report
+/operations:status-report
 ```
 
 I'll pull updates from your connected tools (or ask you for input) and generate a polished status report with KPIs, risks, and next steps.
@@ -81,7 +81,7 @@ I'll pull updates from your connected tools (or ask you for input) and generate 
 ### Creating a Runbook
 
 ```
-/runbook monthly close process
+/operations:runbook monthly close process
 ```
 
 Walk me through the process once. I'll document it as a repeatable runbook with checklists, troubleshooting, and escalation paths.

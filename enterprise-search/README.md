@@ -48,8 +48,8 @@ Each source is an MCP connection. Add more sources in your MCP settings to expan
 
 | Command | What it does |
 |---------|--------------|
-| `/search` | Search across all connected sources in one query |
-| `/digest` | Generate a daily or weekly digest of activity across all sources |
+| `/enterprise-search:search` | Search across all connected sources in one query |
+| `/enterprise-search:digest` | Generate a daily or weekly digest of activity across all sources |
 
 ### Search
 
@@ -136,7 +136,7 @@ Result: "Based on message history and doc authorship,
 
 ```bash
 # 1. Install
-claude plugins add knowledge-work-plugins/enterprise-search
+claude plugin install enterprise-search@grail-automation
 
 # 2. Search across everything
 /enterprise-search:search [your question here]

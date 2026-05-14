@@ -2,8 +2,8 @@
 
 ## Invoke
 ```
-/create-an-asset
-/create-an-asset [CompanyName]
+/sales:create-an-asset
+/sales:create-an-asset [CompanyName]
 "Create an asset for [Company]"
 ```
 

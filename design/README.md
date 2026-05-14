@@ -5,7 +5,7 @@ A design productivity plugin primarily designed for [Cowork](https://claude.com/
 ## Installation
 
 ```bash
-claude plugins add knowledge-work-plugins/design
+claude plugin install design@grail-automation
 ```
 
 ## Commands
@@ -14,12 +14,12 @@ Explicit workflows you invoke with a slash command:
 
 | Command | Description |
 |---|---|
-| `/critique` | Get structured design feedback — usability, visual hierarchy, accessibility, and consistency |
-| `/design-system` | Audit, document, or extend your design system — components, tokens, patterns |
-| `/handoff` | Generate developer handoff specs — measurements, tokens, states, interactions, and edge cases |
-| `/ux-copy` | Write or review UX copy — microcopy, error messages, empty states, onboarding flows |
-| `/accessibility` | Run an accessibility audit — WCAG compliance, color contrast, screen reader, and keyboard navigation |
-| `/research-synthesis` | Synthesize user research — interviews, surveys, usability tests into actionable insights |
+| `/design:critique` | Get structured design feedback — usability, visual hierarchy, accessibility, and consistency |
+| `/design:design-system` | Audit, document, or extend your design system — components, tokens, patterns |
+| `/design:handoff` | Generate developer handoff specs — measurements, tokens, states, interactions, and edge cases |
+| `/design:ux-copy` | Write or review UX copy — microcopy, error messages, empty states, onboarding flows |
+| `/design:accessibility` | Run an accessibility audit — WCAG compliance, color contrast, screen reader, and keyboard navigation |
+| `/design:research-synthesis` | Synthesize user research — interviews, surveys, usability tests into actionable insights |
 
 All commands work **standalone** (describe your design or paste screenshots) and get **supercharged** with MCP connectors.
 
@@ -41,7 +41,7 @@ Domain knowledge Claude uses automatically when relevant:
 ### Getting Design Feedback
 
 ```
-/critique
+/design:critique
 ```
 
 Share a Figma link, screenshot, or describe your design. Get structured feedback on usability, visual hierarchy, consistency, and accessibility.
@@ -49,7 +49,7 @@ Share a Figma link, screenshot, or describe your design. Get structured feedback
 ### Auditing Your Design System
 
 ```
-/design-system audit
+/design:design-system audit
 ```
 
 I'll review your component library for consistency, completeness, and naming conventions. Get a report with specific improvement recommendations.
@@ -57,7 +57,7 @@ I'll review your component library for consistency, completeness, and naming con
 ### Writing UX Copy
 
 ```
-/ux-copy error messages for payment flow
+/design:ux-copy error messages for payment flow
 ```
 
 Get context-appropriate copy with tone guidance, alternatives, and localization notes.
@@ -65,7 +65,7 @@ Get context-appropriate copy with tone guidance, alternatives, and localization 
 ### Developer Handoff
 
 ```
-/handoff
+/design:handoff
 ```
 
 Share a Figma link and get a complete spec: measurements, design tokens, component states, interaction notes, and edge cases.
@@ -73,7 +73,7 @@ Share a Figma link and get a complete spec: measurements, design tokens, compone
 ### Accessibility Check
 
 ```
-/accessibility
+/design:accessibility
 ```
 
 Share a design or URL. Get a WCAG 2.1 AA compliance report with specific issues, severity, and remediation steps.
@@ -81,7 +81,7 @@ Share a design or URL. Get a WCAG 2.1 AA compliance report with specific issues,
 ### Synthesizing Research
 
 ```
-/research-synthesis
+/design:research-synthesis
 ```
 
 Upload interview transcripts, survey results, or usability test notes. Get themes, insights, and prioritized recommendations.

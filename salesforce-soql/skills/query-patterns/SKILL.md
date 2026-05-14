@@ -44,7 +44,7 @@ SELECT Id, Name, CreatedDate FROM Lead WHERE CreatedDate >= LAST_N_DAYS:7 ORDER 
 ### Find by Email Domain
 
 ```sql
-SELECT Id, Name, Email FROM Contact WHERE Email LIKE '%@acme.com'
+SELECT Id, Name, Email FROM Contact WHERE Email LIKE '%@example.com'
 ```
 
 ### Records Without Related Records

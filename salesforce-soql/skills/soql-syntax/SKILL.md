@@ -53,7 +53,7 @@ WHERE AccountId = null
 
 -- LIKE (wildcards: % = any chars, _ = single char)
 WHERE Name LIKE 'Acme%'
-WHERE Email LIKE '%@gmail.com'
+WHERE Email LIKE '%@example.com'
 
 -- IN list
 WHERE Status IN ('New', 'Working', 'Qualified')

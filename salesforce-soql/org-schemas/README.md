@@ -53,7 +53,7 @@ Brief description of how this object is used in this org.
 
 ## Generating Schema Documentation
 
-Use the `/describe` command or `sf sobject describe` to get field information:
+Use the `/salesforce-soql:describe` skill or `sf sobject describe` to get field information:
 
 ```bash
 sf sobject describe --sobject ObjectName --target-org production --json

@@ -12,7 +12,7 @@ Generate custom sales assets tailored to your prospect, audience, and goals. Sup
 ## Triggers
 
 Invoke this skill when:
-- User says `/create-an-asset` or `/create-an-asset [CompanyName]`
+- User says `/sales:create-an-asset` or `/sales:create-an-asset [CompanyName]`
 - User asks to "create an asset", "build a demo", "make a landing page", "mock up a workflow"
 - User needs a customer-facing deliverable for a sales conversation
 

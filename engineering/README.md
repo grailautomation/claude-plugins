@@ -5,7 +5,7 @@ A software engineering plugin primarily designed for [Cowork](https://claude.com
 ## Installation
 
 ```bash
-claude plugins add knowledge-work-plugins/engineering
+claude plugin install engineering@grail-automation
 ```
 
 ## Commands
@@ -14,12 +14,12 @@ Explicit workflows you invoke with a slash command:
 
 | Command | Description |
 |---|---|
-| `/standup` | Generate a standup update from your recent activity — commits, PRs, tickets, and chat |
-| `/review` | Review code changes — security, performance, style, and correctness |
-| `/debug` | Structured debugging session — reproduce, isolate, diagnose, and fix |
-| `/architecture` | Create or evaluate architecture decisions — ADR format with trade-off analysis |
-| `/incident` | Run an incident response workflow — triage, communicate, mitigate, and write postmortem |
-| `/deploy-checklist` | Pre-deployment checklist — verify tests, review changes, check dependencies, confirm rollback plan |
+| `/engineering:standup` | Generate a standup update from your recent activity — commits, PRs, tickets, and chat |
+| `/engineering:review` | Review code changes — security, performance, style, and correctness |
+| `/engineering:debug` | Structured debugging session — reproduce, isolate, diagnose, and fix |
+| `/engineering:architecture` | Create or evaluate architecture decisions — ADR format with trade-off analysis |
+| `/engineering:incident` | Run an incident response workflow — triage, communicate, mitigate, and write postmortem |
+| `/engineering:deploy-checklist` | Pre-deployment checklist — verify tests, review changes, check dependencies, confirm rollback plan |
 
 All commands work **standalone** (paste code, describe your system, upload files) and get **supercharged** with MCP connectors.
 
@@ -41,7 +41,7 @@ Domain knowledge Claude uses automatically when relevant:
 ### Morning Standup
 
 ```
-/standup
+/engineering:standup
 ```
 
 If your tools are connected, I'll pull your recent commits, PR activity, and ticket updates. Otherwise, tell me what you worked on and I'll format it.
@@ -49,7 +49,7 @@ If your tools are connected, I'll pull your recent commits, PR activity, and tic
 ### Code Review
 
 ```
-/review https://github.com/org/repo/pull/123
+/engineering:review https://github.com/org/repo/pull/123
 ```
 
 Share a PR link, paste a diff, or point to files. Get a structured review covering security, performance, correctness, and style.
@@ -57,7 +57,7 @@ Share a PR link, paste a diff, or point to files. Get a structured review coveri
 ### Debugging an Issue
 
 ```
-/debug Users are getting 500 errors on the checkout page
+/engineering:debug Users are getting 500 errors on the checkout page
 ```
 
 Walk through a structured debugging process: reproduce, isolate, diagnose, fix. I'll help you think through it systematically.
@@ -65,7 +65,7 @@ Walk through a structured debugging process: reproduce, isolate, diagnose, fix. 
 ### Architecture Decision
 
 ```
-/architecture Should we use a message queue or direct API calls between services?
+/engineering:architecture Should we use a message queue or direct API calls between services?
 ```
 
 Get a structured ADR with options analysis, trade-offs, and a recommendation.
@@ -73,7 +73,7 @@ Get a structured ADR with options analysis, trade-offs, and a recommendation.
 ### Incident Response
 
 ```
-/incident The payments service is returning 503s
+/engineering:incident The payments service is returning 503s
 ```
 
 Start an incident workflow: triage severity, draft communications, track timeline, and generate a postmortem when resolved.
@@ -81,7 +81,7 @@ Start an incident workflow: triage severity, draft communications, track timelin
 ### Pre-Deploy Check
 
 ```
-/deploy-checklist auth-service v2.3.0
+/engineering:deploy-checklist auth-service v2.3.0
 ```
 
 Get a customized deployment checklist based on your service and what's changing.

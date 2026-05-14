@@ -22,5 +22,5 @@ Revenue: $125,000
 ### Top Deals
 1. Acme Corp - $25,000
 2. Widget Inc - $18,000'`
-4. Share with stakeholders: `gws drive permissions create --params '{"fileId": "DOC_ID"}' --json '{"role": "reader", "type": "user", "emailAddress": "cfo@company.com"}'`
+4. Share with stakeholders: `gws drive permissions create --params '{"fileId": "DOC_ID"}' --json '{"role": "reader", "type": "user", "emailAddress": "cfo@example.com"}'`
 

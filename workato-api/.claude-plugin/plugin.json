@@ -1,6 +1,5 @@
 {
   "name": "workato-api",
-  "version": "1.0.0",
   "description": "Workato Developer API reference and execution framework for managing workspace resources via REST",
   "author": {
     "name": "Dave Kreitter",

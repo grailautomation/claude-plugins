@@ -2,10 +2,23 @@
 set -euo pipefail
 
 # Create a new feature branch and spec directory.
-# Usage: create-feature.sh <feature_description>
+# Usage: create-feature.sh [--no-branch] <feature_description>
 # Output: JSON with BRANCH_NAME, SPEC_FILE, FEATURE_NUM
 
-FEATURE_DESCRIPTION="$*"
+NO_BRANCH="${SPEC_KIT_NO_BRANCH:-false}"
+ARGS=()
+for arg in "$@"; do
+    case "$arg" in
+        --no-branch) NO_BRANCH=true ;;
+        --help|-h)
+            echo "Usage: $0 [--no-branch] <feature_description>" >&2
+            exit 0
+            ;;
+        *) ARGS+=("$arg") ;;
+    esac
+done
+
+FEATURE_DESCRIPTION="${ARGS[*]}"
 if [[ -z "$FEATURE_DESCRIPTION" ]]; then
     echo "Usage: $0 <feature_description>" >&2
     exit 1
@@ -45,16 +58,27 @@ BRANCH_NAME=$(echo "$FEATURE_DESCRIPTION" | tr '[:upper:]' '[:lower:]' | sed 's/
 WORDS=$(echo "$BRANCH_NAME" | tr '-' '\n' | grep -v '^$' | head -3 | tr '\n' '-' | sed 's/-$//')
 BRANCH_NAME="${FEATURE_NUM}-${WORDS}"
 
-# Create git branch if possible
-if [[ "$HAS_GIT" == "true" ]]; then
-    git checkout -b "$BRANCH_NAME" 2>/dev/null || true
+# Create git branch if possible. Fail loudly on collisions or checkout errors
+# unless the caller intentionally requested current-branch mode.
+if [[ "$HAS_GIT" == "true" && "$NO_BRANCH" != "true" ]]; then
+    if git rev-parse --verify --quiet "$BRANCH_NAME" >/dev/null; then
+        echo "ERROR: Branch already exists: $BRANCH_NAME" >&2
+        echo "Choose a more specific feature description or set SPECIFY_FEATURE for an existing feature." >&2
+        exit 1
+    fi
+    git checkout -b "$BRANCH_NAME"
+elif [[ "$HAS_GIT" == "true" ]]; then
+    echo "[spec-kit] Current-branch mode; skipped branch creation for $BRANCH_NAME" >&2
+    echo "[spec-kit] Set SPECIFY_FEATURE=$BRANCH_NAME for follow-up commands on this branch." >&2
 else
     echo "[spec-kit] Warning: No git repo; skipped branch creation for $BRANCH_NAME" >&2
+    echo "[spec-kit] Set SPECIFY_FEATURE=$BRANCH_NAME for follow-up commands." >&2
 fi
 
 # Create feature directory and empty spec file
 FEATURE_DIR="$SPECS_DIR/$BRANCH_NAME"
 mkdir -p "$FEATURE_DIR"
+mkdir -p "$REPO_ROOT/.specify/memory"
 SPEC_FILE="$FEATURE_DIR/spec.md"
 touch "$SPEC_FILE"
 

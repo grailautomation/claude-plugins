@@ -11,10 +11,10 @@ Save a Gmail message body into a Google Doc for archival or reference.
 
 ## Steps
 
-1. Find the message: `gws gmail users messages list --params '{"userId": "me", "q": "subject:important from:boss@company.com"}' --format table`
+1. Find the message: `gws gmail users messages list --params '{"userId": "me", "q": "subject:important from:boss@example.com"}' --format table`
 2. Get message content: `gws gmail users messages get --params '{"userId": "me", "id": "MSG_ID"}'`
 3. Create a doc with the content: `gws docs documents create --json '{"title": "Saved Email - Important Update"}'`
-4. Write the email body: `gws docs +write --document-id DOC_ID --text 'From: boss@company.com
+4. Write the email body: `gws docs +write --document-id DOC_ID --text 'From: boss@example.com
 Subject: Important Update
 
 [EMAIL BODY]'`

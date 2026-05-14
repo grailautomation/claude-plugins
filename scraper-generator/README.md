@@ -16,7 +16,7 @@ The result is a standalone scraper that runs forever without AI assistance.
 ## Usage
 
 ```
-/create-scraper https://docs.example.com/api/users.html
+/scraper-generator:create-scraper https://docs.example.com/api/users.html
 ```
 
 This generates a complete Python scraper package similar to the [workato_scraper reference implementation](https://github.com/kreitter/workato-api-docs/tree/main/workato_scraper).
@@ -43,7 +43,7 @@ This generates a complete Python scraper package similar to the [workato_scraper
 
 | Command | Description |
 |---------|-------------|
-| `/create-scraper <url>` | Generate a scraper for the given documentation URL |
+| `/scraper-generator:create-scraper <url>` | Generate a scraper for the given documentation URL |
 
 ## Output
 
@@ -65,7 +65,7 @@ The plugin generates a complete Python package:
 Add this plugin via the Claude Code marketplace or install directly:
 
 ```bash
-claude plugins install kreitter/scraper-generator
+claude plugin install scraper-generator@grail-automation
 ```
 
 ## License

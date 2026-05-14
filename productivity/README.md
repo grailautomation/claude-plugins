@@ -5,7 +5,7 @@ A productivity plugin primarily designed for [Cowork](https://claude.com/product
 ## Installation
 
 ```
-claude plugins add knowledge-work-plugins/productivity
+claude plugin install productivity@grail-automation
 ```
 
 ## What It Does
@@ -20,9 +20,9 @@ This plugin gives Claude a persistent understanding of your work:
 
 | Command | What it does |
 |---------|--------------|
-| `/start` | Initialize tasks + memory, open the dashboard |
-| `/update` | Triage stale items, check memory for gaps, sync from external tools if applicable |
-| `/update --comprehensive` | Deep scan email, calendar, chat — flag missed todos and suggest new memories |
+| `/productivity:start` | Initialize tasks + memory, open the dashboard |
+| `/productivity:update` | Triage stale items, check memory for gaps, sync from external tools if applicable |
+| `/productivity:update --comprehensive` | Deep scan email, calendar, chat — flag missed todos and suggest new memories |
 
 ## Skills
 
@@ -36,7 +36,7 @@ This plugin gives Claude a persistent understanding of your work:
 ### Getting Started
 
 ```
-You: /start
+You: /productivity:start
 
 Claude: [Creates TASKS.md, CLAUDE.md, memory/ directory, and dashboard.html]
         [Opens the dashboard in your browser]
@@ -57,7 +57,7 @@ Claude: [Adds all three tasks to TASKS.md with context]
 ### Morning Sync
 
 ```
-You: /update --comprehensive
+You: /productivity:update --comprehensive
 
 Claude: [Scans email, calendar, and chat for new action items]
         [Flags: "Budget proposal review is due tomorrow — still open"]

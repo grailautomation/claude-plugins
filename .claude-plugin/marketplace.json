@@ -88,7 +88,7 @@
     {
       "name": "spec-kit",
       "source": "./spec-kit",
-      "description": "Spec-Driven Development toolkit — generate thorough specs, plans, and tasks for any project",
+      "description": "Spec-Driven Development toolkit \u2014 generate thorough specs, plans, and tasks for any project",
       "category": "development",
       "strict": true
     },
@@ -109,7 +109,7 @@
     {
       "name": "python-quickbooks",
       "source": "./python-quickbooks",
-      "description": "Comprehensive reference for the python-quickbooks library — QuickBooks Online API",
+      "description": "Comprehensive reference for the python-quickbooks library \u2014 QuickBooks Online API",
       "category": "reference",
       "strict": true
     },
@@ -181,6 +181,76 @@
       "source": "./espanso",
       "description": "Espanso text expander for Claude Code",
       "category": "automation",
+      "strict": true
+    },
+    {
+      "name": "data",
+      "source": "./data",
+      "description": "Write SQL, explore datasets, and generate insights faster. Build visualizations and dashboards, and turn raw data into clear stories for stakeholders.",
+      "category": "data",
+      "strict": true
+    },
+    {
+      "name": "design",
+      "source": "./design",
+      "description": "Accelerate design workflows \u2014 critique, design system management, UX writing, accessibility audits, research synthesis, and dev handoff. From exploration to pixel-perfect specs.",
+      "category": "design",
+      "strict": true
+    },
+    {
+      "name": "engineering",
+      "source": "./engineering",
+      "description": "Streamline engineering workflows \u2014 standups, code review, architecture decisions, incident response, and technical documentation. Works with your existing tools or standalone.",
+      "category": "development",
+      "strict": true
+    },
+    {
+      "name": "enterprise-search",
+      "source": "./enterprise-search",
+      "description": "Search across all of your company's tools in one place. Find anything across email, chat, documents, and wikis without switching between apps.",
+      "category": "search",
+      "strict": true
+    },
+    {
+      "name": "finance",
+      "source": "./finance",
+      "description": "Streamline finance and accounting workflows, from journal entries and reconciliation to financial statements and variance analysis. Speed up audit prep, month-end close, and keeping your books clean.",
+      "category": "finance",
+      "strict": true
+    },
+    {
+      "name": "legal",
+      "source": "./legal",
+      "description": "Speed up contract review, NDA triage, and compliance workflows for in-house legal teams. Draft legal briefs, organize precedent research, and manage institutional knowledge.",
+      "category": "legal",
+      "strict": true
+    },
+    {
+      "name": "operations",
+      "source": "./operations",
+      "description": "Optimize business operations \u2014 vendor management, process documentation, change management, capacity planning, and compliance tracking. Keep your organization running efficiently.",
+      "category": "operations",
+      "strict": true
+    },
+    {
+      "name": "product-management",
+      "source": "./product-management",
+      "description": "Write feature specs, plan roadmaps, and synthesize user research faster. Keep stakeholders updated and stay ahead of the competitive landscape.",
+      "category": "product",
+      "strict": true
+    },
+    {
+      "name": "productivity",
+      "source": "./productivity",
+      "description": "Manage tasks, plan your day, and build up memory of important context about your work. Syncs with your calendar, email, and chat to keep everything organized and on track.",
+      "category": "productivity",
+      "strict": true
+    },
+    {
+      "name": "sales",
+      "source": "./sales",
+      "description": "Prospect, craft outreach, and build deal strategy faster. Prep for calls, manage your pipeline, and write personalized messaging that moves deals forward.",
+      "category": "sales",
       "strict": true
     }
   ]

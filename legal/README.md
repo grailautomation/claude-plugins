@@ -14,7 +14,7 @@ An AI-powered productivity plugin for in-house legal teams, primarily designed f
 ## Installation
 
 ```
-claude plugins add knowledge-work-plugins/legal
+claude plugin install legal@grail-automation
 ```
 
 ## Quick Start
@@ -22,7 +22,7 @@ claude plugins add knowledge-work-plugins/legal
 ### 1. Install the plugin
 
 ```
-claude plugins add knowledge-work-plugins/legal
+claude plugin install legal@grail-automation
 ```
 
 ### 2. Configure your playbook
@@ -81,50 +81,50 @@ The plugin works best when connected to your existing tools via MCP. Pre-configu
 
 ## Commands
 
-### `/review-contract` -- Contract Review Against Playbook
+### `/legal:review-contract` -- Contract Review Against Playbook
 
 Review a contract against your organization's negotiation playbook. Flags deviations, generates redlines, and provides business impact analysis.
 
 ```
-/review-contract
+/legal:review-contract
 ```
 
 Accepts: file upload, URL, or pasted contract text. Will ask for context (your side, deadline, focus areas) and review clause-by-clause against your configured playbook.
 
-### `/triage-nda` -- NDA Pre-Screening
+### `/legal:triage-nda` -- NDA Pre-Screening
 
 Rapid triage of incoming NDAs against standard criteria. Categorizes as GREEN (standard approval), YELLOW (counsel review), or RED (significant issues).
 
 ```
-/triage-nda
+/legal:triage-nda
 ```
 
-### `/vendor-check` -- Vendor Agreement Status
+### `/legal:vendor-check` -- Vendor Agreement Status
 
 Check the status of existing agreements with a vendor across your connected systems.
 
 ```
-/vendor-check [vendor name]
+/legal:vendor-check [vendor name]
 ```
 
 Reports on existing NDAs, MSAs, DPAs, expiration dates, and key terms.
 
-### `/brief` -- Legal Team Briefing
+### `/legal:brief` -- Legal Team Briefing
 
 Generate contextual briefings for your legal work.
 
 ```
-/brief daily          # Morning brief of legal-relevant items
-/brief topic [query]  # Research brief on a specific legal question
-/brief incident       # Rapid brief on a developing situation
+/legal:brief daily          # Morning brief of legal-relevant items
+/legal:brief topic [query]  # Research brief on a specific legal question
+/legal:brief incident       # Rapid brief on a developing situation
 ```
 
-### `/respond` -- Generate Templated Response
+### `/legal:respond` -- Generate Templated Response
 
 Generate a response from your configured templates for common inquiry types.
 
 ```
-/respond [inquiry-type]
+/legal:respond [inquiry-type]
 ```
 
 Supported inquiry types include: data subject request, discovery hold, vendor question, NDA request, and custom categories you define.
@@ -145,7 +145,7 @@ Supported inquiry types include: data subject request, discovery hold, vendor qu
 ### Contract Review
 
 1. Receive a vendor contract via email
-2. Run `/review-contract` and upload the document
+2. Run `/legal:review-contract` and upload the document
 3. Provide context: "We are the customer, need to close by end of quarter, focus on data protection and liability"
 4. Receive clause-by-clause analysis with GREEN/YELLOW/RED flags
 5. Get specific redline language for YELLOW and RED items
@@ -154,20 +154,20 @@ Supported inquiry types include: data subject request, discovery hold, vendor qu
 ### NDA Triage
 
 1. Sales team sends an NDA from a new prospect
-2. Run `/triage-nda` and paste or upload the NDA
+2. Run `/legal:triage-nda` and paste or upload the NDA
 3. Get instant classification: GREEN (route for signature), YELLOW (specific issues to review), or RED (needs full counsel review)
 4. For GREEN NDAs, approve directly; for YELLOW/RED, address flagged issues
 
 ### Daily Brief
 
-1. Start your morning with `/brief daily`
+1. Start your morning with `/legal:brief daily`
 2. Get a summary of overnight contract requests, compliance questions, upcoming deadlines, and calendar items needing legal prep
 3. Prioritize your day based on urgency and deadlines
 
 ### Vendor Check
 
 1. Business team asks about a new engagement with an existing vendor
-2. Run `/vendor-check Acme Corp`
+2. Run `/legal:vendor-check Acme Corp`
 3. See existing agreements, expiration dates, and key terms at a glance
 4. Know immediately whether you need a new NDA or can proceed under existing terms
 
@@ -213,13 +213,12 @@ legal/
 ├── .claude-plugin/plugin.json
 ├── .mcp.json
 ├── README.md
-├── commands/
-│   ├── review-contract.md
-│   ├── triage-nda.md
-│   ├── vendor-check.md
-│   ├── brief.md
-│   └── respond.md
 └── skills/
+    ├── review-contract/SKILL.md
+    ├── triage-nda/SKILL.md
+    ├── vendor-check/SKILL.md
+    ├── brief/SKILL.md
+    ├── respond/SKILL.md
     ├── contract-review/SKILL.md
     ├── nda-triage/SKILL.md
     ├── compliance/SKILL.md

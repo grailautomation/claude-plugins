@@ -7,18 +7,18 @@ A finance and accounting plugin primarily designed for [Cowork](https://claude.c
 ## Installation
 
 ```bash
-claude plugins add knowledge-work-plugins/finance
+claude plugin install finance@grail-automation
 ```
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `/journal-entry` | Journal entry preparation — generate accruals, fixed asset entries, prepaids, payroll, and revenue entries with proper debits/credits and supporting detail |
-| `/reconciliation` | Account reconciliation — compare GL balances to subledger, bank, or third-party balances and identify reconciling items |
-| `/income-statement` | Income statement generation — produce P&L with period-over-period comparison and variance analysis |
-| `/variance-analysis` | Variance/flux analysis — decompose variances into drivers with narrative explanations and waterfall analysis |
-| `/sox-testing` | SOX compliance testing — generate sample selections, testing workpapers, and control assessments |
+| `/finance:journal-entry` | Journal entry preparation — generate accruals, fixed asset entries, prepaids, payroll, and revenue entries with proper debits/credits and supporting detail |
+| `/finance:reconciliation` | Account reconciliation — compare GL balances to subledger, bank, or third-party balances and identify reconciling items |
+| `/finance:income-statement` | Income statement generation — produce P&L with period-over-period comparison and variance analysis |
+| `/finance:variance-analysis` | Variance/flux analysis — decompose variances into drivers with narrative explanations and waterfall analysis |
+| `/finance:sox-testing` | SOX compliance testing — generate sample selections, testing workpapers, and control assessments |
 
 ## Skills
 
@@ -35,23 +35,23 @@ claude plugins add knowledge-work-plugins/finance
 
 ### Month-End Close
 
-1. Run `/journal-entry ap-accrual 2024-12` to generate AP accrual entries
-2. Run `/journal-entry prepaid 2024-12` to amortize prepaid expenses
-3. Run `/journal-entry fixed-assets 2024-12` to book depreciation
-4. Run `/reconciliation cash 2024-12` to reconcile bank accounts
-5. Run `/reconciliation accounts-receivable 2024-12` to reconcile AR subledger
-6. Run `/income-statement monthly 2024-12` to generate the P&L with flux analysis
+1. Run `/finance:journal-entry ap-accrual 2024-12` to generate AP accrual entries
+2. Run `/finance:journal-entry prepaid 2024-12` to amortize prepaid expenses
+3. Run `/finance:journal-entry fixed-assets 2024-12` to book depreciation
+4. Run `/finance:reconciliation cash 2024-12` to reconcile bank accounts
+5. Run `/finance:reconciliation accounts-receivable 2024-12` to reconcile AR subledger
+6. Run `/finance:income-statement monthly 2024-12` to generate the P&L with flux analysis
 
 ### Variance Analysis
 
-1. Run `/variance-analysis revenue 2024-Q4 vs 2024-Q3` to analyze revenue variances
-2. Run `/variance-analysis opex 2024-12 vs budget` to investigate operating expense variances
+1. Run `/finance:variance-analysis revenue 2024-Q4 vs 2024-Q3` to analyze revenue variances
+2. Run `/finance:variance-analysis opex 2024-12 vs budget` to investigate operating expense variances
 3. Review the waterfall analysis and provide context on unexplained variances
 
 ### SOX Testing
 
-1. Run `/sox-testing revenue-recognition 2024-Q4` to generate revenue control testing workpapers
-2. Run `/sox-testing procure-to-pay 2024-Q4` to test procurement controls
+1. Run `/finance:sox-testing revenue-recognition 2024-Q4` to generate revenue control testing workpapers
+2. Run `/finance:sox-testing procure-to-pay 2024-Q4` to test procurement controls
 3. Review sample selections and document test results
 
 ## MCP Integration

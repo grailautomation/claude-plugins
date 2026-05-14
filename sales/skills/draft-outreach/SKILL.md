@@ -128,7 +128,7 @@ Research first, then draft. This skill never sends generic outreach - it always 
 Input patterns:
 - "draft outreach to John Smith at Acme" → Person + company
 - "write cold email to Acme's CTO" → Role + company
-- "reach out to sarah@acme.com" → Email provided
+- "reach out to sarah@example.com" → Email provided
 - "LinkedIn message to [LinkedIn URL]" → Profile provided
 ```
 
@@ -397,10 +397,10 @@ IF warm intro possible:
 **Output:**
 
 ```markdown
-# Outreach Draft: David Tibbitts @ Notion
+# Outreach Draft: Dana Morgan @ ExampleCo
 
 ## Research Summary
-**Target:** David Tibbitts, Head of Engineering at Notion
+**Target:** Dana Morgan, Head of Engineering at ExampleCo
 **Hook:** They're scaling AI features and hiring ML talent
 **Goal:** Intro call about AI infrastructure
 
@@ -408,12 +408,12 @@ IF warm intro possible:
 
 ## Email Draft
 
-**To:** david@notion.so
-**Subject:** Notion's AI scaling + a thought
+**To:** dana@example.com
+**Subject:** ExampleCo's AI scaling + a thought
 
 ---
 
-Hi David,
+Hi Dana,
 
 Saw Notion's AI rollout is gaining serious traction - congrats.
 With 5 ML roles open, seems like you're scaling fast.

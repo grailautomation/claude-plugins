@@ -5,7 +5,7 @@ A data analyst plugin primarily designed for [Cowork](https://claude.com/product
 ## Installation
 
 ```
-claude plugins add knowledge-work-plugins/data
+claude plugin install data@grail-automation
 ```
 
 ## What It Does
@@ -29,12 +29,12 @@ Without a data warehouse connection, paste SQL results or upload CSV/Excel files
 
 | Command | Description |
 |---------|-------------|
-| `/analyze` | Answer data questions -- from quick lookups to full analyses |
-| `/explore-data` | Profile and explore a dataset to understand its shape, quality, and patterns |
-| `/write-query` | Write optimized SQL for your dialect with best practices |
-| `/create-viz` | Create publication-quality visualizations with Python |
-| `/build-dashboard` | Build interactive HTML dashboards with filters and charts |
-| `/validate` | QA an analysis before sharing -- methodology, accuracy, and bias checks |
+| `/data:analyze` | Answer data questions -- from quick lookups to full analyses |
+| `/data:explore-data` | Profile and explore a dataset to understand its shape, quality, and patterns |
+| `/data:write-query` | Write optimized SQL for your dialect with best practices |
+| `/data:create-viz` | Create publication-quality visualizations with Python |
+| `/data:build-dashboard` | Build interactive HTML dashboards with filters and charts |
+| `/data:validate` | QA an analysis before sharing -- methodology, accuracy, and bias checks |
 
 ## Skills
 
@@ -52,7 +52,7 @@ Without a data warehouse connection, paste SQL results or upload CSV/Excel files
 ### Ad-Hoc Analysis
 
 ```
-You: /analyze What was our monthly revenue trend for the past 12 months, broken down by product line?
+You: /data:analyze What was our monthly revenue trend for the past 12 months, broken down by product line?
 
 Claude: [Writes SQL query] → [Executes against data warehouse] → [Generates trend chart]
        → [Identifies key patterns: "Product line A grew 23% YoY while B was flat"]
@@ -62,7 +62,7 @@ Claude: [Writes SQL query] → [Executes against data warehouse] → [Generates 
 ### Data Exploration
 
 ```
-You: /explore-data users table
+You: /data:explore-data users table
 
 Claude: [Profiles table: 2.3M rows, 47 columns]
        → [Reports: created_at has 0.2% nulls, email has 99.8% cardinality]
@@ -73,7 +73,7 @@ Claude: [Profiles table: 2.3M rows, 47 columns]
 ### Query Writing
 
 ```
-You: /write-query I need a cohort retention analysis -- users grouped by signup month,
+You: /data:write-query I need a cohort retention analysis -- users grouped by signup month,
      showing what % are still active 1, 3, 6, and 12 months later. We use Snowflake.
 
 Claude: [Writes optimized Snowflake SQL with CTEs]
@@ -84,7 +84,7 @@ Claude: [Writes optimized Snowflake SQL with CTEs]
 ### Dashboard Building
 
 ```
-You: /build-dashboard Create a sales dashboard with monthly revenue, top products,
+You: /data:build-dashboard Create a sales dashboard with monthly revenue, top products,
      and regional breakdown. Here's the data: [pastes CSV]
 
 Claude: [Generates self-contained HTML file]
@@ -96,7 +96,7 @@ Claude: [Generates self-contained HTML file]
 ### Pre-Share Validation
 
 ```
-You: /validate [shares analysis document]
+You: /data:validate [shares analysis document]
 
 Claude: [Reviews methodology] → [Checks for survivorship bias in churn analysis]
        → [Verifies aggregation logic] → [Flags: "Denominator excludes trial users

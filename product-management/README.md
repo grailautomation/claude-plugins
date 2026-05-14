@@ -5,7 +5,7 @@ A product management plugin primarily designed for [Cowork](https://claude.com/p
 ## Installation
 
 ```
-claude plugins add knowledge-work-plugins/product-management
+claude plugin install product-management@grail-automation
 ```
 
 ## What It Does
@@ -23,12 +23,12 @@ This plugin gives you an AI-powered product management partner that can help wit
 
 | Command | What It Does |
 |---|---|
-| `/write-spec` | Write a feature spec or PRD from a problem statement |
-| `/roadmap-update` | Update, create, or reprioritize your roadmap |
-| `/stakeholder-update` | Generate a stakeholder update (weekly, monthly, launch) |
-| `/synthesize-research` | Synthesize user research from interviews, surveys, and tickets |
-| `/competitive-brief` | Create a competitive analysis brief |
-| `/metrics-review` | Review and analyze product metrics |
+| `/product-management:write-spec` | Write a feature spec or PRD from a problem statement |
+| `/product-management:roadmap-update` | Update, create, or reprioritize your roadmap |
+| `/product-management:stakeholder-update` | Generate a stakeholder update (weekly, monthly, launch) |
+| `/product-management:synthesize-research` | Synthesize user research from interviews, surveys, and tickets |
+| `/product-management:competitive-brief` | Create a competitive analysis brief |
+| `/product-management:metrics-review` | Review and analyze product metrics |
 
 ## Skills
 
@@ -46,7 +46,7 @@ This plugin gives you an AI-powered product management partner that can help wit
 ### Writing a PRD
 
 ```
-You: /write-spec
+You: /product-management:write-spec
 Claude: What feature or problem are you speccing out?
 You: We need to add SSO support for enterprise customers
 Claude: [Asks about target users, constraints, success metrics]
@@ -56,7 +56,7 @@ Claude: [Generates full PRD with problem statement, user stories, requirements, 
 ### Preparing a Stakeholder Update
 
 ```
-You: /stakeholder-update
+You: /product-management:stakeholder-update
 Claude: What type of update? (weekly, monthly, launch, ad-hoc)
 You: Weekly update for the exec team
 Claude: [Pulls context from project management tool, chat, and docs]
@@ -66,7 +66,7 @@ Claude: [Generates executive summary with progress, decisions, risks, and next m
 ### Synthesizing User Research
 
 ```
-You: /synthesize-research
+You: /product-management:synthesize-research
 Claude: What research do you want to synthesize? You can paste interview notes, upload files, or I can pull from connected sources.
 You: [Pastes 8 interview transcripts]
 Claude: [Identifies themes, patterns, and insights across interviews]
@@ -76,7 +76,7 @@ Claude: [Generates synthesis with key findings, personas, opportunity areas, and
 ### Competitive Analysis
 
 ```
-You: /competitive-brief
+You: /product-management:competitive-brief
 Claude: Which competitor(s) or feature area do you want to analyze?
 You: Compare our onboarding flow to [competitor A] and [competitor B]
 Claude: [Researches competitor onboarding approaches]

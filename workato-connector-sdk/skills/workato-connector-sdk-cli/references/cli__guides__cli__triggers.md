@@ -224,9 +224,9 @@ In this case, the contents of the file `fixtures/triggers/new_updated_object/cus
       "since": "6/09/2021"
     }
 
-    RestClient.get "https://live_Zbaoo7hGqvi3cqrza8WiXxQa8kBPAPQF@empressporridge.chargebee.com/api/v2/customers?limit=10&offset=&sort_by%5Basc%5D=updated_at&updated_at%5Bafter%5D=1630857600", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
+    RestClient.get "https://live_SAMPLE_API_KEY@example-subdomain.chargebee.com/api/v2/customers?limit=10&offset=&sort_by%5Basc%5D=updated_at&updated_at%5Bafter%5D=1630857600", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
     # => 200 OK | application/json 2608 bytes                                                                                           
-    RestClient.get "https://live_Zbaoo7hGqvi3cqrza8WiXxQa8kBPAPQF@empressporridge.chargebee.com/api/v2/customers?limit=10&offset=%5B%221630857607410%22%2C%2240736845%22%5D&sort_by%5Basc%5D=updated_at&updated_at%5Bafter%5D=1630857600", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
+    RestClient.get "https://live_SAMPLE_API_KEY@example-subdomain.chargebee.com/api/v2/customers?limit=10&offset=%5B%221630857607410%22%2C%2240736845%22%5D&sort_by%5Basc%5D=updated_at&updated_at%5Bafter%5D=1630857600", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
     # => 200 OK | application/json 1800 bytes                                                                                           
     Progress: |=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---|
 
@@ -297,7 +297,7 @@ This is done with the command `.poll_page` which tells the SDK Gem to only invok
       "since": "6/09/2021"
     }
 
-    RestClient.get "https://live_Zbaoo7hGqvi3cqrza8WiXxQa8kBPAPQF@empressporridge.chargebee.com/api/v2/customers?limit=10&offset=&sort_by%5Basc%5D=updated_at&updated_at%5Bafter%5D=1630857600", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
+    RestClient.get "https://live_SAMPLE_API_KEY@example-subdomain.chargebee.com/api/v2/customers?limit=10&offset=&sort_by%5Basc%5D=updated_at&updated_at%5Bafter%5D=1630857600", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
     # => 200 OK | application/json 2608 bytes 
 
     Progress: |=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---|

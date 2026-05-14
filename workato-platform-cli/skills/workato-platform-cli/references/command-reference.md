@@ -375,7 +375,7 @@ Usage: workato connections create-oauth [OPTIONS]
 
   # Create with custom name and URLs workato connections create-oauth
   --parent-id 12345 --name "John's Google Drive"   --external-id
-  "john.doe@company.com" --callback-url "https://myapp.com/oauth/callback"
+  "john.doe@example.com" --callback-url "https://myapp.com/oauth/callback"
   --redirect-url "https://myapp.com/success"
 
 Options:
