@@ -71,6 +71,7 @@ If **~~project tracker** is connected:
 If **~~calendar** is connected:
 - Factor in PTO, holidays, and recurring meeting load
 - Calculate actual available hours per person
+- Use `gws calendar` for Google Calendar rather than Google Calendar MCP.
 
 ## Tips
 

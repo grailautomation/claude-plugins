@@ -1,6 +1,6 @@
 ---
 name: source-management
-description: Manages connected MCP sources for enterprise search. Detects available sources, guides users to connect new ones, handles source priority ordering, and manages rate limiting awareness.
+description: Manages connected sources for enterprise search. Detects available sources, guides users to connect new ones, handles source priority ordering, and manages rate limiting awareness.
 ---
 
 # Source Management
@@ -11,7 +11,11 @@ Knows what sources are available, helps connect new ones, and manages how source
 
 ## Checking Available Sources
 
-Determine which MCP sources are connected by checking available tools. Each source corresponds to a set of MCP tools:
+Determine which sources are connected by checking available tools and known
+CLIs. Prefer a maintained CLI over MCP when the CLI can safely perform the
+workflow. For Google Workspace, also check whether `gws auth status` succeeds;
+Gmail, Google Calendar, and Google Drive should use the `gws` CLI rather than
+MCP. Each source corresponds to a set of tools:
 
 | Source | Key capabilities |
 |--------|-----------------|
@@ -31,7 +35,8 @@ When a user searches but has few or no sources connected:
 ```
 You currently have [N] source(s) connected: [list].
 
-To expand your search, you can connect additional sources in your MCP settings:
+To expand your search, connect maintained CLIs first where available, then add
+MCP sources for services without a safe CLI path:
 - ~~chat — messages, threads, channels
 - ~~email — emails, conversations, attachments
 - ~~cloud storage — docs, sheets, slides
@@ -40,9 +45,14 @@ To expand your search, you can connect additional sources in your MCP settings:
 - ~~knowledge base — wiki pages, knowledge base articles
 
 The more sources you connect, the more complete your search results.
+
+For Gmail, Google Calendar, or Google Drive, use the `google-workspace` plugin
+and authenticate with `gws auth login`; do not add Google Workspace MCP unless a
+workflow cannot be represented safely through the CLI.
 ```
 
-When a user asks about a specific tool that is not connected:
+When a user asks about a specific non-Google tool that is not connected and no
+maintained CLI path is available:
 
 ```
 [Tool name] isn't currently connected. To add it:
@@ -51,6 +61,14 @@ When a user asks about a specific tool that is not connected:
 3. Authenticate when prompted
 
 Once connected, it will be automatically included in future searches.
+```
+
+When the missing tool is Gmail, Google Calendar, or Google Drive:
+
+```
+Google Workspace should use the `gws` CLI here. Run `gws auth status` to check
+auth, or `gws auth login` to authenticate before searching Gmail, Calendar, or
+Drive.
 ```
 
 ## Source Priority Ordering
@@ -117,7 +135,7 @@ When query type is unclear:
 
 ## Rate Limiting Awareness
 
-MCP sources may have rate limits. Handle them gracefully:
+CLI and MCP sources may have rate limits. Handle them gracefully:
 
 ### Detection
 
@@ -164,7 +182,11 @@ When reporting search results, include which sources were searched so the user k
 
 ## Adding Custom Sources
 
-The enterprise search plugin works with any MCP-connected source. As new MCP servers become available, they can be added to the `.mcp.json` configuration. The search and digest commands will automatically detect and include new sources based on available tools.
+The enterprise search plugin works with CLI-connected sources first, then with
+MCP-connected sources where no safe CLI path exists. It uses the `gws` CLI for
+Google Workspace. As new non-Google MCP servers become available, they can be
+added to the `.mcp.json` configuration. The search and digest commands will
+automatically detect and include new sources based on available tools.
 
 To add a new source:
 1. Add the MCP server configuration to `.mcp.json`

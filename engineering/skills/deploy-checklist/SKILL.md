@@ -63,6 +63,7 @@ Tell me about your deploy and I'll customize the checklist:
 If **~~source control** is connected:
 - Pull the release diff and list of changes
 - Verify all PRs are approved and merged
+- For GitHub, use the `gh` CLI before GitHub MCP.
 
 If **~~CI/CD** is connected:
 - Check build and test status automatically

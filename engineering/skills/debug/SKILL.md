@@ -84,6 +84,7 @@ If **~~monitoring** is connected:
 If **~~source control** is connected:
 - Identify recent commits and PRs that touched affected code paths
 - Check if the issue correlates with a specific change
+- For GitHub, use the `gh` CLI before GitHub MCP.
 
 If **~~project tracker** is connected:
 - Search for related bug reports or known issues

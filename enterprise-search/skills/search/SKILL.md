@@ -9,13 +9,16 @@ disable-model-invocation: true
 
 > If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../../CONNECTORS.md).
 
-Search across all connected MCP sources in a single query. Decompose the user's question, run parallel searches, and synthesize results.
+Search across all connected sources in a single query. Decompose the user's question, run parallel searches, and synthesize results.
 
 ## Instructions
 
 ### 1. Check Available Sources
 
-Before searching, determine which MCP sources are available. Attempt to identify connected tools from the available tool list. Common sources:
+Before searching, determine which connected sources are available. Prefer a
+maintained CLI over MCP when the CLI can safely perform the workflow; for
+Google Workspace, check whether `gws auth status` succeeds. Attempt to identify
+connected tools from the available tool list. Common sources:
 
 - **~~chat** — chat platform tools
 - **~~email** — email tools
@@ -24,13 +27,15 @@ Before searching, determine which MCP sources are available. Attempt to identify
 - **~~CRM** — CRM tools
 - **~~knowledge base** — knowledge base tools
 
-If no MCP sources are connected:
+If no sources are connected:
 ```
 To search across your tools, you'll need to connect at least one source.
-Check your MCP settings to add ~~chat, ~~email, ~~cloud storage, or other tools.
+Use a maintained CLI when available, or add MCP sources for services without a
+safe CLI path. For Google Workspace, authenticate the `gws` CLI instead of
+adding Gmail, Google Calendar, or Google Drive MCP.
 
 Supported sources: ~~chat, ~~email, ~~cloud storage, ~~project tracker, ~~CRM, ~~knowledge base,
-and any other MCP-connected service.
+and any other connected service.
 ```
 
 ### 2. Parse the User's Query
@@ -62,11 +67,14 @@ For each available source, create a targeted sub-query using that source's nativ
 - Use available email search tools
 - Translate filters: `from:` maps to sender, dates map to time range filters
 - Map `type:` to attachment filters or subject-line searches as appropriate
+- If the email source is Gmail, use `gws gmail` commands instead of Gmail MCP.
 
 **~~cloud storage:**
 - Use available file search tools
 - Translate to file query syntax: name contains, full text contains, modified date, file type
 - Consider both file names and content
+- If the file source is Google Drive, use `gws drive` and `gws docs` commands
+  instead of Google Drive MCP.
 
 **~~project tracker:**
 - Use available task search or typeahead tools

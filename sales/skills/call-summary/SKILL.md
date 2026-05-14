@@ -158,6 +158,8 @@ Here's what we discussed:
 **Email connected:**
 - I'll offer to create a draft in ~~email
 - Or send directly if you approve
+- Use `gws gmail` for Gmail delivery rather than Gmail MCP, and use `--dry-run`
+  or show the exact message before sending.
 
 ---
 
