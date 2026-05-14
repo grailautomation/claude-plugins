@@ -87,8 +87,7 @@ These should not be mechanically exposed by adding manifests only.
 | `issue-blaster`, `scraper-generator` | Replace Claude subagent orchestration with Codex-native skill workflows, then smoke-test one end-to-end issue/scraper flow. | Both plugins mix skills with Claude agents and assume delegation surfaces that Codex will not load as plugin skills. |
 | `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` | For each domain pack, map every `.mcp.json` server to either a supported Codex MCP dependency, a Codex app/connector, or an intentional omission; then set explicit auth policy. | They are mostly connector catalogs. Listing them without auth/install mapping would expose broken or misleading integrations. |
 | `google-workspace` | Split the large recipe surface into safe read-only, write/send, and watch/automation groups; map each group to Codex Google connectors or MCP dependencies before listing. | The plugin has many action-oriented recipes with different auth and side-effect profiles, so one manifest policy is too coarse. |
-| `dev-browser` | Decide whether it supersedes, complements, or should be retired in favor of the existing Chrome/browser tooling; if kept, run its build/test suite and validate extension startup. | It is a full browser-extension/runtime project, not a simple skill bundle, and it overlaps existing Codex browser capabilities. |
-| `playwright-cli` | Keep covered unless a concrete gap versus the installed Codex `playwright` skill appears; if a gap exists, migrate only that distinct workflow. | The current Codex environment already has a Playwright skill, so listing another browser automation plugin risks duplicate triggers. |
+| `dev-browser` | Resolve [issue #20](https://github.com/grailautomation/claude-plugins/issues/20): decide keep, retire, or narrow Codex adaptation; if kept for Codex, run its server/extension validation first. | It is a full browser-extension/runtime project, not a simple skill bundle, and it overlaps existing Codex browser capabilities. |
 
 ### Initial Residency Calls
 
@@ -104,7 +103,8 @@ These are working classifications, not final deletion decisions:
 | `google-workspace` | `needs-generalization` | Review the existing Claude behavior and side effects before any Codex listing; split only if the current asset already implies distinct risk surfaces. |
 | `jq-for-clawd` / `codex-session-history` | `public-marketplace` split | Keep `jq-for-clawd` as the Claude Code session-history skill; expose `codex-session-history` separately for Codex's distinct session JSONL structure. |
 | `espanso`, `karabiner-elements` | `public-marketplace` Claude-only | Keep in the public Claude marketplace as generic macOS config workflows; do not expose to Codex until a side-effect policy and local-config validation path are deliberately designed. |
-| `dev-browser`, `playwright-cli` | `parked` | Do not list unless they provide a concrete gap over existing browser tooling. |
+| `dev-browser` | `parked` | Do not list for Codex until [issue #20](https://github.com/grailautomation/claude-plugins/issues/20) resolves the keep/retire/validate path. |
+| `playwright-cli` | `public-marketplace` Claude-only | Keep listed for Claude; do not list for Codex unless a concrete gap appears versus the installed Codex `playwright` skill. |
 | `agents`, `staff-software-engineer` | `parked` | Rewrite only the useful prompts as skills when there is a current use case. |
 
 ## Migration Rules
