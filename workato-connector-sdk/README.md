@@ -1,6 +1,6 @@
 # Workato Connector SDK Plugin
 
-Comprehensive Workato Connector SDK documentation and best practices for Claude Code.
+Comprehensive Workato Connector SDK documentation and best practices for Claude Code and Codex.
 
 ## Overview
 
@@ -40,7 +40,7 @@ This plugin provides expertise for building Workato custom connectors, covering:
 
 ## Installation
 
-This plugin is part of the local-plugins marketplace. Enable it in Claude Code settings.
+This plugin is part of the local plugin marketplace. Enable it in Claude Code or install it from the Codex marketplace.
 
 ## Contents
 

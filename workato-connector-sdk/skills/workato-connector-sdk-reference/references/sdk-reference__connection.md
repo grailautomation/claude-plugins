@@ -71,7 +71,7 @@ References to any picklists you defined in your connector are not accessible in 
           {
             name: 'api_key',
             control_type: 'password',
-            hint: 'You can find your API key final change3' \
+            hint: 'You can find your API key' \
               "under 'Settings'=>'Configure Chargebee'=>'API Keys and Webhooks'" \
               " in Chargebee's web console.",
             label: 'Your API Key',

@@ -58,8 +58,8 @@ In this case, the contents of the file `bigquery_input.json` contains
 ```ruby
  
     {
-        "project_id": "named-reporter-237205",
-        "query": "SELECT * FROM `named-reporter-237205.Lead_data.2mill_table` t1",
+        "project_id": "example-project",
+        "query": "SELECT * FROM `example-project.sample_dataset.sample_table` t1",
         "wait_for_query": "true"
     }
 
@@ -82,15 +82,15 @@ To run a multistep action, you give the same command as you would a standard act
     }
     INPUT
     {
-      "project_id": "named-reporter-237205",
-      "query": "SELECT * FROM `named-reporter-237205.Lead_data.2mill_table` t1",
+      "project_id": "example-project",
+      "query": "SELECT * FROM `example-project.sample_dataset.sample_table` t1",
       "wait_for_query": "true"
     }
 
-    RestClient.post "https://bigquery.googleapis.com/bigquery/v2/projects/named-reporter-237205/queries", "{\"query\":\"SELECT * FROM `named-reporter-237205.Lead_data.2mill_table` t1 left join `named-reporter-237205.Lead_data.2mill_table` t2 on t1.start_time = t2.start_time\",\"timeoutMs\":\"25000\",\"useLegacySql\":false}", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "Authorization"=>"Bearer ya29.c.Kp8BFQgUT1EOcK5YBwTEv60KokPYvLLWJRFsbfd9S0oGEB3cW5cp1pXTJRZreYPB4B06Z1_YdvhLQByhe9fP_FjziQc6rCtEfGs9zZdMZpXKUFHWEqzG44qxni-jibwaLEgWLw3zaqv42y00x28jUmZQdP3AQilOPdn1xRwf6s-gWi_95d1t0qDe478VnclTIrZ_SmCMtDTTbdU1yvkA80TQ...", "Content-Length"=>"207", "Content-Type"=>"application/json", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
+    RestClient.post "https://bigquery.googleapis.com/bigquery/v2/projects/example-project/queries", "{\"query\":\"SELECT * FROM `example-project.sample_dataset.sample_table` t1 left join `example-project.sample_dataset.sample_table` t2 on t1.start_time = t2.start_time\",\"timeoutMs\":\"25000\",\"useLegacySql\":false}", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "Authorization"=>"Bearer <ACCESS_TOKEN>", "Content-Length"=>"207", "Content-Type"=>"application/json", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
     # => 200 OK | application/json 176 bytes       
 
-    RestClient.get "https://bigquery.googleapis.com/bigquery/v2/projects/named-reporter-237205/jobs/job_LnXWC2bcE64hzeBlYMPWNCsMwavn", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "Authorization"=>"Bearer ya29.c.Kp8BFQgUT1EOcK5YBwTEv60KokPYvLLWJRFsbfd9S0oGEB3cW5cp1pXTJRZreYPB4B06Z1_YdvhLQByhe9fP_FjziQc6rCtEfGs9zZdMZpXKUFHWEqzG44qxni-jibwaLEgWLw3zaqv42y00x28jUmZQdP3AQilOPdn1xRwf6s-gWi_95d1t0qDe478VnclTIrZ_SmCMtDTTbdU1yvkA80TQ...", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
+    RestClient.get "https://bigquery.googleapis.com/bigquery/v2/projects/example-project/jobs/job_example123", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "Authorization"=>"Bearer <ACCESS_TOKEN>", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
     # => 200 OK | application/json 2062 bytes
 
     OUTPUT

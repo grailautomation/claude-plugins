@@ -54,7 +54,7 @@ The code in `connector.rb`.
           {
             name: 'api_key',
             control_type: 'password',
-            hint: 'You can find your API key final change3' \
+            hint: 'You can find your API key' \
               "under 'Settings'=>'Configure Chargebee'=>'API Keys and Webhooks'" \
               " in Chargebee's web console.",
             label: 'Your API Key'
@@ -501,7 +501,7 @@ Lastly, the Gem asks for permissions to override your settings file, which is sy
 ```ruby
  
     Updated settings file with new connection attributes? (Yes or No) Yes
-    RestClient.get "https://go.trackvia.com/openapi/views", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "Authorization"=>"Bearer new_valid_access_token", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
+    RestClient.get "https://go.trackvia.com/openapi/views", "Accept"=>"application/json", "Accept-Encoding"=>"gzip, deflate", "Authorization"=>"Bearer <ACCESS_TOKEN>", "User-Agent"=>"rest-client/2.0.2 (darwin19.6.0 x86_64) ruby/2.4.10p364"
     # => 200 OK | application/json 65 bytes                
     Progress: |=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=---=|
 

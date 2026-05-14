@@ -1,0 +1,40 @@
+{
+  "name": "workato-connector-sdk",
+  "version": "0.1.0",
+  "description": "Workato Connector SDK guidance for building, testing, and improving custom connectors.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "homepage": "https://docs.workato.com/developing-connectors/sdk/",
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/workato-connector-sdk",
+  "keywords": [
+    "workato",
+    "connector-sdk",
+    "custom-connectors",
+    "ruby",
+    "rspec",
+    "integration"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Workato Connector SDK",
+    "shortDescription": "Build and test Workato custom connectors",
+    "longDescription": "Use Workato Connector SDK for custom connector architecture, authentication, actions, triggers, schemas, data formats, recipe-builder UX patterns, local Ruby gem CLI workflows, RSpec testing, and production-quality connector review.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://docs.workato.com/developing-connectors/sdk/",
+    "defaultPrompt": [
+      "Help me design a Workato custom connector",
+      "Review this Workato connector action",
+      "Debug this Workato SDK CLI command"
+    ],
+    "brandColor": "#F45A2A",
+    "screenshots": []
+  }
+}

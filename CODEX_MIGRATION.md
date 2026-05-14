@@ -31,6 +31,7 @@ The tracked Codex marketplace exposes:
 | `oasb-scaffold` | Migrated | Repo-specific OASBuilder convention skill; exposed for personal/repo-local usefulness. |
 | `workato-api` | Migrated | REST reference and curl/httpx execution patterns; credentials come from environment variables or gitignored local notes. |
 | `workato-recipe` | Migrated | Script-backed recipe analysis now uses the stable root CLI and avoids Claude-only path/subagent assumptions for Codex. |
+| `workato-connector-sdk` | Migrated | Documentation-heavy connector SDK plugin; stale CLI claims and copied token/project examples were corrected before exposure. |
 
 The parked prototype files from the exploratory pass live under
 `.scratch/codex-adapter-prototype/2026-05-14/`. They are intentionally ignored
@@ -40,13 +41,9 @@ and should be treated as reference material only.
 
 ### Direct Or Near-Direct Candidates
 
-These are skill-first plugins with little or no connector surface. They should
-be migrated next, one small PR at a time unless there is a reason to batch a
-homogeneous set.
-
-| Plugin | Recommendation | Notes |
-| --- | --- | --- |
-| `workato-connector-sdk` | Candidate | Documentation-heavy and portable; verify no stale CLI claims before exposing. |
+This bucket is currently empty. The near-direct Workato candidates have been
+migrated; remaining plugin groups need rewrite, connector, MCP, or personal
+scope decisions rather than mechanical manifest work.
 
 ### Already Exposed Or Covered Locally
 

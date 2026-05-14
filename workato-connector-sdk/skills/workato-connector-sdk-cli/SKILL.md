@@ -24,7 +24,7 @@ The Workato SDK CLI (`workato-connector-sdk` gem) enables local connector develo
 - Local execution and testing of connector code
 - RSpec integration for automated testing
 - VCR cassette recording for API mocking
-- Push/pull commands for Workato platform sync
+- Push commands for Workato platform sync
 
 ## Installation
 
@@ -32,7 +32,16 @@ The Workato SDK CLI (`workato-connector-sdk` gem) enables local connector develo
 gem install workato-connector-sdk
 ```
 
-Requirements: Ruby 2.7+, Bundler
+Workato's current SDK CLI getting-started docs list Ruby 2.7.x, 3.0.x, and 3.1.x as supported. Local installs may run on newer Ruby versions, but verify with the installed gem before assuming compatibility.
+
+The Connector SDK gem and the Workato Platform CLI can both expose a `workato` command. Before running SDK CLI commands, check:
+
+```bash
+type -a workato
+workato version
+```
+
+The Connector SDK gem uses `workato version`, not `workato --version`. If `workato --version` succeeds but `workato version` fails, you are probably invoking the Platform CLI, not the Ruby Connector SDK CLI.
 
 ## Project Structure
 
@@ -82,14 +91,10 @@ workato exec connection.authorization --settings=settings.yaml
 ### Push to Workato
 
 ```bash
-workato push --title="My Connector" --api-token=YOUR_TOKEN
+WORKATO_API_TOKEN="<API_TOKEN>" workato push --title="My Connector"
 ```
 
-### Pull from Workato
-
-```bash
-workato pull --connector-id=12345 --api-token=YOUR_TOKEN
-```
+`workato push` reads `WORKATO_API_TOKEN` and `WORKATO_BASE_URL` from the environment unless `--api-token` or `--environment` is provided explicitly. The Connector SDK gem does not provide a `workato pull` command; use Workato's UI or API workflows when you need to retrieve existing connector source.
 
 ## RSpec Testing
 
@@ -174,12 +179,11 @@ end
 ### Encrypted Settings
 
 ```bash
-# Generate master key and encrypt settings
-workato generate_key
-workato encrypt settings.yaml
+# Create or edit encrypted settings
+workato edit settings.yaml.enc
 ```
 
-Creates `settings.yaml.enc` (safe to commit) and `master.key` (gitignore).
+Keep plaintext `settings.yaml`, `master.key`, and any files containing credentials gitignored. `WORKATO_CONNECTOR_MASTER_KEY` takes precedence over a key file when decrypting settings.
 
 ### Settings File Format
 
@@ -192,10 +196,7 @@ environment: sandbox
 
 ### Environment Variables
 
-```bash
-export WORKATO_API_KEY=your-key
-workato exec actions.test --settings-from-env
-```
+Use environment variables for SDK CLI authentication to Workato itself, such as `WORKATO_API_TOKEN`, `WORKATO_BASE_URL`, and `WORKATO_CONNECTOR_MASTER_KEY`. Connector runtime credentials should still be passed through a plain or encrypted settings file with `--settings`.
 
 ## Debugging
 
