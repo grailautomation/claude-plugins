@@ -1,0 +1,28 @@
+{
+  "name": "engineering",
+  "version": "0.1.0",
+  "description": "Support engineering standups, code review, debugging, architecture decisions, incidents, and technical documentation.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/engineering",
+  "keywords": ["engineering", "code-review", "incident", "architecture", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.codex.json",
+  "interface": {
+    "displayName": "Engineering",
+    "shortDescription": "Engineering workflows",
+    "longDescription": "Use Engineering for standups, code review, debugging, architecture decisions, incident response, deployment checklists, and technical documentation with optional MCP-backed work tools.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Use engineering to review this code",
+      "Use engineering to prepare an incident update",
+      "Use engineering to draft an architecture decision"
+    ],
+    "brandColor": "#0F172A",
+    "screenshots": []
+  }
+}

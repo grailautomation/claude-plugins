@@ -1,0 +1,28 @@
+{
+  "name": "productivity",
+  "version": "0.1.0",
+  "description": "Manage tasks, plan work, and build workplace memory with optional chat, project-tracker, knowledge-base, and office-suite integrations.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/productivity",
+  "keywords": ["productivity", "tasks", "memory", "dashboard", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.codex.json",
+  "interface": {
+    "displayName": "Productivity",
+    "shortDescription": "Tasks and workplace memory",
+    "longDescription": "Use Productivity to manage local task lists, build workplace memory, and sync context from authenticated work tools where available. This plugin can write local task and memory files.",
+    "developerName": "Grail Automation",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Use productivity to start a task list",
+      "Use productivity to update stale tasks",
+      "Use productivity to capture workplace memory"
+    ],
+    "brandColor": "#14B8A6",
+    "screenshots": []
+  }
+}

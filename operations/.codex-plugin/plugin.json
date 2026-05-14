@@ -1,0 +1,28 @@
+{
+  "name": "operations",
+  "version": "0.1.0",
+  "description": "Support business operations workflows including vendor management, process documentation, change requests, capacity planning, and compliance tracking.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/operations",
+  "keywords": ["operations", "vendor-management", "runbooks", "change-management", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.codex.json",
+  "interface": {
+    "displayName": "Operations",
+    "shortDescription": "Business operations workflows",
+    "longDescription": "Use Operations to evaluate vendors, document processes, plan changes, model capacity, track compliance, prepare status reports, and write runbooks with optional MCP-backed business systems.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Use operations to evaluate this vendor",
+      "Use operations to document this process",
+      "Use operations to prepare a change request"
+    ],
+    "brandColor": "#EA580C",
+    "screenshots": []
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "finance",
+  "version": "0.1.0",
+  "description": "Support finance workflows including journal entries, reconciliation, statements, variance analysis, audit prep, and month-end close.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/finance",
+  "keywords": ["finance", "accounting", "audit", "variance", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.codex.json",
+  "interface": {
+    "displayName": "Finance",
+    "shortDescription": "Finance and accounting workflows",
+    "longDescription": "Use Finance to prepare journal entries, reconcile accounts, analyze variances, support audits, organize close workflows, and draft financial statements with optional MCP-backed data and communication tools.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Use finance to analyze this variance",
+      "Use finance to prepare a reconciliation",
+      "Use finance to support month-end close"
+    ],
+    "brandColor": "#16A34A",
+    "screenshots": []
+  }
+}

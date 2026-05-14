@@ -1,0 +1,28 @@
+{
+  "name": "sales",
+  "version": "0.1.0",
+  "description": "Support sales workflows including prospect research, call prep, outreach, pipeline review, forecasting, and competitive intelligence.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/sales",
+  "keywords": ["sales", "crm", "outreach", "pipeline", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.codex.json",
+  "interface": {
+    "displayName": "Sales",
+    "shortDescription": "Sales workflow support",
+    "longDescription": "Use Sales to research accounts, prepare for calls, draft outreach, review pipeline, build forecasts, create sales assets, and analyze competitors with optional MCP-backed CRM, enrichment, transcript, and communication tools.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Use sales to research this account",
+      "Use sales to draft outreach",
+      "Use sales to review this pipeline"
+    ],
+    "brandColor": "#DC2626",
+    "screenshots": []
+  }
+}

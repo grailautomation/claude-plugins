@@ -101,6 +101,126 @@
       "category": "Integrations"
     },
     {
+      "name": "data",
+      "source": {
+        "source": "local",
+        "path": "./data"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Integrations"
+    },
+    {
+      "name": "design",
+      "source": {
+        "source": "local",
+        "path": "./design"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Integrations"
+    },
+    {
+      "name": "engineering",
+      "source": {
+        "source": "local",
+        "path": "./engineering"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Integrations"
+    },
+    {
+      "name": "enterprise-search",
+      "source": {
+        "source": "local",
+        "path": "./enterprise-search"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Integrations"
+    },
+    {
+      "name": "finance",
+      "source": {
+        "source": "local",
+        "path": "./finance"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Integrations"
+    },
+    {
+      "name": "legal",
+      "source": {
+        "source": "local",
+        "path": "./legal"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Integrations"
+    },
+    {
+      "name": "operations",
+      "source": {
+        "source": "local",
+        "path": "./operations"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Integrations"
+    },
+    {
+      "name": "product-management",
+      "source": {
+        "source": "local",
+        "path": "./product-management"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Integrations"
+    },
+    {
+      "name": "productivity",
+      "source": {
+        "source": "local",
+        "path": "./productivity"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "sales",
+      "source": {
+        "source": "local",
+        "path": "./sales"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Integrations"
+    },
+    {
       "name": "oasb-scaffold",
       "source": {
         "source": "local",
