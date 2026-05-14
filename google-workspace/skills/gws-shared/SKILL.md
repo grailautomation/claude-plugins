@@ -11,6 +11,12 @@ user-invocable: false
 ## Installation
 
 The `gws` binary must be on `$PATH`. See the project README for install options.
+Use `gws` v0.22.5 or newer; older versions are missing helper commands and flags
+documented by this plugin.
+
+```bash
+gws --version
+```
 
 ## Authentication
 
@@ -51,6 +57,7 @@ gws <service> <resource> [sub-resource] <method> [flags]
 ## Security Rules
 
 - **Never** output secrets (API keys, tokens) directly
+- **Verify auth first** with `gws auth status` before commands that call Google APIs
 - **Always** confirm with user before executing write/delete commands
 - Prefer `--dry-run` for destructive operations
 - Use `--sanitize` for PII/content safety screening

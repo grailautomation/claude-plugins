@@ -89,6 +89,18 @@
       "category": "Integrations"
     },
     {
+      "name": "google-workspace",
+      "source": {
+        "source": "local",
+        "path": "./google-workspace"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Integrations"
+    },
+    {
       "name": "oasb-scaffold",
       "source": {
         "source": "local",
