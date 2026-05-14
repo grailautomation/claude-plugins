@@ -38,6 +38,26 @@ The parked prototype files from the exploratory pass live under
 `.scratch/codex-adapter-prototype/2026-05-14/`. They are intentionally ignored
 and should be treated as reference material only.
 
+## Repository Residency
+
+Codex migration is downstream of cleanup. Cleanup can mean keeping a plugin in
+this repository, splitting a public core from private overlays, or removing a
+plugin from the repository entirely after preserving it somewhere appropriate.
+
+Use these statuses while reviewing every asset:
+
+| Status | Meaning | Typical destination |
+| --- | --- | --- |
+| `public-marketplace` | Generic, reusable, and appropriate for this public marketplace. | Keep in repo; list in `.claude-plugin/marketplace.json`; add Codex metadata only after review. |
+| `needs-generalization` | Useful, but not yet safe or general enough for a public marketplace. | Rewrite with env/userConfig/local overlays, then reclassify. |
+| `split-public-private` | Public core is useful, but user-specific data or defaults must move out. | Public core in repo; private values in `.local.md`, user skills, local plugin config, or private repo. |
+| `personal-local` | Useful personally, but not a marketplace asset. | `~/.claude/skills/`, local Claude plugin install, `~/.codex/skills/`, or a private repo. |
+| `parked` | Not ready to publish or adapt because value, overlap, auth, or architecture is unresolved. | Keep documented here until deliberately resumed or removed. |
+
+When a plugin becomes `personal-local`, remove it from the tracked marketplace
+and, if the content is still useful, preserve a recoverable copy outside this
+repo before deleting the tracked tree.
+
 ## Candidate Review
 
 ### Direct Or Near-Direct Candidates
@@ -70,14 +90,36 @@ These should not be mechanically exposed by adding manifests only.
 | `espanso`, `karabiner-elements` | Decide whether these belong in the public marketplace or should remain personal user-local skills; if listed, mark explicit-invocation-only and validate macOS config backup/restore behavior. | They modify local machine automation state and include user-environment assumptions. |
 | `playwright-cli` | Keep covered unless a concrete gap versus the installed Codex `playwright` skill appears; if a gap exists, migrate only that distinct workflow. | The current Codex environment already has a Playwright skill, so listing another browser automation plugin risks duplicate triggers. |
 
+### Initial Residency Calls
+
+These are working classifications, not final deletion decisions:
+
+| Plugin or group | Current residency call | Cleanup implication |
+| --- | --- | --- |
+| Migrated Codex plugins in the current marketplace | `public-marketplace` or accepted public/personal hybrid | Keep listed; continue validating mechanically. |
+| `terminal-tidbits` | `split-public-private` | Public skill stays here; personal notes stay outside the plugin directory. |
+| `salesforce-soql` | `split-public-private` | Public SOQL and CLI workflows stay here; org schemas remain ignored/local unless sanitized examples are deliberate. |
+| `cloudflare`, `namecheap` | `needs-generalization` | Keep only if the MCP servers can be generalized without losing personal utility; otherwise preserve locally/private and remove from the public marketplace. |
+| Domain MCP packs | `needs-generalization` | Preserve Claude MCP parity first; do not substitute native Codex apps silently. Open issues for cases where a native Codex connector is materially better. |
+| `google-workspace` | `needs-generalization` | Review the existing Claude behavior and side effects before any Codex listing; split only if the current asset already implies distinct risk surfaces. |
+| `jq-for-clawd` | `split-public-private` candidate | Keep a Claude session-history skill; add a separate Codex session-history variant if useful. |
+| `espanso`, `karabiner-elements` | `personal-local` candidate | Likely move out of the public marketplace unless they are rewritten as generic, explicit-invocation macOS config workflows. |
+| `dev-browser`, `playwright-cli` | `parked` | Do not list unless they provide a concrete gap over existing browser tooling. |
+| `agents`, `staff-software-engineer` | `parked` | Rewrite only the useful prompts as skills when there is a current use case. |
+
 ## Migration Rules
 
 - Add a plugin to `.agents/plugins/marketplace.json` only after its
   `.codex-plugin/plugin.json`, skill metadata, and runtime assumptions have been
   reviewed.
+- Preserve the existing Claude asset architecture by default. Do not replace an
+  MCP-backed Claude workflow with a native Codex app/connector unless there is a
+  documented reason; open a GitHub issue for those exceptions.
 - Prefer `skills/<skill>/agents/openai.yaml` for Codex-only invocation policy
   instead of overloading Claude-specific frontmatter.
 - Do not copy personal author emails into Codex manifests.
 - Keep Codex migration PRs separate from Claude cleanup PRs.
 - Validate both surfaces when a plugin remains dual-use: `claude plugin
   validate <plugin>` for Claude and JSON/YAML/frontmatter checks for Codex.
+- Run `ruby scripts/validate_repo.rb` before proposing or merging repository
+  metadata changes.

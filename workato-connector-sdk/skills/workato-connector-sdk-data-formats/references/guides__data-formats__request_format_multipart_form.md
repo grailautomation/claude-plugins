@@ -91,7 +91,7 @@ cURL | Workato
 ---|---  
 `curl https://gateway.watsonplatform.net/document-conversion/api/v1/convert_document?version=2015-12-15 -X POST` | `post("https://gateway.watsonplatform.net/document-conversion/api/v1/convert_document")`  
 `.params(version: "2015-12-15")`  
-`-u "{username}":"{password}"` | This is defined in the [connection](../authentication/basic-authentication.md) key and is automatically added onto the outgoing request.  
+`-u "{username}":"{password}"` | This is defined in the [connection](../../workato-connector-sdk-authentication/references/guides__authentication__basic-authentication.md) key and is automatically added onto the outgoing request.
 `-F config="{\"conversion_target\":\"answer_units\"}"`  
 `-F "[[email protected]](</cdn-cgi/l/email-protection>);type=application/pdf"` | `.request_format_multipart_form`  
 `.payload(`  
