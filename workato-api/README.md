@@ -4,7 +4,7 @@ Workato Developer API reference and execution framework for managing workspace r
 
 ## What This Plugin Does
 
-Provides Claude Code with complete reference documentation for all 120+ Workato Developer API endpoints across 21 resource categories. When activated, Claude can:
+Provides Claude Code or Codex with reference documentation for Workato Developer API endpoints across 21 resource categories. When activated, an agent can:
 
 - Query and manage Workato recipes, connections, jobs, lookup tables, folders, and projects
 - Execute API calls via curl with proper authentication and response parsing
@@ -18,7 +18,7 @@ Provides Claude Code with complete reference documentation for all 120+ Workato 
 Create a Developer API Client in your Workato workspace:
 **Workspace Admin > API Clients > Create client**
 
-Set the token as an environment variable:
+Set the token as an environment variable. Do not commit tokens or workspace-specific values to this repository.
 
 ```bash
 export WORKATO_API_TOKEN="your-token-here"
@@ -42,6 +42,8 @@ Or use environment variables:
 export WORKATO_WORKSPACE_ID="your-workspace-id"
 export WORKATO_BASE_URL="https://www.workato.com"  # US default
 ```
+
+Environment variables are preferred for values that vary by shell, project, or automation job. Use `.local.md` only for local notes that should remain gitignored.
 
 ### 3. Script Usage
 

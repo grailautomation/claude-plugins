@@ -25,7 +25,7 @@ This skill enables you to query and manage a Workato workspace via the Developer
 
 ## Workspace Configuration
 
-If a `.local.md` file exists in this skill directory, read it for workspace-specific configuration (workspace ID, data center, jq path). Also check environment variables:
+Prefer environment variables for runtime configuration. If a `.local.md` file exists in this skill directory, read it only for workspace-specific local notes (workspace ID, data center, jq path). Never write tokens or workspace-specific values to tracked files.
 
 - `WORKATO_API_TOKEN` — Bearer token (required). From Workato API Client (Workspace Admin > API Clients).
 - `WORKATO_WORKSPACE_ID` — Workspace ID override.
@@ -140,6 +140,8 @@ curl -s -H "Authorization: Bearer $WORKATO_API_TOKEN" \
 ```
 
 ## Safety Rules
+
+For Codex, treat this skill as explicit-invocation only. Do not proactively call authenticated Workato endpoints unless the user has clearly asked for Workato API execution in the current task.
 
 **Before executing any write operation** (POST, PUT, DELETE that creates, updates, or deletes data):
 1. Confirm with the user what will be changed

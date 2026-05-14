@@ -1,0 +1,41 @@
+{
+  "name": "workato-api",
+  "version": "0.1.0",
+  "description": "Workato Developer API reference and curl/httpx execution guidance for workspace resources.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "homepage": "https://docs.workato.com/workato-api/",
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/workato-api",
+  "keywords": [
+    "workato",
+    "developer-api",
+    "rest-api",
+    "recipes",
+    "connections",
+    "jobs",
+    "automation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Workato API",
+    "shortDescription": "Inspect and manage Workato resources through the Developer API",
+    "longDescription": "Use Workato API for endpoint lookup, request construction, pagination handling, response parsing, and cautious curl/httpx execution against Workato Developer API resources such as recipes, jobs, connections, folders, projects, lookup tables, properties, and API clients.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://docs.workato.com/workato-api/",
+    "defaultPrompt": [
+      "Look up this Workato API endpoint",
+      "Build a safe Workato API curl command",
+      "Inspect this Workato API response shape"
+    ],
+    "brandColor": "#F45A2A",
+    "screenshots": []
+  }
+}
