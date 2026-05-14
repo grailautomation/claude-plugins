@@ -79,6 +79,7 @@ scope decisions rather than mechanical manifest work.
 | --- | --- | --- |
 | `playwright-cli` | Covered | A user-level Codex `playwright` skill already exists; migrate only if this repo plugin has distinct value. |
 | `cloudflare` | Migrated | This repo's MCP-backed Cloudflare plugin is now exposed directly instead of substituting the native Codex Cloudflare deployment surface. |
+| `google-workspace` | Migrated | The broad plugin is now listed for Codex as a CLI-backed integration. It has no `.mcp.json`; use `gws` v0.22.5 or newer on `$PATH`, preserve the existing auth model, and keep side-effect confirmation rules in the plugin README and shared skill. |
 
 ### Resolved Non-Candidates
 
@@ -94,7 +95,6 @@ These should not be mechanically exposed by adding manifests only.
 | Plugin group | Required action before listing | Why it is blocked |
 | --- | --- | --- |
 | `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` | Resolve [issue #25](https://github.com/grailautomation/claude-plugins/issues/25): map every `.mcp.json` server to either a supported Codex MCP dependency, a Codex app/connector, or an intentional omission; then set explicit auth policy. | They are mostly connector catalogs. Listing them without auth/install mapping would expose broken or misleading integrations. |
-| `google-workspace` | Resolve [issue #27](https://github.com/grailautomation/claude-plugins/issues/27): validate the single broad Google Workspace plugin against existing MCP config, auth setup, and side-effect expectations before listing. | The plugin has many action-oriented recipes, but the accepted architecture is one broad plugin rather than side-effect-based plugin fragmentation. |
 
 ### Initial Residency Calls
 
@@ -109,7 +109,7 @@ These are working classifications, not final deletion decisions:
 | `issue-blaster` | `public-marketplace` | Keep listed for Claude and Codex. Claude keeps slash-command/subagent orchestration; Codex uses direct single-issue `gh`/`rg` analysis and explicit user-authorized subagents only for parallelism. |
 | `scraper-generator` | `public-marketplace` | Keep listed for Claude and Codex. Claude keeps slash-command/subagent orchestration; Codex runs phases inline by default and validates generated scrapers with the bundled script. |
 | Domain MCP packs | `needs-generalization` | Preserve existing MCP behavior first; track Codex connector/auth/side-effect mapping in [issue #25](https://github.com/grailautomation/claude-plugins/issues/25). |
-| `google-workspace` | `needs-generalization` | Keep as one broad plugin; track connector/auth validation and side-effect expectations in [issue #27](https://github.com/grailautomation/claude-plugins/issues/27). |
+| `google-workspace` | `public-marketplace` | Keep as one broad plugin for Claude and Codex. The integration is CLI-backed rather than MCP-backed; require current `gws` auth and side-effect confirmation instead of splitting by product or action class. |
 | `jq-for-clawd` / `codex-session-history` | `public-marketplace` split | Keep `jq-for-clawd` as the Claude Code session-history skill; expose `codex-session-history` separately for Codex's distinct session JSONL structure. |
 | `espanso`, `karabiner-elements` | `public-marketplace` Claude-only | Keep in the public Claude marketplace as generic macOS config workflows; do not expose to Codex until a side-effect policy and local-config validation path are deliberately designed. |
 | `dev-browser` | `public-marketplace` Claude-only | Keep listed for Claude. Do not list for Codex unless a future issue validates dependency-manager policy, server startup, extension scope, tests/typecheck, and browser-profile side-effect expectations against a concrete Codex use case. |
