@@ -85,6 +85,7 @@ scope decisions rather than mechanical manifest work.
 | Plugin | Decision | Notes |
 | --- | --- | --- |
 | `agents` | Claude-only public marketplace plugin | The bundle is a set of Claude subagent definitions, not a Codex plugin surface. `explore`, `plan`, `general-purpose`, and `bash` duplicate Codex's built-in local/delegated work patterns; `statusline-setup` edits Claude Code settings; `claude-code-guide` is the only possible future extraction candidate, but should be rebuilt as a docs-current skill with official-source citation rules before any Codex exposure. |
+| `dev-browser` | Claude-only public marketplace plugin | The plugin is a stateful browser runtime plus optional Chrome extension, not a simple skill bundle. Keep it listed for Claude Code, where its server and extension behavior are documented; do not add a Codex adapter unless a future issue proves a distinct gap versus the installed Codex browser tooling and completes the validation contract in [issue #20](https://github.com/grailautomation/claude-plugins/issues/20). |
 
 ### Requires Rewrite Or Connector Review
 
@@ -94,7 +95,6 @@ These should not be mechanically exposed by adding manifests only.
 | --- | --- | --- |
 | `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` | Resolve [issue #25](https://github.com/grailautomation/claude-plugins/issues/25): map every `.mcp.json` server to either a supported Codex MCP dependency, a Codex app/connector, or an intentional omission; then set explicit auth policy. | They are mostly connector catalogs. Listing them without auth/install mapping would expose broken or misleading integrations. |
 | `google-workspace` | Resolve [issue #27](https://github.com/grailautomation/claude-plugins/issues/27): validate the single broad Google Workspace plugin against existing MCP config, auth setup, and side-effect expectations before listing. | The plugin has many action-oriented recipes, but the accepted architecture is one broad plugin rather than side-effect-based plugin fragmentation. |
-| `dev-browser` | Resolve [issue #20](https://github.com/grailautomation/claude-plugins/issues/20): decide keep, retire, or narrow Codex adaptation; if kept for Codex, run its server/extension validation first. | It is a full browser-extension/runtime project, not a simple skill bundle, and it overlaps existing Codex browser capabilities. |
 
 ### Initial Residency Calls
 
@@ -112,7 +112,7 @@ These are working classifications, not final deletion decisions:
 | `google-workspace` | `needs-generalization` | Keep as one broad plugin; track connector/auth validation and side-effect expectations in [issue #27](https://github.com/grailautomation/claude-plugins/issues/27). |
 | `jq-for-clawd` / `codex-session-history` | `public-marketplace` split | Keep `jq-for-clawd` as the Claude Code session-history skill; expose `codex-session-history` separately for Codex's distinct session JSONL structure. |
 | `espanso`, `karabiner-elements` | `public-marketplace` Claude-only | Keep in the public Claude marketplace as generic macOS config workflows; do not expose to Codex until a side-effect policy and local-config validation path are deliberately designed. |
-| `dev-browser` | `parked` | Do not list for Codex until [issue #20](https://github.com/grailautomation/claude-plugins/issues/20) resolves the keep/retire/validate path. |
+| `dev-browser` | `public-marketplace` Claude-only | Keep listed for Claude. Do not list for Codex unless a future issue validates dependency-manager policy, server startup, extension scope, tests/typecheck, and browser-profile side-effect expectations against a concrete Codex use case. |
 | `playwright-cli` | `public-marketplace` Claude-only | Keep listed for Claude; do not list for Codex unless a concrete gap appears versus the installed Codex `playwright` skill. |
 | `agents` | `public-marketplace` Claude-only | Keep listed for Claude; do not add a Codex adapter for the current subagent bundle. Revisit only if `claude-code-guide` is deliberately rebuilt as a current Anthropic/Claude documentation skill. |
 
@@ -130,5 +130,8 @@ These are working classifications, not final deletion decisions:
 - Keep Codex migration PRs separate from Claude cleanup PRs.
 - Validate both surfaces when a plugin remains dual-use: `claude plugin
   validate <plugin>` for Claude and JSON/YAML/frontmatter checks for Codex.
+- Browser-control plugins require an explicit side-effect policy before Codex
+  listing, especially when they can operate on a persistent browser profile,
+  logged-in sessions, cookies, bookmarks, or installed extensions.
 - Run `ruby scripts/validate_repo.rb` before proposing or merging repository
   metadata changes.
