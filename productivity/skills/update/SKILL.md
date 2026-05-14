@@ -108,11 +108,16 @@ Everything in Default Mode, plus a deep scan of recent activity.
 
 ### Extra Step: Scan Activity Sources
 
-Gather data from available MCP sources:
+Gather data from available connected sources. Prefer a maintained CLI over MCP
+when the CLI can safely perform the workflow; for Google Workspace, use the
+`gws` CLI:
 - **Chat:** Search recent messages, read active channels
-- **Email:** Search sent messages
-- **Documents:** List recently touched docs
-- **Calendar:** List recent + upcoming events
+- **Email:** Search sent messages. For Gmail, use `gws gmail` instead of Gmail
+  MCP.
+- **Documents:** List recently touched docs. For Google Drive/Docs, use
+  `gws drive` and `gws docs` instead of Google Drive MCP.
+- **Calendar:** List recent + upcoming events. For Google Calendar, use
+  `gws calendar` instead of Google Calendar MCP.
 
 ### Extra Step: Flag Missed Todos
 

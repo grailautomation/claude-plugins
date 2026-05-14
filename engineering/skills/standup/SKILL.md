@@ -60,6 +60,7 @@ If your tools are connected, just say `/engineering:standup` and I'll gather eve
 If **~~source control** is connected:
 - Pull recent commits and PRs (opened, reviewed, merged)
 - Summarize code changes at a high level
+- For GitHub, use the `gh` CLI before GitHub MCP.
 
 If **~~project tracker** is connected:
 - Pull tickets moved to "in progress" or "done"

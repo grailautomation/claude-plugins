@@ -1,9 +1,15 @@
 # MCP Inventory
 
 This inventory reflects the tracked `.mcp.json` files in this repository. It is
-not a Codex migration approval list. Preserve existing MCP behavior by default; if a
-native Codex app/connector looks materially better for a specific dependency,
-open a GitHub issue instead of silently substituting it.
+not a Codex migration approval list. This repo is CLI-first: when a maintained
+CLI can safely perform a workflow, prefer that CLI over MCP for both Claude and
+Codex.
+
+MCP remains appropriate when no usable CLI exists, the CLI cannot express the
+operation safely, or the MCP server is itself the plugin's core value. Google
+Workspace is the concrete enforced case here: Gmail, Google Calendar, and
+Google Drive route through the `google-workspace` plugin and `gws` CLI rather
+than Gmail/GCal/GDrive MCP endpoints.
 
 Connector-heavy domain pack review is resolved in
 [issue #25](https://github.com/grailautomation/claude-plugins/issues/25). See
@@ -28,10 +34,6 @@ omissions, and side-effect expectations.
 | `docusign` | HTTP MCP | `https://mcp.docusign.com/mcp` | `legal` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
 | `figma` | HTTP MCP | `https://mcp.figma.com/mcp` | `design`, `product-management` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
 | `fireflies` | HTTP MCP | `https://api.fireflies.ai/mcp` | `product-management`, `sales` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
-| `github` | HTTP MCP | `https://api.github.com/mcp` | `engineering` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
-| `gmail` | HTTP MCP | `https://gmail.mcp.claude.com/mcp` | `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
-| `google-calendar` | HTTP MCP | `https://gcal.mcp.claude.com/mcp` | `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
-| `google-drive` | HTTP MCP | `https://google-drive-mcp.claude.com/mcp` | `legal` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
 | `guru` | HTTP MCP | `https://mcp.api.getguru.com/mcp` | `enterprise-search` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
 | `hex` | HTTP MCP | `https://app.hex.tech/mcp` | `data` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
 | `hubspot` | HTTP MCP | `https://mcp.hubspot.com/anthropic` | `legal`, `sales` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
@@ -51,12 +53,13 @@ omissions, and side-effect expectations.
 
 ## Hosted HTTP MCP Dispositions
 
-The connector-heavy domain packs preserve their Claude `.mcp.json` files. Codex
-uses pack-local `.mcp.codex.json` files that include only endpoints that
-responded to a non-auth MCP `initialize` probe with either initialize success or
-an auth/RBAC challenge. Endpoints that returned `404` or failed DNS resolution
-are intentionally omitted from Codex configs until a specific issue chooses a
-fix or replacement.
+The connector-heavy domain packs use MCP for non-Google hosted providers and
+the `google-workspace` / `gws` CLI path for Gmail, Google Calendar, and Google
+Drive. Codex uses pack-local `.mcp.codex.json` files that include only
+endpoints that responded to a non-auth MCP `initialize` probe with either
+initialize success or an auth/RBAC challenge. Endpoints that returned `404` or
+failed DNS resolution are intentionally omitted from Codex configs until a
+specific issue chooses a fix or replacement.
 
 | Server | Codex disposition | Auth/setup expectation |
 | --- | --- | --- |
@@ -72,10 +75,10 @@ fix or replacement.
 | `docusign` | Included in filtered Codex MCP configs | Endpoint reached RBAC access denial; user auth and account/RBAC setup required. |
 | `figma` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
 | `fireflies` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user token setup required. |
-| `github` | Included in filtered Codex MCP configs with corrected Codex URL | Original Claude URL returned `404`; Codex uses `https://api.githubcopilot.com/mcp/`, which reached an auth challenge. User GitHub Copilot/GitHub auth setup required. |
-| `gmail` | Omitted from Codex filtered configs | Claude-hosted endpoint returned `404`; use the separate `google-workspace` CLI plugin for Codex Google Workspace work. |
-| `google-calendar` | Omitted from Codex filtered configs | Claude-hosted endpoint returned `404`; use the separate `google-workspace` CLI plugin for Codex Google Workspace work. |
-| `google-drive` | Omitted from Codex filtered configs | The configured Claude-hosted endpoint did not resolve from this network; use the separate `google-workspace` CLI plugin for Codex Google Workspace work. |
+| `github` | Removed from engineering MCP configs | Use the `gh` CLI for GitHub work in Claude and Codex. Do not add GitHub MCP unless a future issue documents why CLI is insufficient. |
+| `gmail` | Removed from domain-pack MCP configs | Use the separate `google-workspace` CLI plugin and `gws gmail` for Google Workspace work. Do not add Gmail MCP unless a future issue documents why CLI is insufficient. |
+| `google-calendar` | Removed from domain-pack MCP configs | Use the separate `google-workspace` CLI plugin and `gws calendar` for Google Workspace work. Do not add Google Calendar MCP unless a future issue documents why CLI is insufficient. |
+| `google-drive` | Removed from domain-pack MCP configs | Use the separate `google-workspace` CLI plugin and `gws drive` for Google Workspace work. Do not add Google Drive MCP unless a future issue documents why CLI is insufficient. |
 | `guru` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user token setup required. |
 | `hex` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user auth setup required. |
 | `hubspot` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
@@ -100,11 +103,15 @@ SaaS OAuth, scopes, workspaces, and target records.
 ## Review Rules
 
 - Do not list connector-heavy plugins for Codex by adding manifests only.
-- Keep the current MCP configuration as the default source of truth.
-- For HTTP MCP servers, verify Codex runtime support, auth setup, and side
-  effects before listing the owning plugin.
+- Treat CLI-backed integrations as the default source of truth when a maintained
+  CLI exists and can safely perform the workflow.
+- For HTTP MCP servers, verify runtime support, auth setup, and side effects
+  before listing the owning plugin.
 - For local npm MCP servers, verify package name, package manager/lockfile,
   environment variables, and startup behavior before deciding whether the plugin
   is public or personal/local.
-- For Google and Microsoft endpoints, call out any proposed native Codex
-  connector substitution in a GitHub issue before changing the migration plan.
+- For Microsoft endpoints, call out any proposed native Codex connector
+  substitution in a GitHub issue before changing the migration plan.
+- For Gmail, Google Calendar, and Google Drive in Claude or Codex, use the
+  `google-workspace` plugin and `gws` CLI over MCP. Open an issue only if a
+  workflow cannot be represented safely through the CLI.

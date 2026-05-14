@@ -99,7 +99,7 @@ Every command and skill works without any integrations:
 | Incident response | Describe the incident | Monitoring, Incident management, Chat |
 | Deploy checklists | Describe the deploy | CI/CD, Source control |
 
-## MCP Integrations
+## Integrations
 
 > If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](CONNECTORS.md).
 
@@ -107,7 +107,7 @@ Connect your tools for a richer experience:
 
 | Category | Examples | What It Enables |
 |---|---|---|
-| **Source control** | GitHub, GitLab | PR diffs, commit history, branch status |
+| **Source control** | GitHub via `gh` CLI, GitLab | PR diffs, commit history, branch status |
 | **Project tracker** | Linear, Jira, Asana | Ticket status, sprint data, assignments |
 | **Monitoring** | Datadog, New Relic | Logs, metrics, alerts, dashboards |
 | **Incident management** | PagerDuty, Opsgenie | On-call schedules, incident tracking, paging |

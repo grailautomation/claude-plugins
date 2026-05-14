@@ -74,6 +74,13 @@ Not every plugin uses all component types.
 - Plain Node.js using `@modelcontextprotocol/sdk` with stdio transport
 - Credentials read from environment variables, declared in `.mcp.json` at the plugin root
 - Published to npm as `@grailautomation/<name>-mcp`
+- Prefer CLI-backed integrations over MCP whenever a maintained CLI can safely
+  perform the workflow. This applies to Claude and Codex. Use MCP only when no
+  usable CLI exists, the CLI cannot express the operation safely, or the MCP
+  server itself is the plugin's core value.
+- For Google Workspace, route Gmail, Calendar, Drive, Docs, Sheets, Slides, and
+  related workflows through the `google-workspace` plugin and `gws` CLI, not
+  Gmail/GCal/GDrive MCP endpoints.
 - For plugin-required per-install values, prefer `userConfig` in `plugin.json` and `${user_config.KEY}` substitutions. For optional account/workspace-specific connectors, prefer user/project/local MCP config with environment-variable-backed URLs so broad marketplace plugins do not fail on unset placeholders.
 
 ### Versioning

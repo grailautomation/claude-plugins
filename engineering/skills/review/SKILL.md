@@ -82,6 +82,7 @@ I check for:
 If **~~source control** is connected:
 - Pull the PR diff automatically from the URL
 - Check CI status and test results
+- For GitHub, use the `gh` CLI before GitHub MCP.
 
 If **~~project tracker** is connected:
 - Link findings to related tickets

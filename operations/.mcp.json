@@ -4,14 +4,6 @@
       "type": "http",
       "url": "https://mcp.slack.com/mcp"
     },
-    "google-calendar": {
-      "type": "http",
-      "url": "https://gcal.mcp.claude.com/mcp"
-    },
-    "gmail": {
-      "type": "http",
-      "url": "https://gmail.mcp.claude.com/mcp"
-    },
     "notion": {
       "type": "http",
       "url": "https://mcp.notion.com/mcp"

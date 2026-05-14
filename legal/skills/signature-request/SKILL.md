@@ -30,6 +30,9 @@ Accept the document in any format:
 - **URL**: Link to a document in Google Drive or PandaDoc
 - **Reference**: "The Acme Corp MSA we finalized yesterday"
 
+Use `gws drive` and `gws docs` for Google Drive/Docs documents rather than
+Google Drive MCP.
+
 ### Step 2: Pre-Signature Checklist
 
 Before routing for signature, verify:
@@ -102,4 +105,4 @@ Gather signing details:
 
 1. **Check entity names carefully** — The most common signing error is incorrect legal entity names.
 2. **Verify authority** — Make sure each signer is authorized to bind their organization.
-3. **Keep a copy** — Executed copies should be filed in Google Drive immediately after execution.
+3. **Keep a copy** — Executed copies should be filed in Google Drive immediately after execution. Use `gws drive` for this Google-backed filing step.

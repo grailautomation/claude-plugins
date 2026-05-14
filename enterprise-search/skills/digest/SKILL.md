@@ -27,7 +27,9 @@ The user may also specify a custom range:
 
 ### 2. Check Available Sources
 
-Identify which MCP sources are connected (same approach as the search command):
+Identify which sources are connected (same approach as the search command).
+Prefer a maintained CLI over MCP when the CLI can safely perform the workflow;
+for Google Workspace, check whether `gws auth status` succeeds:
 
 - **~~chat** — channels, DMs, mentions
 - **~~email** — inbox, sent, threads
@@ -39,7 +41,9 @@ Identify which MCP sources are connected (same approach as the search command):
 If no sources are connected, guide the user:
 ```
 To generate a digest, you'll need at least one source connected.
-Check your MCP settings to add ~~chat, ~~email, ~~cloud storage, or other tools.
+Use a maintained CLI when available, or add MCP sources for services without a
+safe CLI path. For Google Workspace, authenticate the `gws` CLI instead of
+adding Gmail, Google Calendar, or Google Drive MCP.
 ```
 
 ### 3. Gather Activity from Each Source
@@ -54,10 +58,13 @@ Check your MCP settings to add ~~chat, ~~email, ~~cloud storage, or other tools.
 - Search recent inbox messages
 - Identify threads with new replies
 - Flag emails with action items or questions directed at the user
+- If the email source is Gmail, use `gws gmail` commands instead of Gmail MCP.
 
 **~~cloud storage:**
 - Find documents recently modified or shared with the user
 - Note new comments on docs the user owns or collaborates on
+- If the file source is Google Drive, use `gws drive` and `gws docs` commands
+  instead of Google Drive MCP.
 
 **~~project tracker:**
 - Tasks assigned to the user (new or updated)

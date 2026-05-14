@@ -93,11 +93,16 @@ Or we can stick with what we have and add context later.
 
 **If they choose comprehensive scan:**
 
-Gather data from available MCP sources:
+Gather data from available connected sources. Prefer a maintained CLI over MCP
+when the CLI can safely perform the workflow; for Google Workspace, use the
+`gws` CLI:
 - **Chat:** Recent messages, channels, DMs
-- **Email:** Sent messages, recipients
-- **Documents:** Recent docs, collaborators
-- **Calendar:** Meetings, attendees
+- **Email:** Sent messages, recipients. For Gmail, use `gws gmail` instead of
+  Gmail MCP.
+- **Documents:** Recent docs, collaborators. For Google Drive/Docs, use
+  `gws drive` and `gws docs` instead of Google Drive MCP.
+- **Calendar:** Meetings, attendees. For Google Calendar, use `gws calendar`
+  instead of Google Calendar MCP.
 
 Build a braindump of people, projects, and terms found. Present findings grouped by confidence:
 - **Ready to add** (high confidence) — offer to add directly

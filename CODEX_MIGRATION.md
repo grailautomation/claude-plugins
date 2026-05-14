@@ -107,7 +107,7 @@ These are working classifications, not final deletion decisions:
 | `cloudflare`, `namecheap` | `public-marketplace` | Keep in the public Claude marketplace. Credentials, account IDs, whitelisted IPs, and domain lists stay outside the repo in environment variables, account settings, Claude/Codex config, or gitignored local notes. |
 | `issue-blaster` | `public-marketplace` | Keep listed for Claude and Codex. Claude keeps slash-command/subagent orchestration; Codex uses direct single-issue `gh`/`rg` analysis and explicit user-authorized subagents only for parallelism. |
 | `scraper-generator` | `public-marketplace` | Keep listed for Claude and Codex. Claude keeps slash-command/subagent orchestration; Codex runs phases inline by default and validates generated scrapers with the bundled script. |
-| Domain MCP packs | `public-marketplace` with filtered Codex MCP configs | Keep listed for Claude with the original `.mcp.json`. Codex uses `.mcp.codex.json` per pack, preserving reachable hosted HTTP MCP dependencies and omitting endpoints that failed MCP probes instead of substituting native connectors. |
+| Domain MCP packs | `public-marketplace` with filtered Codex MCP configs | Keep listed for Claude and Codex. Prefer maintained CLIs over MCP whenever a CLI can safely perform the workflow; Gmail, Google Calendar, and Google Drive route through the `google-workspace` / `gws` CLI path. Codex uses `.mcp.codex.json` per pack for remaining reachable hosted HTTP MCP dependencies and omits endpoints that failed MCP probes instead of substituting native connectors. |
 | `google-workspace` | `public-marketplace` | Keep as one broad plugin for Claude and Codex. The integration is CLI-backed rather than MCP-backed; require current `gws` auth and side-effect confirmation instead of splitting by product or action class. |
 | `jq-for-clawd` / `codex-session-history` | `public-marketplace` split | Keep `jq-for-clawd` as the Claude Code session-history skill; expose `codex-session-history` separately for Codex's distinct session JSONL structure. |
 | `espanso`, `karabiner-elements` | `public-marketplace` Claude-only | Keep in the public Claude marketplace as generic macOS config workflows; do not expose to Codex until a side-effect policy and local-config validation path are deliberately designed. |
@@ -120,9 +120,10 @@ These are working classifications, not final deletion decisions:
 - Add a plugin to `.agents/plugins/marketplace.json` only after its
   `.codex-plugin/plugin.json`, skill metadata, and runtime assumptions have been
   reviewed.
-- Preserve the existing asset architecture by default. Do not replace an
-  MCP-backed workflow with a native Codex app/connector unless there is a
-  documented reason; open a GitHub issue for those exceptions.
+- Preserve the existing asset architecture by default, but prefer maintained
+  CLI-backed workflows over MCP when a CLI can safely perform the operation. Do
+  not replace an MCP-backed workflow with a native Codex app/connector unless
+  there is a documented reason; open a GitHub issue for those exceptions.
 - Prefer `skills/<skill>/agents/openai.yaml` for Codex-only invocation policy
   instead of overloading Claude-specific frontmatter.
 - Do not copy personal author emails into Codex manifests.

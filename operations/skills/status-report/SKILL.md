@@ -70,6 +70,7 @@ If **~~chat** is connected:
 
 If **~~calendar** is connected:
 - Reference key meetings and decisions from the reporting period
+- Use `gws calendar` for Google Calendar rather than Google Calendar MCP.
 
 ## Tips
 
