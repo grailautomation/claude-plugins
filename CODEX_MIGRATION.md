@@ -36,6 +36,7 @@ The tracked Codex marketplace exposes:
 | `cloudflare` | Migrated | Public MCP-backed infrastructure plugin; credentials stay in environment variables; published `npx` MCP startup lists 28 tools. |
 | `namecheap` | Migrated | Public MCP-backed registrar/DNS plugin; credentials and whitelisted IPs stay outside the repo; published `npx` MCP startup lists 8 tools. |
 | `context7` | Migrated | Public MCP-backed docs plugin; ships Context7 MCP config and current tool schema; published `npx` MCP startup lists `resolve-library-id` and `query-docs`. |
+| `codex-session-history` | Migrated | Codex-specific split from `jq-for-clawd`; uses `~/.codex/sessions` and `~/.codex/archived_sessions` JSONL shapes instead of Claude Code's project session layout. |
 
 The parked prototype files from the exploratory pass live under
 `.scratch/codex-adapter-prototype/2026-05-14/`. They are intentionally ignored
@@ -86,7 +87,6 @@ These should not be mechanically exposed by adding manifests only.
 | `issue-blaster`, `scraper-generator` | Replace Claude subagent orchestration with Codex-native skill workflows, then smoke-test one end-to-end issue/scraper flow. | Both plugins mix skills with Claude agents and assume delegation surfaces that Codex will not load as plugin skills. |
 | `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` | For each domain pack, map every `.mcp.json` server to either a supported Codex MCP dependency, a Codex app/connector, or an intentional omission; then set explicit auth policy. | They are mostly connector catalogs. Listing them without auth/install mapping would expose broken or misleading integrations. |
 | `google-workspace` | Split the large recipe surface into safe read-only, write/send, and watch/automation groups; map each group to Codex Google connectors or MCP dependencies before listing. | The plugin has many action-oriented recipes with different auth and side-effect profiles, so one manifest policy is too coarse. |
-| `jq-for-clawd` | Fork into a Claude session-history skill and a Codex session-history skill; rewrite the Codex variant for `~/.codex/sessions` and Codex rollout JSONL structure. | Current instructions hard-code Claude Code session paths and message schema. |
 | `dev-browser` | Decide whether it supersedes, complements, or should be retired in favor of the existing Chrome/browser tooling; if kept, run its build/test suite and validate extension startup. | It is a full browser-extension/runtime project, not a simple skill bundle, and it overlaps existing Codex browser capabilities. |
 | `espanso`, `karabiner-elements` | Decide whether these belong in the public marketplace or should remain personal user-local skills; if listed, mark explicit-invocation-only and validate macOS config backup/restore behavior. | They modify local machine automation state and include user-environment assumptions. |
 | `playwright-cli` | Keep covered unless a concrete gap versus the installed Codex `playwright` skill appears; if a gap exists, migrate only that distinct workflow. | The current Codex environment already has a Playwright skill, so listing another browser automation plugin risks duplicate triggers. |
@@ -103,7 +103,7 @@ These are working classifications, not final deletion decisions:
 | `cloudflare`, `namecheap` | `public-marketplace` | Keep in the public Claude marketplace. Credentials, account IDs, whitelisted IPs, and domain lists stay outside the repo in environment variables, account settings, Claude/Codex config, or gitignored local notes. |
 | Domain MCP packs | `needs-generalization` | Preserve Claude MCP parity first; do not substitute native Codex apps silently. Open issues for cases where a native Codex connector is materially better. |
 | `google-workspace` | `needs-generalization` | Review the existing Claude behavior and side effects before any Codex listing; split only if the current asset already implies distinct risk surfaces. |
-| `jq-for-clawd` | `split-public-private` candidate | Keep a Claude session-history skill; add a separate Codex session-history variant if useful. |
+| `jq-for-clawd` / `codex-session-history` | `public-marketplace` split | Keep `jq-for-clawd` as the Claude Code session-history skill; expose `codex-session-history` separately for Codex's distinct session JSONL structure. |
 | `espanso`, `karabiner-elements` | `personal-local` candidate | Likely move out of the public marketplace unless they are rewritten as generic, explicit-invocation macOS config workflows. |
 | `dev-browser`, `playwright-cli` | `parked` | Do not list unless they provide a concrete gap over existing browser tooling. |
 | `agents`, `staff-software-engineer` | `parked` | Rewrite only the useful prompts as skills when there is a current use case. |

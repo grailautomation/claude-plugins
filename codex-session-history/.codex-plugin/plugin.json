@@ -1,0 +1,35 @@
+{
+  "name": "codex-session-history",
+  "version": "0.1.0",
+  "description": "Query Codex session JSONL history with jq to find past conversations, tool calls, and task context.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/codex-session-history",
+  "keywords": [
+    "codex",
+    "session-history",
+    "jq",
+    "jsonl",
+    "debugging"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex Session History",
+    "shortDescription": "Search Codex session JSONL",
+    "longDescription": "Use Codex Session History to query local Codex session JSONL with jq while avoiding oversized prompt, image, and metadata dumps.",
+    "developerName": "Grail Automation",
+    "category": "Productivity",
+    "capabilities": [
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Search my Codex session history for this topic",
+      "Show recent Codex sessions in this repo",
+      "Find Codex tool calls related to this error"
+    ],
+    "brandColor": "#111827",
+    "screenshots": []
+  }
+}
