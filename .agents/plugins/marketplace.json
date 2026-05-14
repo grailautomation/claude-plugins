@@ -183,6 +183,18 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Reference"
+    },
+    {
+      "name": "codex-session-history",
+      "source": {
+        "source": "local",
+        "path": "./codex-session-history"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
     }
   ]
 }

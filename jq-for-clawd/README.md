@@ -23,13 +23,13 @@ When users ask about past conversations, previous sessions, or want to search th
 
 ## Installation
 
-Add this plugin to Claude Code:
+Add this plugin to Claude Code for a single session:
 
 ```bash
-claude --plugin-dir ~/Documents/DEV/claude-plugins/jq-for-clawd
+claude --plugin-dir /path/to/claude-plugins/jq-for-clawd
 ```
 
-Or symlink into your plugins directory.
+Or install it from the configured Claude plugin marketplace.
 
 ## Requirements
 
