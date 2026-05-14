@@ -1,4 +1,4 @@
 .DS_Store
 
-# User's terminal-tidbits file (not the defaults)
+# Legacy plugin-local working file from older installs.
 data/terminal-tidbits.json

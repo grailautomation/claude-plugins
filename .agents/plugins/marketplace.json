@@ -63,6 +63,18 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Reference"
+    },
+    {
+      "name": "terminal-tidbits",
+      "source": {
+        "source": "local",
+        "path": "./terminal-tidbits"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
     }
   ]
 }

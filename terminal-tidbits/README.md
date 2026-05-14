@@ -14,6 +14,10 @@ A personal reference system for terminal commands and concepts you're learning. 
 | `/terminal-tidbits:search` | Search tidbits |
 | `/terminal-tidbits:delete-all` | Clear all tidbits (or reset to defaults) |
 
+In Codex, invoke the same workflows as skills, for example
+`$terminal-tidbits:add`, `$terminal-tidbits:search`, or
+`$terminal-tidbits:show`.
+
 ## Usage Examples
 
 ### Show all tidbits
@@ -56,12 +60,15 @@ Or use natural language:
 
 ## Data Storage
 
-Tidbits are stored within the plugin directory:
+Default tidbits are shipped with the plugin, while user-added tidbits are stored
+outside the plugin directory so updates do not overwrite personal data:
 
 - **Default tidbits**: `data/default-terminal-tidbits.json` (ships with plugin)
-- **Your tidbits**: `data/terminal-tidbits.json` (created when you add/modify)
+- **Your tidbits**: `~/.terminal-tidbits/terminal-tidbits.json` by default
+- **Override path**: set `TERMINAL_TIDBITS_FILE` when you want a different file
 
-The working file (`terminal-tidbits.json`) is gitignored, so your custom tidbits won't be overwritten when the plugin updates.
+The working file lives outside the installed plugin/cache so custom tidbits
+survive plugin updates and work in both Claude Code and Codex.
 
 ## Pre-populated Tidbits
 

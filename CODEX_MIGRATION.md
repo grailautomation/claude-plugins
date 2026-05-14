@@ -26,6 +26,7 @@ The tracked Codex marketplace exposes:
 | `python-patterns` | Migrated | Skill-only Python reference and review workflow. |
 | `openapi-spec-generation` | Migrated | Skill-only OpenAPI workflow with local references. |
 | `python-quickbooks` | Migrated | Skill-only library reference; examples use placeholders rather than live credentials. |
+| `terminal-tidbits` | Migrated | User-data path moved outside the plugin directory; defaults remain plugin-bundled. |
 
 The parked prototype files from the exploratory pass live under
 `.scratch/codex-adapter-prototype/2026-05-14/`. They are intentionally ignored
@@ -68,7 +69,6 @@ These should not be mechanically exposed by adding manifests only.
 | `cloudflare`, `namecheap` | MCP server packaging and credential setup need Codex manifest and install-path review. |
 | `jq-for-clawd` | Claude session-history assumptions need a Codex session-log rewrite. |
 | `dev-browser` | Overlaps existing browser tooling and needs runtime/tooling validation. |
-| `terminal-tidbits` | Stores user data in the plugin directory and assumes `${CLAUDE_PLUGIN_ROOT}`; needs a Codex-safe user-data path before listing. |
 | `espanso`, `karabiner-elements` | Likely personal machine-automation skills rather than public marketplace plugins. |
 
 ## Migration Rules

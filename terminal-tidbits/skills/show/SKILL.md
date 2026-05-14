@@ -9,7 +9,10 @@ Display all tidbits in the user's terminal reference collection.
 
 ## Storage
 
-Tidbits are stored in `${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json`.
+Resolve paths before reading:
+- `PLUGIN_ROOT`: `${CLAUDE_PLUGIN_ROOT}` in Claude Code. If unavailable, use the directory two levels above this `SKILL.md`.
+- `TIDBITS_FILE`: `${TERMINAL_TIDBITS_FILE}` if set; otherwise `~/.terminal-tidbits/terminal-tidbits.json`.
+- `DEFAULT_TIDBITS_FILE`: `${PLUGIN_ROOT}/data/default-terminal-tidbits.json`.
 
 ## Instructions
 
@@ -17,12 +20,12 @@ Tidbits are stored in `${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json`.
 
 First, try to read the working tidbits file:
 ```
-${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json
+TIDBITS_FILE
 ```
 
 If that file doesn't exist, read the defaults:
 ```
-${CLAUDE_PLUGIN_ROOT}/data/default-terminal-tidbits.json
+DEFAULT_TIDBITS_FILE
 ```
 
 If neither file exists, inform the user:

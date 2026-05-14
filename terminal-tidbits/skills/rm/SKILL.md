@@ -15,7 +15,10 @@ The user provides the `tid` (identifier) of the tidbit to remove.
 
 ## Storage
 
-Tidbits are stored in `${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json`.
+Resolve paths before reading or writing:
+- `PLUGIN_ROOT`: `${CLAUDE_PLUGIN_ROOT}` in Claude Code. If unavailable, use the directory two levels above this `SKILL.md`.
+- `TIDBITS_FILE`: `${TERMINAL_TIDBITS_FILE}` if set; otherwise `~/.terminal-tidbits/terminal-tidbits.json`.
+- `DEFAULT_TIDBITS_FILE`: `${PLUGIN_ROOT}/data/default-terminal-tidbits.json`.
 
 ## Instructions
 
@@ -27,12 +30,12 @@ Extract the `tid` from $ARGUMENTS. The tid is the short identifier (e.g., `2>&1`
 
 First, try to read the working tidbits file:
 ```
-${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json
+TIDBITS_FILE
 ```
 
 If that file doesn't exist, read the defaults:
 ```
-${CLAUDE_PLUGIN_ROOT}/data/default-terminal-tidbits.json
+DEFAULT_TIDBITS_FILE
 ```
 
 If neither file exists, inform the user they have no tidbits yet.
@@ -63,8 +66,9 @@ Wait for user confirmation before proceeding.
 
 Remove the tidbit from the array and write the updated JSON to the working file:
 ```
-${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json
+TIDBITS_FILE
 ```
+Create the parent directory first if it does not exist.
 
 ### Step 6: Confirm
 

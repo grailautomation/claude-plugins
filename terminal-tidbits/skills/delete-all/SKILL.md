@@ -9,8 +9,10 @@ Delete tidbits from the user's collection with options for what to delete.
 
 ## Storage
 
-Working tidbits: `${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json`
-Default tidbits: `${CLAUDE_PLUGIN_ROOT}/data/default-terminal-tidbits.json`
+Resolve paths before reading or writing:
+- `PLUGIN_ROOT`: `${CLAUDE_PLUGIN_ROOT}` in Claude Code. If unavailable, use the directory two levels above this `SKILL.md`.
+- `TIDBITS_FILE`: `${TERMINAL_TIDBITS_FILE}` if set; otherwise `~/.terminal-tidbits/terminal-tidbits.json`.
+- `DEFAULT_TIDBITS_FILE`: `${PLUGIN_ROOT}/data/default-terminal-tidbits.json`.
 
 ## Instructions
 
@@ -20,12 +22,12 @@ Read both files to understand what exists:
 
 1. Read the defaults file:
    ```
-   ${CLAUDE_PLUGIN_ROOT}/data/default-terminal-tidbits.json
+   DEFAULT_TIDBITS_FILE
    ```
 
 2. Read the working file (if it exists):
    ```
-   ${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json
+   TIDBITS_FILE
    ```
 
 Determine:
@@ -85,6 +87,8 @@ Replace placeholders with actual counts:
 
 ### Step 4: Execute Based on Choice
 
+Before writing `TIDBITS_FILE`, create its parent directory if it does not exist.
+
 **If "My additions only":**
 - Filter the working file to keep only tidbits whose `tid` matches a default tidbit
 - Write the filtered list to the working file
@@ -102,7 +106,7 @@ Replace placeholders with actual counts:
 
 **If "Reset to original":**
 - Delete the working file entirely (so commands will read from defaults)
-- Use Bash to remove: `rm ${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json`
+- Use Bash to remove: `rm "$TIDBITS_FILE"`
 - Or write the defaults content to the working file
 
 ### Step 5: Confirm

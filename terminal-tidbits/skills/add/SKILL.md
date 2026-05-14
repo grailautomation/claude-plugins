@@ -22,7 +22,12 @@ Arguments may be provided as:
 
 ## Storage
 
-Tidbits are stored in `${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json` with this structure:
+Resolve paths before reading or writing:
+- `PLUGIN_ROOT`: `${CLAUDE_PLUGIN_ROOT}` in Claude Code. If unavailable, use the directory two levels above this `SKILL.md`.
+- `TIDBITS_FILE`: `${TERMINAL_TIDBITS_FILE}` if set; otherwise `~/.terminal-tidbits/terminal-tidbits.json`.
+- `DEFAULT_TIDBITS_FILE`: `${PLUGIN_ROOT}/data/default-terminal-tidbits.json`.
+
+Tidbits are stored in `TIDBITS_FILE` with this structure:
 ```json
 {
   "tidbits": [
@@ -43,12 +48,12 @@ Extract the `tid` and `bit` from $ARGUMENTS. If the user provided natural langua
 
 First, try to read the working tidbits file:
 ```
-${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json
+TIDBITS_FILE
 ```
 
 If that file doesn't exist, read the defaults and use them as the starting point:
 ```
-${CLAUDE_PLUGIN_ROOT}/data/default-terminal-tidbits.json
+DEFAULT_TIDBITS_FILE
 ```
 
 If neither file exists, start with an empty structure:
@@ -68,8 +73,9 @@ If duplicate found:
 
 Append the new tidbit to the array and write the updated JSON to the working file:
 ```
-${CLAUDE_PLUGIN_ROOT}/data/terminal-tidbits.json
+TIDBITS_FILE
 ```
+Create the parent directory first if it does not exist.
 
 ### Step 5: Confirm
 
