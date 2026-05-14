@@ -78,6 +78,24 @@ Not every plugin uses all component types.
 
 **Never commit real org IDs, email addresses, company names, or credentials to this repo.** User-specific data goes in `.local.md` files (gitignored) or `~/.claude/skills/`. Evaluate real-looking examples case-by-case before scrubbing them; preserve utility, but prefer `example.com` / fictional data for public plugin content.
 
+### Repository Residency
+
+Repo membership is an explicit decision, not a fixed constraint. During cleanup,
+classify each asset before publishing, adapting, or deleting it:
+
+| Status | Meaning | Action |
+| --- | --- | --- |
+| `public-marketplace` | Generic enough to publish from this repo. | Keep tracked, list in the Claude marketplace, and add Codex metadata only after review. |
+| `needs-generalization` | Useful, but currently has personal or local assumptions. | Rewrite with public defaults plus env/userConfig/local overlays before listing broadly. |
+| `split-public-private` | Has a reusable public core and private user-specific values. | Keep the reusable core here; move private values to `.local.md`, user skills, local plugin config, or a private repo. |
+| `personal-local` | Valuable to Dave, but not a public marketplace asset. | Remove from the tracked marketplace/repo after preserving it in a local Claude/Codex install location or private repo. |
+| `parked` | Potentially useful, but blocked by architecture, auth, overlap, or unclear value. | Keep documented in the migration ledger, but do not list or adapt until the blocker is resolved. |
+
+Removing an asset from this repo is allowed when classification calls for it,
+but do it deliberately: remove marketplace entries, preserve a recoverable copy
+outside the repo when it is still personally useful, and record the destination
+or reason in the relevant migration ledger.
+
 ### Decision Tree
 
 ```
@@ -101,9 +119,12 @@ Does it contain PII, org IDs, credentials, or company-specific data?
 
 ### Pre-Commit Checks
 
-Before committing, verify no PII in tracked files:
+Before committing, run the repository validator and verify no PII in tracked
+files:
 
 ```bash
+ruby scripts/validate_repo.rb
+
 # Check tracked files for email addresses (excluding example.com and plugin infra files)
 git grep -n -E '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' -- '*.md' | rg -v '@example|CLAUDE.md'
 git grep -n -E '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' -- '*.md' '*.json' | rg -v '@example|CLAUDE.md|plugin.json|marketplace.json'
