@@ -1,0 +1,36 @@
+{
+  "name": "issue-blaster",
+  "description": "Analyze GitHub issues, generate implementation plan options, and execute selected plans with explicit Codex workflows.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/issue-blaster",
+  "keywords": [
+    "github",
+    "issues",
+    "planning",
+    "implementation",
+    "worktrees"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Issue Blaster",
+    "shortDescription": "Plan and implement GitHub issues",
+    "longDescription": "Use Issue Blaster to inspect GitHub issues with gh, research the local codebase with rg, generate 2-4 implementation options, and implement a selected plan with explicit branch, worktree, commit, and PR handling.",
+    "developerName": "Grail Automation",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use issue-blaster to analyze this GitHub issue",
+      "Generate implementation options for issue #123",
+      "Implement this issue-blaster plan"
+    ],
+    "brandColor": "#24292F",
+    "screenshots": []
+  }
+}

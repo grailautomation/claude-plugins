@@ -1,12 +1,15 @@
 ---
 name: implement
-description: Implement one or more chosen solution plans
+description: "Issue Blaster implement command: implement a selected issue plan from plans/issue-* with explicit git, validation, commit, and PR handling."
 argument-hint: <issue:option> [<issue:option> ...] | <issue> <option>
 allowed-tools: Bash, Read, Edit, Write, Glob, Grep, Task, AskUserQuestion
 disable-model-invocation: true
 ---
 
-Implement the specified solution plan(s).
+Implement the specified solution plan(s). In Claude Code this skill is normally
+invoked as `/issue-blaster:implement`. In Codex, implement directly from the
+selected plan using normal repo-editing, validation, commit, push, and PR
+workflow; do not rely on Claude `Task`, `TaskOutput`, or `AskUserQuestion`.
 
 ## Arguments
 $ARGUMENTS
@@ -36,6 +39,16 @@ Determine the invocation style:
 #### Single Plan
 Invoke the plan-implementer agent directly with the parsed arguments.
 
+In Codex:
+- Read the selected plan file and verify it matches the requested issue/option
+- Check `git status --short --branch` before editing
+- Use the current branch when that matches the user's request; create a new
+  `codex/` branch or explicit worktree when isolation is needed
+- Implement the plan with normal Codex file edits
+- Run focused validation that matches the changed files
+- Commit, push, open a PR, and merge only when the user has asked for those
+  actions
+
 #### Multiple Plans (Parallel)
 For EACH issue:option pair, use the Task tool with:
 - **subagent_type**: `"plan-implementer"`
@@ -44,6 +57,14 @@ For EACH issue:option pair, use the Task tool with:
 - **prompt**: `"{issue} {option}"`
 
 After spawning all tasks, wait for completion using TaskOutput.
+
+In Codex:
+- Do not implement multiple plans in parallel unless the user explicitly asks
+  for subagents or parallel agent work
+- If parallel work is authorized, use one disjoint branch/worktree per plan and
+  keep ownership boundaries explicit
+- If parallel work is not authorized, implement one selected plan or ask which
+  plan should go first
 
 ### Step 3: Report Results
 

@@ -7,14 +7,18 @@ description: Guide for analyzing multiple GitHub issues using parallel agents
 
 When analyzing multiple GitHub issues, choose the appropriate parallelism strategy.
 
+Claude Code can use plugin Task agents internally. Codex requires explicit user
+authorization before spawning subagents or parallel agent work, so Codex should
+default to sequential processing unless the user has asked for parallelism.
+
 ## Decision Matrix
 
 | Scenario | Approach | Why |
 |----------|----------|-----|
-| 2-5 issues, want progressive results | Parallel agents | See results as each completes |
-| 2-5 issues, want unified output | `/solve 1 2 3` | Single formatted summary |
-| 5+ issues | `/solve 1 2 3 ...` | Context efficiency |
-| Fault isolation needed | Parallel agents | One failure won't affect others |
+| 2-5 issues, want progressive results | Claude Task agents or user-authorized Codex subagents | See results as each completes |
+| 2-5 issues, want unified output | `/solve 1 2 3` in Claude; sequential Codex loop | Single formatted summary |
+| 5+ issues | `/solve 1 2 3 ...` in Claude; staged Codex batches | Context efficiency |
+| Fault isolation needed | Separate agents or separate branches/worktrees | One failure won't affect others |
 
 ## Approach 1: SDK-Level Parallelism (Batch Mode)
 
@@ -84,6 +88,8 @@ Outer Claude can combine results into a summary:
 
 - **Batch mode**: Reports per-issue status in summary table, continues on failures
 - **Parallel agents**: Each failure is isolated, can retry individually
+- **Codex sequential mode**: Finish or park one issue before moving to the next;
+  report partial progress with plan paths and unresolved blockers
 
 ## Output Location
 
