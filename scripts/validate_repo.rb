@@ -247,6 +247,26 @@ if (marketplace = json_cache[codex_marketplace_path])
         error.call(manifest_path, "Codex manifest must expose skills when plugin has a skills directory")
       end
 
+      {
+        "skills" => "directory",
+        "mcpServers" => "file",
+        "apps" => "file",
+        "hooks" => "file"
+      }.each do |field, expected_type|
+        component_path = manifest[field]
+        next if component_path.to_s.strip.empty?
+
+        unless component_path.is_a?(String) && component_path.start_with?("./")
+          error.call(manifest_path, "#{field} path must start with ./")
+          next
+        end
+
+        destination = repo_path.call(plugin_dir) + component_path.delete_prefix("./")
+        exists =
+          expected_type == "directory" ? destination.directory? : destination.file?
+        error.call(manifest_path, "#{field} path does not exist: #{component_path}") unless exists
+      end
+
       manifest_text = JSON.generate(manifest)
       if manifest_text.match?(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/)
         error.call(manifest_path, "Codex manifest must not contain personal email addresses")

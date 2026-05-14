@@ -1,0 +1,38 @@
+{
+  "name": "cloudflare",
+  "version": "0.1.0",
+  "description": "Manage Cloudflare zones, DNS records, Workers, Pages, KV, R2, and D1 through an MCP server.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/cloudflare",
+  "keywords": [
+    "cloudflare",
+    "dns",
+    "domains",
+    "workers",
+    "pages",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Cloudflare",
+    "shortDescription": "Manage Cloudflare domains and infrastructure",
+    "longDescription": "Use Cloudflare to inspect zones, manage DNS records, deploy and inspect Workers, work with Pages projects, and operate KV, R2, and D1 resources through the bundled MCP server. Credentials are supplied through environment variables.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "List my Cloudflare zones",
+      "Show DNS records for this Cloudflare zone",
+      "Help deploy this static site to Cloudflare Pages"
+    ],
+    "brandColor": "#F38020",
+    "screenshots": []
+  }
+}

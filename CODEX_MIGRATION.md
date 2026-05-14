@@ -33,6 +33,8 @@ The tracked Codex marketplace exposes:
 | `workato-recipe` | Migrated | Script-backed recipe analysis now uses the stable root CLI and avoids Claude-only path/subagent assumptions for Codex. |
 | `workato-connector-sdk` | Migrated | Documentation-heavy connector SDK plugin; stale CLI claims and copied token/project examples were corrected before exposure. |
 | `workato-platform-cli` | Migrated | Repo copy matches the installed user-level Codex skill; listed with explicit invocation policy because it can manage real Workato assets. |
+| `cloudflare` | Migrated | Public MCP-backed infrastructure plugin; credentials stay in environment variables; published `npx` MCP startup lists 28 tools. |
+| `namecheap` | Migrated | Public MCP-backed registrar/DNS plugin; credentials and whitelisted IPs stay outside the repo; published `npx` MCP startup lists 8 tools. |
 
 The parked prototype files from the exploratory pass live under
 `.scratch/codex-adapter-prototype/2026-05-14/`. They are intentionally ignored
@@ -71,7 +73,7 @@ scope decisions rather than mechanical manifest work.
 | Plugin | Status | Notes |
 | --- | --- | --- |
 | `playwright-cli` | Covered | A user-level Codex `playwright` skill already exists; migrate only if this repo plugin has distinct value. |
-| `cloudflare` | Partially covered | Codex has Cloudflare deployment/plugin support; this repo's MCP packaging needs a separate credential review. |
+| `cloudflare` | Migrated | This repo's MCP-backed Cloudflare plugin is now exposed directly instead of substituting the native Codex Cloudflare deployment surface. |
 
 ### Requires Rewrite Or Connector Review
 
@@ -83,7 +85,6 @@ These should not be mechanically exposed by adding manifests only.
 | `issue-blaster`, `scraper-generator` | Replace Claude subagent orchestration with Codex-native skill workflows, then smoke-test one end-to-end issue/scraper flow. | Both plugins mix skills with Claude agents and assume delegation surfaces that Codex will not load as plugin skills. |
 | `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` | For each domain pack, map every `.mcp.json` server to either a supported Codex MCP dependency, a Codex app/connector, or an intentional omission; then set explicit auth policy. | They are mostly connector catalogs. Listing them without auth/install mapping would expose broken or misleading integrations. |
 | `google-workspace` | Split the large recipe surface into safe read-only, write/send, and watch/automation groups; map each group to Codex Google connectors or MCP dependencies before listing. | The plugin has many action-oriented recipes with different auth and side-effect profiles, so one manifest policy is too coarse. |
-| `cloudflare`, `namecheap` | Public Claude residency is accepted after MCP packaging review; before Codex listing, add Codex manifests and verify Codex MCP startup behavior with explicit env requirements. | These ship MCP servers and credentials, not only skills. The Claude install path works; Codex exposure still needs a separate adapter pass. |
 | `context7` | Add or declare a Codex-compatible Context7 MCP dependency, or rewrite the skill to route through an available docs tool. | The skill instructs the agent to call Context7 tools, but this repo plugin does not currently provide the MCP server config. |
 | `jq-for-clawd` | Fork into a Claude session-history skill and a Codex session-history skill; rewrite the Codex variant for `~/.codex/sessions` and Codex rollout JSONL structure. | Current instructions hard-code Claude Code session paths and message schema. |
 | `dev-browser` | Decide whether it supersedes, complements, or should be retired in favor of the existing Chrome/browser tooling; if kept, run its build/test suite and validate extension startup. | It is a full browser-extension/runtime project, not a simple skill bundle, and it overlaps existing Codex browser capabilities. |

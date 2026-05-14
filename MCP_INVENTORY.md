@@ -17,7 +17,7 @@ open a GitHub issue instead of silently substituting it.
 | `clay` | HTTP MCP | `https://api.clay.com/v3/mcp` | `sales` |  | Claude MCP parity review required |
 | `clickup` | HTTP MCP | `https://mcp.clickup.com/mcp` | `product-management`, `productivity` |  | Claude MCP parity review required |
 | `close` | HTTP MCP | `https://mcp.close.com/mcp` | `sales` |  | Claude MCP parity review required |
-| `cloudflare` | local npm MCP | `npx -y @grailautomation/cloudflare-mcp` | `cloudflare` | `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN` | Public Claude plugin; npm package exists at `0.1.0`; local tools/list smoke passed with 28 tools |
+| `cloudflare` | local npm MCP | `npx -y @grailautomation/cloudflare-mcp` | `cloudflare` | `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN` | Public Claude and Codex plugin; npm package exists at `0.1.0`; published `npx` tools/list smoke passed with 28 tools |
 | `datadog` | HTTP MCP | `https://mcp.datadoghq.com/mcp` | `engineering` |  | Claude MCP parity review required |
 | `docusign` | HTTP MCP | `https://mcp.docusign.com/mcp` | `legal` |  | Claude MCP parity review required |
 | `figma` | HTTP MCP | `https://mcp.figma.com/mcp` | `design`, `product-management` |  | Claude MCP parity review required |
@@ -33,7 +33,7 @@ open a GitHub issue instead of silently substituting it.
 | `linear` | HTTP MCP | `https://mcp.linear.app/mcp` | `design`, `engineering`, `product-management`, `productivity` |  | Claude MCP parity review required |
 | `monday` | HTTP MCP | `https://mcp.monday.com/mcp` | `product-management`, `productivity` |  | Claude MCP parity review required |
 | `ms365` | HTTP MCP | `https://microsoft365.mcp.claude.com/mcp` | `enterprise-search`, `finance`, `operations`, `productivity`, `sales` |  | Claude MCP parity review required |
-| `namecheap` | local npm MCP | `npx -y @grailautomation/namecheap-mcp` | `namecheap` | `NAMECHEAP_API_KEY`, `NAMECHEAP_API_USER`, `NAMECHEAP_USERNAME` | Public Claude plugin; npm package exists at `0.1.0`; local tools/list smoke passed with 8 tools |
+| `namecheap` | local npm MCP | `npx -y @grailautomation/namecheap-mcp` | `namecheap` | `NAMECHEAP_API_KEY`, `NAMECHEAP_API_USER`, `NAMECHEAP_USERNAME` | Public Claude and Codex plugin; npm package exists at `0.1.0`; published `npx` tools/list smoke passed with 8 tools |
 | `notion` | HTTP MCP | `https://mcp.notion.com/mcp` | `design`, `engineering`, `enterprise-search`, `legal`, `operations`, `product-management`, `productivity`, `sales` |  | Claude MCP parity review required |
 | `outreach` | HTTP MCP | `https://mcp.outreach.io/mcp` | `sales` |  | Claude MCP parity review required |
 | `pagerduty` | HTTP MCP | `https://mcp.pagerduty.com/mcp` | `engineering` |  | Claude MCP parity review required |

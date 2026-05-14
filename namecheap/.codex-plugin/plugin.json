@@ -1,0 +1,37 @@
+{
+  "name": "namecheap",
+  "version": "0.1.0",
+  "description": "Manage Namecheap domains, DNS host records, and nameservers through an MCP server.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/namecheap",
+  "keywords": [
+    "namecheap",
+    "dns",
+    "domains",
+    "registrar",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Namecheap",
+    "shortDescription": "Manage Namecheap domains and DNS",
+    "longDescription": "Use Namecheap to inspect registered domains, review and update DNS host records, and switch nameservers through the bundled MCP server. Credentials and account-specific values are supplied through environment variables and Namecheap account settings.",
+    "developerName": "Grail Automation",
+    "category": "Integrations",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "List my Namecheap domains",
+      "Show DNS hosts for this Namecheap domain",
+      "Help point this Namecheap domain to Cloudflare"
+    ],
+    "brandColor": "#DE3723",
+    "screenshots": []
+  }
+}
