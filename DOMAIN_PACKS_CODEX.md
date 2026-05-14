@@ -29,14 +29,14 @@ valid initialize response or an auth/RBAC challenge.
 | --- | --- | --- | --- |
 | `data` | `.mcp.codex.json` | `bigquery`, `hex`, `amplitude`, `atlassian` | None |
 | `design` | `.mcp.codex.json` | `slack`, `figma`, `linear`, `asana`, `atlassian`, `notion`, `intercom` | `google-calendar`, `gmail` |
-| `engineering` | `.mcp.codex.json` | `slack`, `linear`, `asana`, `atlassian`, `notion`, `pagerduty` | `github`, `datadog`, `google-calendar`, `gmail` |
+| `engineering` | `.mcp.codex.json` | `slack`, `linear`, `asana`, `atlassian`, `notion`, `github`, `pagerduty`, `datadog` | `google-calendar`, `gmail` |
 | `enterprise-search` | `.mcp.codex.json` | `slack`, `notion`, `guru`, `atlassian`, `asana`, `ms365` | `google-calendar`, `gmail` |
 | `finance` | `.mcp.codex.json` | `bigquery`, `slack`, `ms365` | `google-calendar`, `gmail` |
 | `legal` | `.mcp.codex.json` | `slack`, `docusign`, `hubspot`, `notion` | `google-calendar`, `gmail`, `google-drive` |
 | `operations` | `.mcp.codex.json` | `slack`, `notion`, `atlassian`, `asana`, `ms365` | `google-calendar`, `gmail`, `servicenow` |
 | `product-management` | `.mcp.codex.json` | `slack`, `linear`, `asana`, `monday`, `clickup`, `atlassian`, `notion`, `figma`, `amplitude`, `intercom`, `fireflies`, `similarweb` | `pendo`, `google-calendar`, `gmail` |
 | `productivity` | `.mcp.codex.json` | `slack`, `notion`, `asana`, `linear`, `atlassian`, `ms365`, `monday`, `clickup` | `google-calendar`, `gmail` |
-| `sales` | `.mcp.codex.json` | `slack`, `hubspot`, `close`, `clay`, `zoominfo`, `notion`, `atlassian`, `fireflies`, `ms365`, `similarweb` | `apollo`, `outreach`, `google-calendar`, `gmail` |
+| `sales` | `.mcp.codex.json` | `slack`, `hubspot`, `close`, `clay`, `zoominfo`, `notion`, `atlassian`, `fireflies`, `ms365`, `outreach`, `similarweb` | `apollo`, `google-calendar`, `gmail` |
 
 ## Side-Effect Expectations
 
@@ -51,14 +51,24 @@ valid initialize response or an auth/RBAC challenge.
 
 The Codex mapping was based on unauthenticated MCP `initialize` probes. Included
 endpoints returned `200` initialize success or `401`/`403` auth challenges that
-indicate a reachable MCP surface. Omitted endpoints returned:
+indicate a reachable MCP surface. Some Codex endpoints intentionally differ from
+the preserved Claude `.mcp.json` because the Claude value failed probing and a
+current public vendor endpoint was available:
 
-- `apollo`: `404`
-- `datadog`: `404`
-- `github`: `404`
+- `datadog`: Codex uses `https://mcp.datadoghq.com/api/unstable/mcp-server/mcp`.
+- `github`: Codex uses `https://api.githubcopilot.com/mcp/`.
+- `outreach`: Codex uses `https://api.outreach.io/mcp/`.
+
+Remaining omitted endpoints have these final dispositions:
+
+- `apollo`: the configured URL returned `404`; Apollo's public MCP guidance points
+  users to hosted connector directories rather than a stable server URL to commit.
 - `gmail`: `404` from the Claude-hosted endpoint
 - `google-calendar`: `404` from the Claude-hosted endpoint
-- `google-drive`: DNS resolution failure
-- `outreach`: DNS resolution failure
-- `pendo`: DNS resolution failure
-- `servicenow`: DNS resolution failure
+- `google-drive`: DNS resolution failure for the configured Claude-hosted
+  endpoint
+- `pendo`: no universal default; the documented Pendo MCP URL is regional and
+  must match the user's sign-in hostname
+- `servicenow`: the configured shared host did not resolve; ServiceNow documents
+  instance-generated server URLs of the form
+  `https://<instance>.service-now.com/sncapps/mcp-server/mcp/<server-name>`

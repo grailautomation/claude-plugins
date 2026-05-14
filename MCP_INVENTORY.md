@@ -61,21 +61,21 @@ fix or replacement.
 | Server | Codex disposition | Auth/setup expectation |
 | --- | --- | --- |
 | `amplitude` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
-| `apollo` | Omitted from Codex filtered configs | Probe returned `404`; preserve Claude config only until a specific fix/replacement issue exists. |
+| `apollo` | Omitted from Codex filtered configs | The configured URL returned `404`; Apollo's public MCP guidance points users to hosted connector directories rather than a stable server URL to commit. |
 | `asana` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
 | `atlassian` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
 | `bigquery` | Included in filtered Codex MCP configs | MCP initialize returned `200`; Google auth/project permissions required for tools. |
 | `clay` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user login/OAuth setup required. |
 | `clickup` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
 | `close` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user token setup required. |
-| `datadog` | Omitted from Codex filtered configs | Probe returned `404`; preserve Claude config only until a specific fix/replacement issue exists. |
+| `datadog` | Included in filtered Codex MCP configs with corrected Codex URL | Original Claude URL returned `404`; Codex uses `https://mcp.datadoghq.com/api/unstable/mcp-server/mcp`, which reached an auth challenge. User OAuth/token setup required. |
 | `docusign` | Included in filtered Codex MCP configs | Endpoint reached RBAC access denial; user auth and account/RBAC setup required. |
 | `figma` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
 | `fireflies` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user token setup required. |
-| `github` | Omitted from Codex filtered configs | Probe returned `404`; no native-connector substitution in this repo without a specific issue. |
+| `github` | Included in filtered Codex MCP configs with corrected Codex URL | Original Claude URL returned `404`; Codex uses `https://api.githubcopilot.com/mcp/`, which reached an auth challenge. User GitHub Copilot/GitHub auth setup required. |
 | `gmail` | Omitted from Codex filtered configs | Claude-hosted endpoint returned `404`; use the separate `google-workspace` CLI plugin for Codex Google Workspace work. |
 | `google-calendar` | Omitted from Codex filtered configs | Claude-hosted endpoint returned `404`; use the separate `google-workspace` CLI plugin for Codex Google Workspace work. |
-| `google-drive` | Omitted from Codex filtered configs | Host did not resolve; preserve Claude config only until a specific fix/replacement issue exists. |
+| `google-drive` | Omitted from Codex filtered configs | The configured Claude-hosted endpoint did not resolve from this network; use the separate `google-workspace` CLI plugin for Codex Google Workspace work. |
 | `guru` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user token setup required. |
 | `hex` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user auth setup required. |
 | `hubspot` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
@@ -84,10 +84,10 @@ fix or replacement.
 | `monday` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
 | `ms365` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; Microsoft auth setup required. |
 | `notion` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
-| `outreach` | Omitted from Codex filtered configs | Host did not resolve; preserve Claude config only until a specific fix/replacement issue exists. |
+| `outreach` | Included in filtered Codex MCP configs with corrected Codex URL | Original Claude host did not resolve; Codex uses `https://api.outreach.io/mcp/`, which reached an auth challenge. Outreach Amplify/org enablement and user auth required. |
 | `pagerduty` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user token setup required. |
-| `pendo` | Omitted from Codex filtered configs | Host did not resolve; preserve Claude config only until a specific fix/replacement issue exists. |
-| `servicenow` | Omitted from Codex filtered configs | Host did not resolve; preserve Claude config only until a specific fix/replacement issue exists. |
+| `pendo` | Omitted from Codex filtered configs | The existing URL did not resolve from this network, and Pendo documents regional MCP URLs that must match the user's sign-in hostname; no universal public default is committed. |
+| `servicenow` | Omitted from Codex filtered configs | The configured shared host did not resolve; ServiceNow documents instance-generated server URLs of the form `https://<instance>.service-now.com/sncapps/mcp-server/mcp/<server-name>`, so no public shared default is committed. |
 | `similarweb` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; API key or bearer-token setup required. |
 | `slack` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user token/OAuth setup required. |
 | `zoominfo` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user token setup required. |

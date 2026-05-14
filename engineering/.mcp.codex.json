@@ -20,9 +20,17 @@
       "type": "http",
       "url": "https://mcp.notion.com/mcp"
     },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    },
     "pagerduty": {
       "type": "http",
       "url": "https://mcp.pagerduty.com/mcp"
+    },
+    "datadog": {
+      "type": "http",
+      "url": "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
     }
   }
 }
