@@ -10,14 +10,9 @@ require "yaml"
 ROOT = Pathname.new(File.expand_path("..", __dir__))
 
 errors = []
-warnings = []
 
 error = lambda do |path, message|
   errors << [path, message]
-end
-
-warn = lambda do |path, message|
-  warnings << [path, message]
 end
 
 repo_path = lambda do |relative_path|
@@ -327,11 +322,6 @@ files.grep(/\.md\z/).each do |relative_path|
       error.call("#{relative_path}:#{line_number}", "hardcoded user path: #{user_path}")
     end
   end
-end
-
-unless warnings.empty?
-  puts "Warnings:"
-  warnings.each { |path, message| puts "  #{path}: #{message}" }
 end
 
 if errors.empty?
