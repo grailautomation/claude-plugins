@@ -37,6 +37,7 @@ The tracked Codex marketplace exposes:
 | `namecheap` | Migrated | Public MCP-backed registrar/DNS plugin; credentials and whitelisted IPs stay outside the repo; published `npx` MCP startup lists 8 tools. |
 | `context7` | Migrated | Public MCP-backed docs plugin; ships Context7 MCP config and current tool schema; published `npx` MCP startup lists `resolve-library-id` and `query-docs`. |
 | `codex-session-history` | Migrated | Codex-specific split from `jq-for-clawd`; uses `~/.codex/sessions` and `~/.codex/archived_sessions` JSONL shapes instead of Claude Code's project session layout. |
+| `staff-software-engineer` | Migrated | Claude agent behavior preserved; Codex exposure is a `staff-plan-review` skill rather than a Claude subagent definition. |
 
 The parked prototype files from the exploratory pass live under
 `.scratch/codex-adapter-prototype/2026-05-14/`. They are intentionally ignored
@@ -83,7 +84,7 @@ These should not be mechanically exposed by adding manifests only.
 
 | Plugin group | Required action before listing | Why it is blocked |
 | --- | --- | --- |
-| `agents`, `staff-software-engineer` | Rewrite useful agent prompts as Codex skills with `SKILL.md`; keep Claude-only agent files out of Codex manifests. | These plugins are agent-definition bundles, and Claude subagent metadata is not a Codex plugin interface. |
+| `agents` | Rewrite only useful agent prompts as Codex skills with `SKILL.md`; keep Claude-only agent files out of Codex manifests. | This plugin is an agent-definition bundle, and Claude subagent metadata is not a Codex plugin interface. |
 | `issue-blaster`, `scraper-generator` | Replace Claude subagent orchestration with Codex-native skill workflows, then smoke-test one end-to-end issue/scraper flow. | Both plugins mix skills with Claude agents and assume delegation surfaces that Codex will not load as plugin skills. |
 | `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` | For each domain pack, map every `.mcp.json` server to either a supported Codex MCP dependency, a Codex app/connector, or an intentional omission; then set explicit auth policy. | They are mostly connector catalogs. Listing them without auth/install mapping would expose broken or misleading integrations. |
 | `google-workspace` | Split the large recipe surface into safe read-only, write/send, and watch/automation groups; map each group to Codex Google connectors or MCP dependencies before listing. | The plugin has many action-oriented recipes with different auth and side-effect profiles, so one manifest policy is too coarse. |
@@ -105,7 +106,7 @@ These are working classifications, not final deletion decisions:
 | `espanso`, `karabiner-elements` | `public-marketplace` Claude-only | Keep in the public Claude marketplace as generic macOS config workflows; do not expose to Codex until a side-effect policy and local-config validation path are deliberately designed. |
 | `dev-browser` | `parked` | Do not list for Codex until [issue #20](https://github.com/grailautomation/claude-plugins/issues/20) resolves the keep/retire/validate path. |
 | `playwright-cli` | `public-marketplace` Claude-only | Keep listed for Claude; do not list for Codex unless a concrete gap appears versus the installed Codex `playwright` skill. |
-| `agents`, `staff-software-engineer` | `parked` | Rewrite only the useful prompts as skills when there is a current use case. |
+| `agents` | `parked` | Rewrite only the useful prompts as skills when there is a current use case; generic explore/plan/bash agents overlap Codex's built-in delegation surfaces. |
 
 ## Migration Rules
 

@@ -1,0 +1,5 @@
+interface:
+  display_name: "Staff Plan Review"
+  short_description: "Review implementation plans for risk"
+  brand_color: "#1F2937"
+  default_prompt: "Use $staff-plan-review to review this implementation plan before we proceed."

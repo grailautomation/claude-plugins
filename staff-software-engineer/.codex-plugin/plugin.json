@@ -1,0 +1,36 @@
+{
+  "name": "staff-software-engineer",
+  "version": "0.1.0",
+  "description": "Staff-level implementation plan review for architecture, correctness, risk, and test coverage.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/staff-software-engineer",
+  "keywords": [
+    "planning",
+    "architecture",
+    "review",
+    "staff-engineer",
+    "software-engineering"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Staff Software Engineer",
+    "shortDescription": "Review implementation plans",
+    "longDescription": "Use Staff Software Engineer to review implementation plans for architectural fit, correctness, risks, missing validation, and operational gaps before execution.",
+    "developerName": "Grail Automation",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Review this implementation plan as a staff engineer",
+      "Use staff-plan-review before we proceed",
+      "Find the risks in this plan"
+    ],
+    "brandColor": "#1F2937",
+    "screenshots": []
+  }
+}
