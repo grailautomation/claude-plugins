@@ -1,0 +1,36 @@
+{
+  "name": "context7",
+  "version": "0.1.0",
+  "description": "Use Context7 MCP to fetch current library, framework, SDK, API, CLI, and cloud-service documentation.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/context7",
+  "keywords": [
+    "context7",
+    "documentation",
+    "mcp",
+    "libraries",
+    "frameworks"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Context7",
+    "shortDescription": "Fetch current library documentation",
+    "longDescription": "Use Context7 MCP to resolve library IDs and query up-to-date docs for libraries, frameworks, SDKs, APIs, CLIs, and cloud services when current or version-specific documentation matters.",
+    "developerName": "Grail Automation",
+    "category": "Reference",
+    "capabilities": [
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Use Context7 to get current Next.js docs",
+      "Look up the latest API docs for this library",
+      "Fetch version-specific docs for this package"
+    ],
+    "brandColor": "#10B981",
+    "screenshots": []
+  }
+}
