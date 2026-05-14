@@ -1,0 +1,42 @@
+{
+  "name": "spec-kit",
+  "version": "0.1.0",
+  "description": "Streamlined spec-driven development for existing repositories: specs, clarification, plans, tasks, and safer implementation.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "homepage": "https://github.com/spec-kit/spec-kit",
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/spec-kit",
+  "license": "MIT",
+  "keywords": [
+    "spec",
+    "planning",
+    "sdd",
+    "tasks",
+    "specification",
+    "brownfield",
+    "implementation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Spec Kit",
+    "shortDescription": "Plan and implement features from lightweight executable specs",
+    "longDescription": "Use Spec Kit to capture feature intent, clarify only material ambiguity, generate brownfield-aware implementation plans, create dependency-ordered tasks, analyze artifact consistency, and execute work safely in existing repositories.",
+    "developerName": "Grail Automation",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/spec-kit/spec-kit",
+    "defaultPrompt": [
+      "Use spec-kit to plan this feature",
+      "Review my current spec-kit plan",
+      "Turn this feature idea into tasks"
+    ],
+    "brandColor": "#2F6FED",
+    "screenshots": []
+  }
+}

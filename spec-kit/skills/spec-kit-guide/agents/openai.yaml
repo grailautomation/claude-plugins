@@ -1,0 +1,5 @@
+interface:
+  display_name: "Spec Kit Guide"
+  short_description: "Guide streamlined spec-driven development in existing repositories"
+  brand_color: "#2F6FED"
+  default_prompt: "Use spec-kit to turn this feature idea into a repo-aware plan and task list."

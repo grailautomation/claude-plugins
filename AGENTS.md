@@ -8,6 +8,9 @@ Monorepo of Claude Code plugins, with optional Codex adapter metadata where need
 
 Codex plugin architecture is not interchangeable with Claude plugin architecture. Codex exposure is additive: use `.agents/plugins/marketplace.json` plus per-plugin `.codex-plugin/plugin.json` only for plugins that have been deliberately adapted for Codex.
 
+See `CODEX_MIGRATION.md` for the current Codex marketplace contents, candidate
+review, and migration rules.
+
 This is a **content-first repository** — almost entirely Markdown. There is no build system, test runner, CI pipeline, or linting config. The two MCP server plugins (`cloudflare`, `namecheap`) are the only ones with JavaScript code.
 
 ## Plugin Anatomy
@@ -39,6 +42,18 @@ Not every plugin uses all component types.
 - **Progressive discovery**: SKILL.md provides the summary; `references/*.md` provides depth. Link references with relative markdown links — Codex won't discover them otherwise
 - Keep SKILL.md focused; move detailed reference material to `references/`
 - `disable-model-invocation: true` keeps workflow skills user-invoked only; `user-invocable: false` marks background knowledge that users should not invoke directly
+- For Codex-only invocation policy or presentation metadata, use
+  `skills/<skill>/agents/openai.yaml`; do not assume Claude-specific
+  frontmatter is honored by Codex.
+
+### Codex Plugins
+
+- The repo-scoped Codex marketplace lives at `.agents/plugins/marketplace.json`.
+- Add entries only after the plugin has a reviewed `.codex-plugin/plugin.json`.
+- Keep marketplace `source.path` relative to the repository root and prefixed
+  with `./`.
+- Only `plugin.json` belongs in `.codex-plugin/`; keep skills, MCP config,
+  hooks, apps, scripts, and assets at the plugin root.
 
 ### Agents (agents/*.md)
 
