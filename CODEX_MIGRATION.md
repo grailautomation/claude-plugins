@@ -32,6 +32,7 @@ The tracked Codex marketplace exposes:
 | `workato-api` | Migrated | REST reference and curl/httpx execution patterns; credentials come from environment variables or gitignored local notes. |
 | `workato-recipe` | Migrated | Script-backed recipe analysis now uses the stable root CLI and avoids Claude-only path/subagent assumptions for Codex. |
 | `workato-connector-sdk` | Migrated | Documentation-heavy connector SDK plugin; stale CLI claims and copied token/project examples were corrected before exposure. |
+| `workato-platform-cli` | Migrated | Repo copy matches the installed user-level Codex skill; listed with explicit invocation policy because it can manage real Workato assets. |
 
 The parked prototype files from the exploratory pass live under
 `.scratch/codex-adapter-prototype/2026-05-14/`. They are intentionally ignored
@@ -49,7 +50,6 @@ scope decisions rather than mechanical manifest work.
 
 | Plugin | Status | Notes |
 | --- | --- | --- |
-| `workato-platform-cli` | Already exposed | A user-level Codex skill exists at `~/.codex/skills/workato-platform-cli/SKILL.md`. |
 | `playwright-cli` | Covered | A user-level Codex `playwright` skill already exists; migrate only if this repo plugin has distinct value. |
 | `cloudflare` | Partially covered | Codex has Cloudflare deployment/plugin support; this repo's MCP packaging needs a separate credential review. |
 
