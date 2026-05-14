@@ -87,7 +87,7 @@ These should not be mechanically exposed by adding manifests only.
 | `agents` | Resolve [issue #29](https://github.com/grailautomation/claude-plugins/issues/29): rewrite only useful agent prompts as Codex skills with `SKILL.md`; keep Claude-only agent files out of Codex manifests. | This plugin is an agent-definition bundle, and Claude subagent metadata is not a Codex plugin interface. |
 | `issue-blaster`, `scraper-generator` | Resolve [issue #23](https://github.com/grailautomation/claude-plugins/issues/23): replace Claude subagent orchestration with Codex-native skill workflows, then smoke-test one end-to-end issue/scraper flow. | Both plugins mix skills with Claude agents and assume delegation surfaces that Codex will not load as plugin skills. |
 | `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` | Resolve [issue #25](https://github.com/grailautomation/claude-plugins/issues/25): map every `.mcp.json` server to either a supported Codex MCP dependency, a Codex app/connector, or an intentional omission; then set explicit auth policy. | They are mostly connector catalogs. Listing them without auth/install mapping would expose broken or misleading integrations. |
-| `google-workspace` | Resolve [issue #27](https://github.com/grailautomation/claude-plugins/issues/27): split the large recipe surface into safe read-only, write/send, watch/automation, admin/security, and multi-product recipe groups before listing. | The plugin has many action-oriented recipes with different auth and side-effect profiles, so one manifest policy is too coarse. |
+| `google-workspace` | Resolve [issue #27](https://github.com/grailautomation/claude-plugins/issues/27): validate the single broad Google Workspace plugin against existing MCP config, auth setup, and side-effect expectations before listing. | The plugin has many action-oriented recipes, but the accepted architecture is one broad plugin rather than side-effect-based plugin fragmentation. |
 | `dev-browser` | Resolve [issue #20](https://github.com/grailautomation/claude-plugins/issues/20): decide keep, retire, or narrow Codex adaptation; if kept for Codex, run its server/extension validation first. | It is a full browser-extension/runtime project, not a simple skill bundle, and it overlaps existing Codex browser capabilities. |
 
 ### Initial Residency Calls
@@ -100,8 +100,8 @@ These are working classifications, not final deletion decisions:
 | `terminal-tidbits` | `split-public-private` | Public skill stays here; personal notes stay outside the plugin directory. |
 | `salesforce-soql` | `split-public-private` | Public SOQL and CLI workflows stay here; org schemas remain ignored/local unless sanitized examples are deliberate. |
 | `cloudflare`, `namecheap` | `public-marketplace` | Keep in the public Claude marketplace. Credentials, account IDs, whitelisted IPs, and domain lists stay outside the repo in environment variables, account settings, Claude/Codex config, or gitignored local notes. |
-| Domain MCP packs | `needs-generalization` | Preserve Claude MCP parity first; track Codex connector/auth/side-effect mapping in [issue #25](https://github.com/grailautomation/claude-plugins/issues/25). |
-| `google-workspace` | `needs-generalization` | Track the read/write/send/watch/admin split in [issue #27](https://github.com/grailautomation/claude-plugins/issues/27); preserve Claude behavior until each Codex group is reviewed. |
+| Domain MCP packs | `needs-generalization` | Preserve existing MCP behavior first; track Codex connector/auth/side-effect mapping in [issue #25](https://github.com/grailautomation/claude-plugins/issues/25). |
+| `google-workspace` | `needs-generalization` | Keep as one broad plugin; track connector/auth validation and side-effect expectations in [issue #27](https://github.com/grailautomation/claude-plugins/issues/27). |
 | `jq-for-clawd` / `codex-session-history` | `public-marketplace` split | Keep `jq-for-clawd` as the Claude Code session-history skill; expose `codex-session-history` separately for Codex's distinct session JSONL structure. |
 | `espanso`, `karabiner-elements` | `public-marketplace` Claude-only | Keep in the public Claude marketplace as generic macOS config workflows; do not expose to Codex until a side-effect policy and local-config validation path are deliberately designed. |
 | `dev-browser` | `parked` | Do not list for Codex until [issue #20](https://github.com/grailautomation/claude-plugins/issues/20) resolves the keep/retire/validate path. |
@@ -113,8 +113,8 @@ These are working classifications, not final deletion decisions:
 - Add a plugin to `.agents/plugins/marketplace.json` only after its
   `.codex-plugin/plugin.json`, skill metadata, and runtime assumptions have been
   reviewed.
-- Preserve the existing Claude asset architecture by default. Do not replace an
-  MCP-backed Claude workflow with a native Codex app/connector unless there is a
+- Preserve the existing asset architecture by default. Do not replace an
+  MCP-backed workflow with a native Codex app/connector unless there is a
   documented reason; open a GitHub issue for those exceptions.
 - Prefer `skills/<skill>/agents/openai.yaml` for Codex-only invocation policy
   instead of overloading Claude-specific frontmatter.
