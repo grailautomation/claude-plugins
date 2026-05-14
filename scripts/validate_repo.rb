@@ -58,6 +58,7 @@ git_files_output = IO.popen(
   &:read
 )
 files = git_files_output.lines.map(&:chomp).reject(&:empty?).sort
+files = files.select { |relative_path| repo_path.call(relative_path).file? }
 
 json_cache = {}
 files.grep(/\.json\z/).each do |relative_path|
@@ -292,6 +293,15 @@ mcp_files.each do |relative_path|
     env = server_config["env"]
     error.call(relative_path, "#{server_name} env must be an object when present") if env && !env.is_a?(Hash)
   end
+end
+
+files.grep(%r{/mcp-server/package\.json\z}).each do |relative_path|
+  package_dir = File.dirname(relative_path)
+  package_lock = "#{package_dir}/package-lock.json"
+  pnpm_lock = "#{package_dir}/pnpm-lock.yaml"
+
+  error.call(package_lock, "MCP server packages use pnpm; remove package-lock.json") if files.include?(package_lock)
+  error.call(pnpm_lock, "MCP server packages must include pnpm-lock.yaml") unless files.include?(pnpm_lock)
 end
 
 email_pattern = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/
