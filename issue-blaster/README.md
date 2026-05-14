@@ -26,10 +26,10 @@ A Claude Code plugin for analyzing GitHub issues and implementing AI-generated s
 ### Manual Installation
 
 ```bash
-git clone https://github.com/kreitter/issue-blaster ~/.claude-plugins/issue-blaster
+claude --plugin-dir /path/to/claude-plugins/issue-blaster
 ```
 
-Then add to your Claude Code settings.
+Or install it from the configured Claude plugin marketplace.
 
 ## Usage
 
