@@ -285,7 +285,7 @@ codex_manifests.each do |manifest_path|
   error.call(manifest_path, "Codex manifest exists but plugin is not listed in #{codex_marketplace_path}")
 end
 
-mcp_files = files.select { |path| path.end_with?("/.mcp.json") }
+mcp_files = files.select { |path| path.match?(%r{/\.mcp(?:\.codex)?\.json\z}) }
 mcp_files.each do |relative_path|
   config = json_cache[relative_path]
   servers = config&.fetch("mcpServers", nil)
