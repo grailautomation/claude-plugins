@@ -2,7 +2,6 @@
   "name": "cloudflare",
   "description": "Cloudflare integration for managing domains, DNS records, and Pages deployments",
   "author": {
-    "name": "Dave Kreitter",
-    "email": "dave@grailautomation.com"
+    "name": "Grail Automation"
   }
 }

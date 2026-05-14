@@ -2,6 +2,13 @@
 
 Manage your Cloudflare domains, DNS records, Workers, and storage services directly from Claude Code.
 
+## Residency
+
+This plugin is intended to stay in the public marketplace. The reusable code and
+workflow guidance live in this repository; account-specific credentials and
+defaults must stay in environment variables, Claude Code configuration, or
+gitignored local notes.
+
 ## Features
 
 - **Zone Management**: List and manage domains in your Cloudflare account
@@ -140,6 +147,10 @@ Once enabled, Claude will proactively suggest Cloudflare actions. You can also a
 
 - **MCP Server**: Custom implementation using `@modelcontextprotocol/sdk` v1.x
 - **Skill**: `cloudflare-domains` for proactive guidance and workflows
+
+## Development
+
+Use `pnpm` for local MCP server development. Do not add a second lockfile.
 
 ## Troubleshooting
 

@@ -2,6 +2,13 @@
 
 Interact with the Namecheap API for domain and DNS management directly from Claude Code.
 
+## Residency
+
+This plugin is intended to stay in the public marketplace. The reusable code and
+workflow guidance live in this repository; account-specific credentials,
+whitelisted IPs, and domain lists must stay in environment variables, Namecheap
+account settings, Claude Code configuration, or gitignored local notes.
+
 ## Features
 
 - List all domains in your Namecheap account
@@ -64,3 +71,14 @@ Typically `NAMECHEAP_API_USER` and `NAMECHEAP_USERNAME` are the same value.
 - **API Access Denied**: Ensure your IP is whitelisted in Namecheap
 - **Invalid Credentials**: Verify environment variables are set correctly
 - **Domain Not Found**: Check the domain is registered under your account
+
+## Development
+
+Use `pnpm` for local MCP server development:
+
+```bash
+cd /path/to/namecheap/mcp-server
+pnpm install
+```
+
+Do not add a second lockfile.
