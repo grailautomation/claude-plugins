@@ -106,8 +106,18 @@ fi
 touch "$IMPL_PLAN"
 
 PROJECT_CONTEXT="$REPO_ROOT/.specify/memory/project-context.md"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+json_escape() {
+    local value=${1//\\/\\\\}
+    value=${value//\"/\\\"}
+    value=${value//$'\n'/\\n}
+    value=${value//$'\r'/\\r}
+    value=${value//$'\t'/\\t}
+    printf '%s' "$value"
+}
+
 if [[ "$WRITE_CONTEXT" == "true" ]]; then
-    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     if [[ -x "$SCRIPT_DIR/detect-project-context.sh" ]]; then
         "$SCRIPT_DIR/detect-project-context.sh" --write >/dev/null
     elif [[ -f "$SCRIPT_DIR/detect-project-context.sh" ]]; then
@@ -116,4 +126,10 @@ if [[ "$WRITE_CONTEXT" == "true" ]]; then
 fi
 
 printf '{"FEATURE_SPEC":"%s","IMPL_PLAN":"%s","SPECS_DIR":"%s","BRANCH":"%s","FEATURE_SOURCE":"%s","HAS_GIT":"%s","PROJECT_CONTEXT":"%s"}\n' \
-    "$FEATURE_SPEC" "$IMPL_PLAN" "$FEATURE_DIR" "$CURRENT_FEATURE" "$FEATURE_SOURCE" "$HAS_GIT" "$PROJECT_CONTEXT"
+    "$(json_escape "$FEATURE_SPEC")" \
+    "$(json_escape "$IMPL_PLAN")" \
+    "$(json_escape "$FEATURE_DIR")" \
+    "$(json_escape "$CURRENT_FEATURE")" \
+    "$(json_escape "$FEATURE_SOURCE")" \
+    "$(json_escape "$HAS_GIT")" \
+    "$(json_escape "$PROJECT_CONTEXT")"

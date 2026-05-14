@@ -18,7 +18,7 @@ for arg in "$@"; do
     esac
 done
 
-FEATURE_DESCRIPTION="${ARGS[*]}"
+FEATURE_DESCRIPTION="${ARGS[*]:-}"
 if [[ -z "$FEATURE_DESCRIPTION" ]]; then
     echo "Usage: $0 <feature_description>" >&2
     exit 1

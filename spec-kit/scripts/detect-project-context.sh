@@ -128,29 +128,52 @@ TEST_COMMANDS=$(detect_test_commands)
 
 DATE=$(date +%Y-%m-%d)
 PROJECT_CONTEXT_PATH=".specify/memory/project-context.md"
+IGNORE_UPDATED=false
+
+json_escape() {
+    local value=${1//\\/\\\\}
+    value=${value//\"/\\\"}
+    value=${value//$'\n'/\\n}
+    value=${value//$'\r'/\\r}
+    value=${value//$'\t'/\\t}
+    printf '%s' "$value"
+}
+
+context_ignore_already_covers_path() {
+    git check-ignore -q -- "$PROJECT_CONTEXT_PATH" 2>/dev/null && return 0
+
+    local gitignore="$REPO_ROOT/.gitignore"
+    [[ -f "$gitignore" ]] || return 1
+
+    grep -Eq '^[[:space:]]*(\.specify/?|\.specify/memory/?|\.specify/memory/project-context\.md)[[:space:]]*$' "$gitignore"
+}
 
 ensure_local_context_ignored() {
     [[ "$HAS_GIT" == "true" ]] || return 0
 
-    if git check-ignore -q "$PROJECT_CONTEXT_PATH" 2>/dev/null; then
+    if context_ignore_already_covers_path; then
         return 0
     fi
 
     local gitignore="$REPO_ROOT/.gitignore"
-    if [[ -f "$gitignore" ]] && grep -Fxq "$PROJECT_CONTEXT_PATH" "$gitignore"; then
-        return 0
-    fi
-
     {
         [[ -s "$gitignore" ]] && printf '\n'
         printf '# Spec Kit local context\n'
         printf '%s\n' "$PROJECT_CONTEXT_PATH"
     } >> "$gitignore"
+    IGNORE_UPDATED=true
 }
 
 if $JSON; then
     printf '{"repoRoot":"%s","generated":"%s","hasGit":%s,"branch":"%s","primaryStack":"%s","packageFiles":"%s","sourceDirs":"%s","configFiles":"%s"}\n' \
-        "$REPO_ROOT" "$DATE" "$HAS_GIT" "$GIT_BRANCH" "$PRIMARY_STACK" "$PACKAGE_FILES" "$SOURCE_DIRS" "$CONFIG_FILES"
+        "$(json_escape "$REPO_ROOT")" \
+        "$(json_escape "$DATE")" \
+        "$HAS_GIT" \
+        "$(json_escape "$GIT_BRANCH")" \
+        "$(json_escape "$PRIMARY_STACK")" \
+        "$(json_escape "$PACKAGE_FILES")" \
+        "$(json_escape "$SOURCE_DIRS")" \
+        "$(json_escape "$CONFIG_FILES")"
     exit 0
 fi
 
@@ -188,6 +211,10 @@ if $WRITE; then
     mkdir -p "$REPO_ROOT/.specify/memory"
     ensure_local_context_ignored
     printf '%s\n' "$CONTENT" > "$REPO_ROOT/$PROJECT_CONTEXT_PATH"
+    if [[ "$IGNORE_UPDATED" == "true" ]]; then
+        echo "[spec-kit] Added $PROJECT_CONTEXT_PATH to .gitignore" >&2
+    fi
+    echo "[spec-kit] Updated local project context: $PROJECT_CONTEXT_PATH" >&2
 fi
 
 printf '%s\n' "$CONTENT"
