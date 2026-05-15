@@ -174,6 +174,65 @@ def smoke_guru(timeout)
   warn(key, "help ok; auth status is not configured or failed")
 end
 
+def smoke_notion(timeout)
+  key = "notion"
+  op_ref = ENV["NOTION_API_TOKEN_OP_REF"]
+  return fail_result(key, "set NOTION_API_TOKEN_OP_REF=op://<vault>/<item>/<field>") if op_ref.to_s.empty?
+  return fail_result(key, "1Password CLI `op` is not on PATH") unless executable_path("op")
+
+  prefix = command_prefix("ntn", package: "ntn")
+  return fail_result(key, "ntn is unavailable and neither pnpm nor npx can run it") unless prefix
+
+  token_result = run_command(["op", "read", op_ref], timeout: timeout)
+  return fail_result(key, "could not read Notion token from 1Password: #{failure_detail(token_result)}") unless token_result[:ok]
+
+  token = token_result.fetch(:stdout).strip
+  return fail_result(key, "Notion token is empty") if token.empty?
+
+  env = { "NOTION_API_TOKEN" => token }
+  doctor = run_command([*prefix, "doctor"], env: env, timeout: timeout)
+  return fail_result(key, "ntn doctor failed: #{failure_detail(doctor)}") unless doctor[:ok]
+
+  api_ls = run_command([*prefix, "api", "ls", "--json"], env: env, timeout: timeout)
+  return fail_result(key, "ntn api ls failed: #{failure_detail(api_ls)}") unless api_ls[:ok]
+
+  api_endpoints = JSON.parse(api_ls.fetch(:stdout))
+  return fail_result(key, "ntn api ls did not return an endpoint array") unless api_endpoints.is_a?(Array) && api_endpoints.any?
+
+  users_me = run_command([*prefix, "api", "v1/users/me"], env: env, timeout: timeout)
+  return fail_result(key, "ntn users/me failed: #{failure_detail(users_me)}") unless users_me[:ok]
+
+  user_payload = JSON.parse(users_me.fetch(:stdout))
+  return fail_result(key, "ntn users/me did not return a user object") unless user_payload["object"] == "user"
+
+  search = run_command([*prefix, "api", "v1/search", "page_size:=5"], env: env, timeout: timeout)
+  return fail_result(key, "ntn search failed: #{failure_detail(search)}") unless search[:ok]
+
+  search_payload = JSON.parse(search.fetch(:stdout))
+  results = Array(search_payload["results"])
+  first_page = results.find { |item| item["object"] == "page" && item["id"] }
+  page_status =
+    if first_page
+      page_get = run_command([*prefix, "pages", "get", first_page.fetch("id"), "--json"], env: env, timeout: timeout)
+      return fail_result(key, "ntn pages get failed: #{failure_detail(page_get)}") unless page_get[:ok]
+
+      JSON.parse(page_get.fetch(:stdout))
+      "ok"
+    else
+      "skipped:no-page-result"
+    end
+
+  files = run_command([*prefix, "files", "list", "--json"], env: env, timeout: timeout)
+  return fail_result(key, "ntn files list failed: #{failure_detail(files)}") unless files[:ok]
+
+  file_payload = JSON.parse(files.fetch(:stdout))
+  return fail_result(key, "ntn files list did not return an array") unless file_payload.is_a?(Array)
+
+  pass(key, "doctor/api/search/files ok; search_results=#{results.size}; page_get=#{page_status}; files=#{file_payload.size}")
+rescue JSON::ParserError => e
+  fail_result(key, "ntn did not emit expected JSON: #{e.message}")
+end
+
 def smoke_cf(timeout)
   key = "cloudflare-cf"
   prefix = command_prefix("cf", package: "cf")
@@ -202,6 +261,7 @@ SMOKES = {
   "bigquery" => method(:smoke_bigquery),
   "context7" => method(:smoke_context7),
   "guru" => method(:smoke_guru),
+  "notion" => method(:smoke_notion),
   "cloudflare-cf" => method(:smoke_cf),
   "cloudflare-wrangler" => method(:smoke_wrangler)
 }.freeze

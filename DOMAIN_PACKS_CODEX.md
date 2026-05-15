@@ -97,6 +97,7 @@ Pilot CLI candidates are tracked in [MCP_CLI_REVIEW.md](MCP_CLI_REVIEW.md).
 Do not remove `hex`, `notion`, or `servicenow` MCP configs solely because a CLI
 exists; their CLI paths still need authenticated smoke tests and workflow
 coverage mapping. Hex still needs MCP for Agent thread create/continue,
-Notion still needs MCP for Notion AI search and database-view workflows, and
-ServiceNow still needs MCP for instance-specific MCP servers or server-side
-workflows outside generic record operations.
+Notion still needs MCP for Notion AI search, connected-source search, and
+database-view workflows even though authenticated read-only `ntn` smoke tests
+passed locally, and ServiceNow still needs MCP for instance-specific MCP
+servers or server-side workflows outside generic record operations.
