@@ -102,6 +102,9 @@ Not every plugin uses all component types.
   `GCP_SERVICE_ACCOUNT_OP_REF=op://<vault>/<item>/<field>` and let the script
   use a temporary `CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE` file; do not commit
   service-account JSON.
+- Use `ruby scripts/inventory_env_credentials.rb` to inspect 1Password `.env`
+  credential availability by item name only. Do not commit generated inventory
+  output or secret values.
 - For plugin-required per-install values, prefer `userConfig` in `plugin.json` and `${user_config.KEY}` substitutions. For optional account/workspace-specific connectors, prefer user/project/local MCP config with environment-variable-backed URLs so broad marketplace plugins do not fail on unset placeholders.
 
 ### Versioning

@@ -67,6 +67,12 @@ separate from the availability checker because it can call SaaS APIs, read local
 auth stores, and invoke one-off `pnpm dlx`/`npx` commands. Run a single check
 with `--only <key>` when validating one integration.
 
+Use `ruby scripts/inventory_env_credentials.rb` to print a credential-name-only
+inventory from the `.env` 1Password vault. It maps known CLI migration
+candidates to present/missing item names without reading or printing secret
+values, which makes the next pilot queue evidence-based without committing local
+vault state.
+
 BigQuery is the current service-account-backed smoke path. Set
 `GCP_SERVICE_ACCOUNT_OP_REF=op://<vault>/<item>/<field>` to a 1Password field
 containing a Google service-account JSON key. The smoke script writes it to a
@@ -75,6 +81,12 @@ mode `0600` temp file, runs `bq` with
 `GOOGLE_APPLICATION_CREDENTIALS` remains appropriate for ADC/client-library
 code, but `bq`/Cloud SDK commands need `CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE`
 to reliably use the service-account key instead of the active user account.
+
+Google Workspace is covered by the `google-workspace` smoke target. It verifies
+`gws --version`, checks encrypted OAuth state through `gws auth status`, and
+runs a one-item Drive file listing. This is intentionally read-only because
+Gmail, Calendar, Drive, Docs, Sheets, Slides, Pub/Sub, Tasks, and cross-product
+recipes all share the same `gws` auth store.
 
 Notion has a read-only smoke path for the `ntn` pilot. Set
 `NOTION_API_TOKEN_OP_REF=op://<vault>/<item>/<field>` to a 1Password field

@@ -174,6 +174,36 @@ def smoke_guru(timeout)
   warn(key, "help ok; auth status is not configured or failed")
 end
 
+def smoke_google_workspace(timeout)
+  key = "google-workspace"
+  return fail_result(key, "gws is not on PATH") unless executable_path("gws")
+
+  version = run_command(["gws", "--version"], timeout: timeout)
+  return fail_result(key, "gws --version failed: #{failure_detail(version)}") unless version[:ok]
+  return fail_result(key, "gws --version did not report gws 0.22.x or newer") unless version[:stdout].match?(/gws 0\.(2[2-9]|[3-9]\d)\./)
+
+  auth = run_command(["gws", "auth", "status"], timeout: timeout)
+  return fail_result(key, "gws auth status failed: #{failure_detail(auth)}") unless auth[:ok]
+
+  auth_payload = JSON.parse(auth.fetch(:stdout))
+  return fail_result(key, "gws auth method is #{auth_payload["auth_method"].inspect}") unless auth_payload["auth_method"]
+  return fail_result(key, "gws encrypted credentials are missing") unless auth_payload["encrypted_credentials_exists"]
+  return fail_result(key, "gws token is not valid") unless auth_payload["token_valid"]
+
+  list = run_command(
+    ["gws", "drive", "files", "list", "--params", '{"pageSize":1,"fields":"files(id,name,mimeType),nextPageToken"}', "--format", "json"],
+    timeout: timeout
+  )
+  return fail_result(key, "gws drive files list failed: #{failure_detail(list)}") unless list[:ok]
+
+  list_payload = JSON.parse(list.fetch(:stdout))
+  return fail_result(key, "gws drive files list did not return a files array") unless list_payload["files"].is_a?(Array)
+
+  pass(key, "version/auth ok; drive files list ok; files=#{list_payload["files"].size}")
+rescue JSON::ParserError => e
+  fail_result(key, "gws did not emit expected JSON: #{e.message}")
+end
+
 def smoke_notion(timeout)
   key = "notion"
   op_ref = ENV["NOTION_API_TOKEN_OP_REF"]
@@ -261,6 +291,7 @@ SMOKES = {
   "bigquery" => method(:smoke_bigquery),
   "context7" => method(:smoke_context7),
   "guru" => method(:smoke_guru),
+  "google-workspace" => method(:smoke_google_workspace),
   "notion" => method(:smoke_notion),
   "cloudflare-cf" => method(:smoke_cf),
   "cloudflare-wrangler" => method(:smoke_wrangler)
