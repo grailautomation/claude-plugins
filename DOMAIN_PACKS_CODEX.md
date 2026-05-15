@@ -24,6 +24,10 @@ from both Claude and Codex MCP configs.
   `~~cloud storage` as source labels, but Google-backed execution should route
   to `gws gmail`, `gws calendar`, or `gws drive` after checking auth with
   `gws auth status`.
+- `ms365` means Microsoft 365 cloud services reachable through Microsoft Graph:
+  Outlook/Exchange mail, Outlook calendar, OneDrive/SharePoint files, and
+  Office-suite document workflows. A local desktop Office 2024/LTSC install is
+  not a replacement validator for these hosted workflows.
 - Auth is install/runtime user setup. Most included endpoints returned an OAuth,
   bearer-token, API-key, or RBAC challenge during unauthenticated probing.
 - Endpoints that returned `404`, failed DNS resolution, or otherwise did not
@@ -94,10 +98,14 @@ Remaining omitted endpoints have these final dispositions:
   app-development `@servicenow/cli` / `now-cli` package as this replacement.
 
 Pilot CLI candidates are tracked in [MCP_CLI_REVIEW.md](MCP_CLI_REVIEW.md).
-Do not remove `hex`, `notion`, or `servicenow` MCP configs solely because a CLI
-exists; their CLI paths still need authenticated smoke tests and workflow
-coverage mapping. Hex still needs MCP for Agent thread create/continue,
-Notion still needs MCP for Notion AI search, connected-source search, and
+Do not remove `hex`, `linear`, `ms365`, `notion`, `intercom`, or `servicenow`
+MCP configs solely because a CLI exists; their CLI paths still need
+authenticated smoke tests, low-risk apply or write-boundary validation, and
+workflow coverage mapping. Hex still needs MCP for Agent thread
+create/continue, Linear keeps the official hosted MCP until apply receipts are
+validated, Microsoft 365 needs a real cloud tenant for full validation, Notion
+still needs MCP for Notion AI search, connected-source search, and
 database-view workflows even though authenticated read-only `ntn` smoke tests
-passed locally, and ServiceNow still needs MCP for instance-specific MCP
-servers or server-side workflows outside generic record operations.
+passed locally, Intercom is credential-blocked, and ServiceNow still needs MCP
+for instance-specific MCP servers or server-side workflows outside generic
+record operations.

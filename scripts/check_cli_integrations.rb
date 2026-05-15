@@ -70,6 +70,17 @@ INTEGRATIONS = [
     notes: "Use gws v0.22.5 or newer for Gmail, Calendar, Drive, Docs, Sheets, Slides, Tasks, Pub/Sub, and Workspace workflows."
   },
   {
+    key: "linear",
+    command: "linear",
+    owner: "@kyaukyuai/linear-cli",
+    required: false,
+    runners: ["pnpm", "npx"],
+    verify_args: ["capabilities", "--json"],
+    verify_outputs: ["\"schemaVersion\"", "\"automationTier\"", "\"linear-cli\""],
+    install_hint: "Prefer pnpm dlx @kyaukyuai/linear-cli for pilots; do not treat the older @linear/cli or upstream @schpet/linear-cli as equivalent.",
+    notes: "Pilot issue/project/comment/document reads and dry-run writes; keep Linear MCP until low-risk apply receipts and workflow coverage are validated."
+  },
+  {
     key: "servicenow",
     command: "snc",
     owner: "ServiceNow CLI (snc)",

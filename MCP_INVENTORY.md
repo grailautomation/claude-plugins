@@ -39,10 +39,10 @@ omissions, and side-effect expectations.
 | `guru` | removed HTTP MCP | Previously `https://mcp.api.getguru.com/mcp` | `enterprise-search` |  | Default path is the Guru CLI (`guru` / `@getguru/cli`). Removed from Claude and Codex enterprise-search MCP configs. |
 | `hex` | HTTP MCP | `https://app.hex.tech/mcp` | `data` |  | Pilot the official `hex` CLI for workspace/project/cell/run/connection workflows; keep MCP for Hex Agent thread create/continue workflows. |
 | `hubspot` | HTTP MCP | `https://mcp.hubspot.com/anthropic` | `legal`, `sales` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
-| `intercom` | HTTP MCP | `https://mcp.intercom.com/mcp` | `design`, `product-management` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
-| `linear` | HTTP MCP | `https://mcp.linear.app/mcp` | `design`, `engineering`, `product-management`, `productivity` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
+| `intercom` | HTTP MCP | `https://mcp.intercom.com/mcp` | `design`, `product-management` |  | Credential-blocked pilot. Keep MCP until official `@intercom/cli` or OpenAPI workflows pass authenticated read/write smoke tests. |
+| `linear` | HTTP MCP | `https://mcp.linear.app/mcp` | `design`, `engineering`, `product-management`, `productivity` |  | Pilot `@kyaukyuai/linear-cli`; authenticated read/dry-run smoke passed locally. Keep official hosted MCP until low-risk apply receipts and workflow coverage are validated. |
 | `monday` | HTTP MCP | `https://mcp.monday.com/mcp` | `product-management`, `productivity` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
-| `ms365` | HTTP MCP | `https://microsoft365.mcp.claude.com/mcp` | `enterprise-search`, `finance`, `operations`, `productivity`, `sales` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
+| `ms365` | HTTP MCP | `https://microsoft365.mcp.claude.com/mcp` | `enterprise-search`, `finance`, `operations`, `productivity`, `sales` |  | Pilot blocked pending a real Microsoft 365 cloud tenant. This covers hosted Graph-backed mail/calendar/files/docs workflows, not local desktop Office 2024. |
 | `namecheap` | local npm MCP | `npx -y @grailautomation/namecheap-mcp` | `namecheap` | `NAMECHEAP_API_KEY`, `NAMECHEAP_API_USER`, `NAMECHEAP_USERNAME` | Public Claude and Codex plugin; npm package exists at `0.1.0`; published `npx` tools/list smoke passed with 8 tools |
 | `notion` | HTTP MCP | `https://mcp.notion.com/mcp` | `design`, `engineering`, `enterprise-search`, `legal`, `operations`, `product-management`, `productivity`, `sales` |  | Pilot the official `ntn` CLI for page/data-source/file/API workflows; authenticated read-only smoke passed locally. Keep MCP until Notion AI search, connected-source search, and database-view coverage are mapped. |
 | `outreach` | HTTP MCP | `https://mcp.outreach.io/mcp` | `sales` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
@@ -86,10 +86,10 @@ previously succeeded.
 | `guru` | Removed from domain MCP configs | Use the Guru CLI for Guru search and card workflows. Do not re-add Guru MCP unless a future issue documents why the CLI is insufficient. |
 | `hex` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; pilot the official Hex CLI before removing MCP because Hex Agent thread create/continue workflows still require MCP. |
 | `hubspot` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
-| `intercom` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
-| `linear` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
+| `intercom` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. CLI pilot is blocked until credentials are available. |
+| `linear` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge. Authenticated `@kyaukyuai/linear-cli` read/dry-run smoke passed locally, but keep MCP until apply receipts and workflow coverage are validated. |
 | `monday` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
-| `ms365` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; Microsoft auth setup required. |
+| `ms365` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; Microsoft cloud auth setup required. A free personal Microsoft account can only validate limited Outlook/OneDrive flows, and standalone Office 2024 does not validate Microsoft 365 Graph workflows. |
 | `notion` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; authenticated read-only `ntn` smoke passed locally, but keep MCP because Notion AI search, connected-source search, and database-view coverage still need mapping. |
 | `outreach` | Included in filtered Codex MCP configs with corrected Codex URL | Original Claude host did not resolve; Codex uses `https://api.outreach.io/mcp/`, which reached an auth challenge. Outreach Amplify/org enablement and user auth required. |
 | `pagerduty` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user token setup required. |

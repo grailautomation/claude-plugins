@@ -20,15 +20,15 @@ inspection, write safeguards, and the concrete workflows used by the plugin.
 | `amplitude` | Pilot | `@amplitude/wizard`, `@amplitude/ampli`, APIs | Pilot for setup/instrumentation; keep MCP for analytics querying until proven otherwise. |
 | `atlassian` | Pilot | TWG CLI beta, `acli`, `jira-cli` | Pilot TWG for Jira/Confluence cross-product workflows before removing MCP. |
 | `clickup` | Pilot | `@krodak/clickup-cli` / `cup` | Pilot read/write workflows with source review and JSON checks. |
-| `linear` | Pilot | `@schpet/linear-cli`, `@kyaukyuai/linear-cli` | Pilot issue/project/comment/doc workflows; compare dry-run and receipt support. |
+| `linear` | Pilot | `@kyaukyuai/linear-cli`; `@schpet/linear-cli` background only | Keep Linear MCP for now. Pilot `@kyaukyuai/linear-cli` for issue/project/comment/document workflows, dry-run previews, and apply receipts. |
 | `datadog` | Pilot | Dogshell, `agent-datadog`, `@leoflores/datadog-cli`, Terraform, `datadog-ci` | Pilot incident/observability reads; keep MCP for advanced toolsets until mapped. |
 | `pagerduty` | Pilot | `pd`, Terraform, Pulumi | Pilot incidents/services/schedules/config; keep MCP for incident insights/status/workflow tools. |
-| `ms365` | Pilot | `m365`, `msgraph`, Graph PowerShell | Pilot with explicit read-only scopes and write boundary mapping. |
+| `ms365` | Pilot blocked | `m365`, Graph PowerShell, Graph API wrapper | Keep MCP for now. Pilot only with a real Microsoft 365 cloud tenant; free personal accounts cover only limited Outlook/OneDrive checks, and standalone Office 2024 does not validate the cloud workflows. Treat Microsoft Graph CLI / `msgraph` as deprecated rather than a replacement path. |
 | `clay` | Pilot | `clay-gtm-cli` | Pilot webhook-table workflows; keep MCP for Clay Functions/admin credit controls until mapped. |
 | `close` | Pilot | `close-crm-cli`, Close REST/OpenAPI | Pilot CRM reads/writes in isolated mode; require confirmation for writes. |
 | `fireflies` | Pilot | `ffcli`, GraphQL API | Pilot read-only transcript workflows; keep MCP for management/soundbite/channel workflows. |
 | `hubspot` | Pilot | community `hubspot-cli`, `g-gremlin`; official `hs` only for dev/CMS | Pilot CRM operations; do not treat official `hs` as CRM replacement. |
-| `intercom` | Pilot | official `@intercom/cli`, OpenAPI | Strong pilot candidate; likely replace after auth/read/write smoke tests. |
+| `intercom` | Pilot blocked | official `@intercom/cli`, OpenAPI | Strong pilot candidate, but blocked until Intercom credentials are available for read/write smoke tests. |
 | `hex` | Pilot | official `hex` CLI | Pilot workspace/project/cell/run/connection inventory and controlled draft operations. Keep MCP for Agent thread create/continue and natural-language exploration workflows. |
 | `notion` | Pilot | official `ntn` CLI | Pilot page, data-source, file, and raw API workflows. Keep MCP for Notion AI search, connected-source search, and database-view workflows. |
 | `servicenow` | Pilot | official `snc` CLI | Pilot generic record query/get/create/update/delete only with the ServiceNow `snc` client. Keep MCP for instance-specific MCP servers and Now Assist-style workflows. |
@@ -96,7 +96,72 @@ returns a page, and file listing. Passing this smoke test does not make Notion
 a replace-now integration because Notion MCP still covers Notion AI search,
 connected-source search, and database-view workflows.
 
+Linear has a read-only plus dry-run smoke path for the `@kyaukyuai/linear-cli`
+pilot. Set `LINEAR_API_KEY_OP_REF=op://<vault>/<item>/<field>` to a 1Password
+field containing a Linear API key. The smoke script runs the CLI from an
+isolated temporary `XDG_CONFIG_HOME`, writes plaintext CLI credentials only to
+that temporary directory, lists teams, issues, projects, and documents as JSON,
+and verifies an issue-create dry-run preview. Passing this smoke test does not
+make Linear a replace-now integration because the hosted Linear MCP is official
+and low-risk write/apply receipts still need validation before removing MCP.
+
 ## Pilot Findings
+
+### Linear
+
+Linear remains a pilot, not a full MCP replacement. The hosted Linear MCP is
+official and remains the default repo marketplace integration for `design`,
+`engineering`, `product-management`, and `productivity`.
+
+The strongest CLI candidate is `@kyaukyuai/linear-cli`, not the older
+`@linear/cli` or upstream `@schpet/linear-cli`. `@kyaukyuai/linear-cli` exposes
+agent-oriented capabilities discovery, JSON contracts, `agent-safe` defaults,
+dry-run previews, structured errors, and operation receipts. It covers useful
+read workflows for issues, teams, projects, documents, project updates,
+initiatives, milestones, labels, users, workflow states, notifications,
+webhooks, and raw GraphQL through `linear api`.
+
+Authenticated read-only and dry-run smoke tests passed locally through
+`pnpm dlx @kyaukyuai/linear-cli` using a 1Password-sourced `LINEAR_API_KEY`.
+The smoke used an isolated temporary `XDG_CONFIG_HOME`, `linear auth login
+--key ... --plaintext`, `linear team list --json`, `linear issue list --json`,
+`linear project list --json`, `linear document list --json`, and `linear issue
+create --dry-run --json`.
+
+Keep Linear MCP until at least one low-risk apply path is validated with a
+receipt, comment/list workflows are exercised against real issues, and domain
+pack guidance is updated for both Claude and Codex in the same direction.
+
+### Microsoft 365
+
+`ms365` in this repo means Microsoft 365 cloud services exposed through Graph:
+Outlook/Exchange mail, Outlook calendar, OneDrive/SharePoint files, and
+Office-suite document workflows. It does not mean a local desktop Office
+installation.
+
+The strongest CLI-first candidates are CLI for Microsoft 365 (`m365`) and
+Microsoft Graph PowerShell. Graph PowerShell is the official broad automation
+surface, but it is PowerShell-shaped rather than a Unix-style JSON CLI.
+`m365` is a better first pilot for agent-friendly command-line workflows. Treat
+Microsoft Graph CLI / `msgraph` as deprecated; do not build a replacement plan
+around it.
+
+Free personal Microsoft accounts can validate only limited delegated Outlook
+mail/calendar and OneDrive workflows. They do not validate tenant-scoped
+Microsoft 365 work such as SharePoint Online document libraries, Teams/org
+search, app-only auth, shared mailboxes, admin workflows, or business Excel
+Graph APIs. Standalone Office 2024 / Office LTSC is also not a validator for
+these cloud workflows.
+
+Keep Microsoft 365 MCP until a real Microsoft 365 cloud tenant is available and
+read-only scopes plus write boundaries are mapped.
+
+### Intercom
+
+Intercom remains blocked because no Intercom credentials are currently
+available. Keep Intercom MCP in the domain packs until the official
+`@intercom/cli` or OpenAPI path can pass authenticated read-only and dry-run or
+confirmation-bound write smoke tests.
 
 ### Hex
 
