@@ -19,7 +19,9 @@ Configure, customize, and troubleshoot Karabiner-Elements on macOS — including
 
 - Treat Karabiner configuration as user machine state. Read the current config before editing it.
 - Resolve paths from environment variables when set; otherwise use Karabiner's macOS defaults.
+- Show the exact JSON change or diff before editing live config.
 - Back up `karabiner.json` before any write.
+- Ask for confirmation before any write, profile selection, variable change, service restart, or other live behavior change.
 - Prefer adding focused complex modification files over rewriting unrelated profile data.
 - Lint complex modifications with `karabiner_cli` when the CLI is available.
 - Do not run uninstall, root-owned environment-file edits, or other destructive maintenance commands unless the user explicitly asks for that action.
@@ -62,10 +64,10 @@ The main `karabiner.json` structure:
 # Profile management
 "$CLI_PATH" --list-profile-names
 "$CLI_PATH" --show-current-profile-name
-"$CLI_PATH" --select-profile 'Profile Name'
+"$CLI_PATH" --select-profile 'Profile Name'  # confirm before running
 
 # Variable management
-"$CLI_PATH" --set-variables '{"my_var":1, "another_var":true}'
+"$CLI_PATH" --set-variables '{"my_var":1, "another_var":true}'  # confirm before running
 
 # Configuration validation
 "$CLI_PATH" --lint-complex-modifications "$COMPLEX_MODS_DIR"/*.json
@@ -132,9 +134,10 @@ When a user requests a new mapping:
 2. **Check current config** — Read existing karabiner.json
 3. **Validate** — Ensure no conflicts with existing rules
 4. **Generate JSON** — Create the proper rule structure
-5. **Apply changes** — Add to complex_modifications in karabiner.json or create a separate file in assets/complex_modifications/
-6. **Test** — Verify the change took effect
-7. **Document** — Explain what was changed
+5. **Preview changes** — Show the generated JSON or diff and ask for confirmation
+6. **Apply changes** — Add to complex_modifications in karabiner.json or create a separate file in assets/complex_modifications/
+7. **Test** — Verify the change took effect
+8. **Document** — Explain what was changed and how to roll back
 
 Always back up before modifying:
 ```bash
@@ -142,6 +145,8 @@ cp ~/.config/karabiner/karabiner.json ~/.config/karabiner/karabiner.json.backup.
 ```
 
 Use the configuration manager at [scripts/config_manager.py](scripts/config_manager.py) for safe JSON manipulation.
+Its write commands preview by default; pass `--yes` only after the user approves
+the shown diff.
 
 ## Important Notes
 

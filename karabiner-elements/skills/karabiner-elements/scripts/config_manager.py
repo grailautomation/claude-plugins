@@ -8,6 +8,7 @@ import json
 import os
 import sys
 import shutil
+import difflib
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, Dict, Any, List
@@ -22,7 +23,13 @@ COMPLEX_MODS_DIR = env_path(
     'KARABINER_COMPLEX_MODS_DIR',
     Path.home() / '.config/karabiner/assets/complex_modifications',
 )
-BACKUP_DIR = env_path('KARABINER_BACKUP_DIR', Path.home() / '.config/karabiner/backups')
+
+if 'KARABINER_BACKUP_DIR' in os.environ:
+    BACKUP_DIR = env_path('KARABINER_BACKUP_DIR', Path.home() / '.config/karabiner/backups')
+elif 'KARABINER_CONFIG_FILE' in os.environ:
+    BACKUP_DIR = CONFIG_PATH.parent / 'backups'
+else:
+    BACKUP_DIR = Path.home() / '.config/karabiner/backups'
 
 def backup_config() -> Path:
     """Create a timestamped backup of the current config."""
@@ -38,11 +45,30 @@ def load_config() -> Dict[str, Any]:
         raise FileNotFoundError(f"Config not found: {CONFIG_PATH}")
     return json.loads(CONFIG_PATH.read_text())
 
-def save_config(config: Dict[str, Any], backup: bool = True) -> None:
+def serialized_config(config: Dict[str, Any]) -> str:
+    """Serialize a config in the same format this helper writes."""
+    return json.dumps(config, indent=4)
+
+def diff_config(original: str, config: Dict[str, Any]) -> str:
+    """Return a unified diff between original config text and updated config."""
+    updated = serialized_config(config)
+    return "\n".join(
+        difflib.unified_diff(
+            original.splitlines(),
+            updated.splitlines(),
+            fromfile=str(CONFIG_PATH),
+            tofile=f"{CONFIG_PATH} (proposed)",
+            lineterm="",
+        )
+    )
+
+def save_config(config: Dict[str, Any], backup: bool = True) -> Optional[Path]:
     """Save configuration with optional backup."""
+    backup_path = None
     if backup:
-        backup_config()
-    CONFIG_PATH.write_text(json.dumps(config, indent=4))
+        backup_path = backup_config()
+    CONFIG_PATH.write_text(serialized_config(config))
+    return backup_path
 
 def get_selected_profile(config: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """Get the currently selected profile."""
@@ -164,10 +190,13 @@ if __name__ == '__main__':
     simple_parser = subparsers.add_parser('add-simple', help='Add simple modification')
     simple_parser.add_argument('from_key', help='Source key code')
     simple_parser.add_argument('to_key', help='Target key code')
+    simple_parser.add_argument('--dry-run', action='store_true', help='Preview the diff without writing')
+    simple_parser.add_argument('--yes', action='store_true', help='Apply the change after preview/approval')
     
     args = parser.parse_args()
     
     try:
+        original_text = CONFIG_PATH.read_text() if CONFIG_PATH.exists() else None
         config = load_config()
         
         if args.command == 'list-profiles':
@@ -191,10 +220,25 @@ if __name__ == '__main__':
         
         elif args.command == 'add-simple':
             profile = get_selected_profile(config)
-            if profile:
-                add_simple_modification(profile, args.from_key, args.to_key)
-                save_config(config)
-                print(f"Added: {args.from_key} → {args.to_key}")
+            if not profile:
+                print("No selected profile", file=sys.stderr)
+                sys.exit(1)
+
+            add_simple_modification(profile, args.from_key, args.to_key)
+            diff = diff_config(original_text or "", config)
+            if diff:
+                print(diff)
+            else:
+                print("No changes")
+                sys.exit(0)
+
+            if args.dry_run or not args.yes:
+                print("\nDry run only. Re-run with --yes after user approval to apply this change.")
+                sys.exit(0)
+
+            backup_path = save_config(config)
+            print(f"Backup created: {backup_path}")
+            print(f"Added: {args.from_key} -> {args.to_key}")
         
         else:
             parser.print_help()

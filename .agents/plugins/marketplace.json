@@ -89,6 +89,18 @@
       "category": "Productivity"
     },
     {
+      "name": "karabiner-elements",
+      "source": {
+        "source": "local",
+        "path": "./karabiner-elements"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "salesforce-soql",
       "source": {
         "source": "local",
