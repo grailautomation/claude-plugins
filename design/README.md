@@ -111,7 +111,7 @@ Connect your tools for a richer experience:
 | **Design tool** | Figma | Pull designs, inspect components, access design tokens |
 | **User feedback** | Intercom, Productboard | Raw feedback, feature requests, NPS data |
 | **Project tracker** | Linear, Asana, Jira | Link designs to tickets, track implementation |
-| **Knowledge base** | Notion MCP with `ntn` CLI pilot | Brand guidelines, design principles, research repository |
+| **Knowledge base** | Notion MCP with `ntn` CLI pilot for pages/data sources/files | Brand guidelines, design principles, research repository |
 | **Product analytics** | Amplitude, Mixpanel | Usage data for research synthesis and design decisions |
 
 See [CONNECTORS.md](CONNECTORS.md) for the full list of supported integrations.

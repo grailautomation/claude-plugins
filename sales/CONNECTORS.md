@@ -24,7 +24,7 @@ MCP-only capabilities.
 | CRM | `~~CRM` | HubSpot MCP, Close MCP | Salesforce, Pipedrive, Copper |
 | Data enrichment | `~~data enrichment` | Clay MCP, ZoomInfo MCP, Apollo MCP | Clearbit, Lusha |
 | Email | `~~email` | Gmail via `gws` CLI, Microsoft 365 | — |
-| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot | Confluence, Guru |
+| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot for pages/data sources/files | Confluence, Guru |
 | Meeting transcription | `~~conversation intelligence` | Fireflies MCP | Gong, Chorus, Otter.ai |
 | Project tracker | `~~project tracker` | Atlassian MCP (Jira/Confluence) | Linear, Asana |
 | Sales engagement | `~~sales engagement` | Outreach MCP | Salesloft, Apollo |

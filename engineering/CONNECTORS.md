@@ -21,7 +21,7 @@ operation safely, or the workflow depends on MCP-only capabilities.
 | Chat | `~~chat` | Slack MCP | Microsoft Teams |
 | Source control | `~~source control` | GitHub via `gh` CLI | GitLab, Bitbucket |
 | Project tracker | `~~project tracker` | Linear MCP, Asana MCP, Atlassian MCP (Jira/Confluence) | Shortcut, ClickUp |
-| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot | Confluence, Guru, Coda |
+| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot for pages/data sources/files | Confluence, Guru, Coda |
 | Monitoring | `~~monitoring` | Datadog MCP | New Relic, Grafana, Splunk |
 | Incident management | `~~incident management` | PagerDuty MCP | Opsgenie, Incident.io, FireHydrant |
 | CI/CD | `~~CI/CD` | — | CircleCI, GitHub Actions, Jenkins, BuildKite |

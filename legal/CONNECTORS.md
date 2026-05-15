@@ -24,6 +24,6 @@ MCP-only capabilities.
 | CRM | `~~CRM` | HubSpot MCP | Salesforce, Pipedrive |
 | Email | `~~email` | Gmail via `gws` CLI | Microsoft 365 |
 | E-signature | `~~e-signature` | DocuSign MCP | Adobe Sign, PandaDoc |
-| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot | Confluence, Guru, Coda |
+| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot for pages/data sources/files | Confluence, Guru, Coda |
 
 Contract playbooks, fallback positions, approved templates, jurisdiction preferences, and escalation rules are organization-specific. Keep those in gitignored local notes, user/project memory, or a private plugin rather than publishing them in this marketplace repo.

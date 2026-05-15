@@ -23,7 +23,7 @@ MCP-only capabilities.
 | Competitive intelligence | `~~competitive intelligence` | Similarweb MCP | Crayon, Klue |
 | Design | `~~design` | Figma MCP | Sketch, Adobe XD |
 | Email | `~~email` | Gmail via `gws` CLI | Microsoft 365 |
-| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot | Confluence, Guru, Coda |
+| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot for pages/data sources/files | Confluence, Guru, Coda |
 | Meeting transcription | `~~meeting transcription` | Fireflies MCP | Gong, Dovetail, Otter.ai |
 | Product analytics | `~~product analytics` | Amplitude MCP, Pendo MCP | Mixpanel, Heap, FullStory |
 | Project tracker | `~~project tracker` | Linear MCP, Asana MCP, monday.com MCP, ClickUp MCP, Atlassian MCP (Jira/Confluence) | Shortcut, Basecamp |
