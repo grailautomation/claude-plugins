@@ -94,12 +94,29 @@ install script; do not use the unrelated npm package named `hex`. Use
 `hex --json ...` for agent-readable output and `hex auth status` before live
 workflows.
 
+Unauthenticated temp-binary validation passed for the official v1.4.0
+`hex-aarch64-apple-darwin` release: `hex --version` reported `hex 1.4.0`, and
+`hex auth status` correctly reported no logged-in workspace without creating a
+global install.
+
 Good CLI pilot workflows are read-heavy workspace inspection and bounded
 operations such as `hex --json project list`, `hex --json project get`,
 `hex --json project export`, `hex --json cell list`, `hex --json connection
 list`, and run status checks. The MCP still carries Hex Agent Thread workflows:
 project semantic search, `create_thread`, `get_thread`, and
 `continue_thread`, including generated charts/tables and follow-up analysis.
+
+Write-safeguard review:
+
+- `hex cell delete`, `hex cell update`, and `hex run cancel` expose no dry-run,
+  preview, or confirmation flag in CLI help. Require explicit user confirmation
+  of target project/run/cell IDs before execution.
+- `hex guide preview` creates a preview URL and is the preferred first step for
+  guide changes. `hex guide publish <preview_id>` applies a prior preview;
+  `--draft` limits the publish to draft state.
+- `hex thread` supports `list` and `get` only. The CLI does not expose the MCP
+  `create_thread` or `continue_thread` workflows, so the MCP stays required for
+  natural-language Hex Agent analysis.
 
 ### Notion
 
