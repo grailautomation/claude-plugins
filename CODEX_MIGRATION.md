@@ -15,6 +15,30 @@ Current Codex docs baseline:
   `skills/<skill>/agents/openai.yaml` for Codex-specific invocation policy and
   presentation metadata.
 
+## Installability Status
+
+The Codex installability pass is complete for the reviewed plugin set. The
+tracked repo-local Codex marketplace at `.agents/plugins/marketplace.json`
+contains 30 plugins, and each listed plugin has a matching
+`.codex-plugin/plugin.json`.
+
+This means the plugins are visible and available for install in Codex. Live
+SaaS authentication, MCP-vs-CLI replacement, and vendor-specific smoke tests
+are quality/runtime follow-ups, not blockers for Codex marketplace visibility.
+Handle those only when a plugin is actively being installed, used, or promoted
+from MCP to a CLI-backed default.
+
+Six Claude marketplace plugins are intentionally not listed for Codex:
+
+| Plugin | Why it is not listed |
+| --- | --- |
+| `agents` | Claude subagent definitions do not map directly to Codex plugin behavior, and most entries duplicate Codex's built-in agent/delegation patterns. |
+| `dev-browser` | Stateful browser server/extension plugin with persistent profile side effects; Codex already has browser tooling, and this needs a separate safety/design pass before listing. |
+| `espanso` | Local macOS text-expansion config workflow; useful for Claude, but Codex listing would imply editing personal machine config without a Codex side-effect policy. |
+| `jq-for-clawd` | Claude Code session-history skill; Codex uses different session paths and JSONL shapes, so the Codex-compatible split is `codex-session-history`. |
+| `karabiner-elements` | Local macOS keyboard-remapping config workflow; useful for Claude, but Codex listing would imply editing personal machine config without a Codex side-effect policy. |
+| `playwright-cli` | Already covered by the user-level Codex `playwright` skill, so listing this repo copy would mostly create duplicate choices. |
+
 ## Current Codex Marketplace
 
 The tracked Codex marketplace exposes:
