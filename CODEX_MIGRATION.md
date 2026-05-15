@@ -28,6 +28,41 @@ are quality/runtime follow-ups, not blockers for Codex marketplace visibility.
 Handle those only when a plugin is actively being installed, used, or promoted
 from MCP to a CLI-backed default.
 
+## Wrap-Down Status (2026-05-15 UTC / 2026-05-14 PDT)
+
+The original practical requirement is satisfied: plugins that were approved for
+Codex exposure are visible and available for install through the repo-local
+Codex marketplace. Authentication and live SaaS validation are intentionally
+deferred until a plugin is installed or used.
+
+Completed cleanup and migration work includes:
+
+- Modernized the Claude plugin content structure and validation rules.
+- Added repository validation and CLI availability/smoke tooling.
+- Added Codex adapter manifests and marketplace entries for reviewed plugins.
+- Split Codex-specific session history from the Claude `jq-for-clawd` skill.
+- Removed the obsolete `agents` plugin from the tracked Claude marketplace and
+  repository.
+- Kept `playwright-cli` Claude-only because Codex already has a better
+  user-level `playwright` skill; if that skill needs source control, treat
+  a separate `codex-skills` repository as the likely home for a Codex-native
+  copy.
+- Kept CLI-first policy for both Claude and Codex: use maintained CLIs over MCP
+  when workflow coverage, auth, structured output, and write safeguards are
+  good enough.
+
+Deferred follow-up: revisit every pull request created in this repository
+between 2026-05-10 and 2026-05-15 to check whether Copilot added post-merge
+review comments. As of this wrap-down, the GitHub query below returns 45 merged
+PRs, from #4 through #62 with gaps where issue numbers were used:
+
+```bash
+gh pr list --state all \
+  --search "created:2026-05-10..2026-05-15 repo:grailautomation/claude-plugins" \
+  --json number,title,state,createdAt,mergedAt,url \
+  --limit 100
+```
+
 Two Claude marketplace plugins are intentionally not listed for Codex:
 
 | Plugin | Why it is not listed |
@@ -41,7 +76,8 @@ agent/delegation patterns and did not need a Codex replacement.
 
 ## Current Codex Marketplace
 
-The tracked Codex marketplace exposes:
+The tracked Codex marketplace exposes these 33 entries. The ten domain packs
+are grouped into one row below because they share the same migration pattern:
 
 | Plugin | Status | Rationale |
 | --- | --- | --- |
@@ -54,6 +90,8 @@ The tracked Codex marketplace exposes:
 | `espanso` | Migrated | Local text-expander config skill. Codex exposure is user-invoked only and keeps preview, backup, confirmation, and verification rules for live machine-state edits. |
 | `karabiner-elements` | Migrated | Local keyboard-remapping config skill. Codex exposure is user-invoked only and keeps inspect, preview, backup, confirmation, lint, apply, verify, and rollback rules for live machine-state edits. |
 | `salesforce-soql` | Migrated | Salesforce CLI/reference workflow; no bundled MCP and org schemas remain local/ignored. |
+| `google-workspace` | Migrated | Broad Gmail, Calendar, Drive, Docs, Sheets, Slides, Tasks, Pub/Sub, and Cloud workflow plugin; Codex and Claude route through the `gws` CLI rather than Google MCP endpoints. |
+| Domain packs: `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` | Migrated with filtered MCP configs | Listed for Codex with `.mcp.codex.json` files that keep remaining reachable hosted HTTP MCP endpoints. High-confidence CLI replacements are omitted from both Claude and Codex MCP configs; pilot and wrapper candidates are tracked in [MCP_CLI_REVIEW.md](MCP_CLI_REVIEW.md). |
 | `oasb-scaffold` | Migrated | Repo-specific OASBuilder convention skill; exposed for personal/repo-local usefulness. |
 | `workato-api` | Migrated | REST reference and curl/httpx execution patterns; credentials come from environment variables or gitignored local notes. |
 | `workato-recipe` | Migrated | Script-backed recipe analysis now uses the stable root CLI and avoids Claude-only path/subagent assumptions for Codex. |
