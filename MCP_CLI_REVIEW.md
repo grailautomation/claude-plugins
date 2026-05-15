@@ -100,10 +100,11 @@ Linear has a read-only plus dry-run smoke path for the `@kyaukyuai/linear-cli`
 pilot. Set `LINEAR_API_KEY_OP_REF=op://<vault>/<item>/<field>` to a 1Password
 field containing a Linear API key. The smoke script runs the CLI from an
 isolated temporary `XDG_CONFIG_HOME`, writes plaintext CLI credentials only to
-that temporary directory, lists teams, issues, projects, and documents as JSON,
-and verifies an issue-create dry-run preview. Passing this smoke test does not
-make Linear a replace-now integration because the hosted Linear MCP is official
-and low-risk write/apply receipts still need validation before removing MCP.
+that temporary directory, lists teams/issues/projects/documents as JSON,
+resolves and views a listed issue, lists that issue's comments, and verifies an
+issue-create dry-run preview. Passing this smoke test does not make Linear a
+replace-now integration because the hosted Linear MCP is official and low-risk
+write/apply receipts still need validation before removing MCP.
 
 ## Pilot Findings
 
@@ -125,12 +126,13 @@ Authenticated read-only and dry-run smoke tests passed locally through
 `pnpm dlx @kyaukyuai/linear-cli` using a 1Password-sourced `LINEAR_API_KEY`.
 The smoke used an isolated temporary `XDG_CONFIG_HOME`, `linear auth login
 --key ... --plaintext`, `linear team list --json`, `linear issue list --json`,
-`linear project list --json`, `linear document list --json`, and `linear issue
-create --dry-run --json`.
+`linear resolve issue --json`, `linear issue view --json`, `linear issue
+comment list --json`, `linear project list --json`, `linear document list
+--json`, and `linear issue create --dry-run --json`.
 
 Keep Linear MCP until at least one low-risk apply path is validated with a
-receipt, comment/list workflows are exercised against real issues, and domain
-pack guidance is updated for both Claude and Codex in the same direction.
+receipt and domain pack guidance is updated for both Claude and Codex in the
+same direction.
 
 ### Microsoft 365
 
