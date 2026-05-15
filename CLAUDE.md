@@ -78,12 +78,14 @@ Not every plugin uses all component types.
   related workflows through the `google-workspace` plugin and `gws` CLI, not
   Gmail/GCal/GDrive MCP endpoints.
 - Route BigQuery, Guru, Context7, and Cloudflare through their maintained CLIs
-  rather than default MCP. Pilot Hex, Notion, and ServiceNow CLI workflows, but
-  keep their MCP configs until auth, JSON output, write safeguards, and workflow
-  coverage are validated. For ServiceNow, `snc` means the official
-  ServiceNow Store/GitHub client; npm `snc` is unrelated and
-  `@servicenow/cli` / `now-cli` is an app-development surface, not the generic
-  ITSM record replacement.
+  rather than default MCP. Pilot Hex, Linear, Microsoft 365, Notion,
+  ServiceNow, and Intercom CLI workflows, but keep their MCP configs until
+  auth, JSON output, write safeguards, and workflow coverage are validated.
+  For Microsoft 365, validate against real cloud services rather than a local
+  desktop Office install. For ServiceNow, `snc` means the official ServiceNow
+  Store/GitHub client; npm `snc` is unrelated and `@servicenow/cli` /
+  `now-cli` is an app-development surface, not the generic ITSM record
+  replacement.
 - Use `ruby scripts/check_cli_integrations.rb` to report local CLI availability
   for CLI-backed replacements. The script does not install anything; use
   `--strict` only when validating an environment expected to have the required

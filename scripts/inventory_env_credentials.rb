@@ -66,7 +66,7 @@ CANDIDATES = [
   },
   {
     key: "intercom",
-    verdict: "pilot",
+    verdict: "pilot-blocked",
     refs: ["INTERCOM_ACCESS_TOKEN", "INTERCOM_API_TOKEN"],
     status_when_present: "testable"
   },

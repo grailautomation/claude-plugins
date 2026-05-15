@@ -5,6 +5,7 @@ require "json"
 require "open3"
 require "optparse"
 require "tempfile"
+require "tmpdir"
 require "timeout"
 
 options = {
@@ -52,6 +53,14 @@ def command_prefix(command, package: nil)
   elsif (npx = executable_path("npx"))
     [npx, "-y", package]
   end
+end
+
+def command_prefix_candidates(command, package:)
+  candidates = []
+  candidates << [executable_path(command)] if executable_path(command)
+  candidates << [executable_path("pnpm"), "dlx", package] if executable_path("pnpm")
+  candidates << [executable_path("npx"), "-y", package] if executable_path("npx")
+  candidates
 end
 
 def run_command(argv, env: {}, timeout:)
@@ -263,6 +272,111 @@ rescue JSON::ParserError => e
   fail_result(key, "ntn did not emit expected JSON: #{e.message}")
 end
 
+def parse_json_output(key, result, label)
+  JSON.parse(result.fetch(:stdout))
+rescue JSON::ParserError => e
+  fail_result(key, "#{label} did not emit expected JSON: #{e.message}")
+end
+
+def smoke_linear(timeout)
+  key = "linear"
+  op_ref = ENV["LINEAR_API_KEY_OP_REF"]
+  return fail_result(key, "set LINEAR_API_KEY_OP_REF=op://<vault>/<item>/<field>") if op_ref.to_s.empty?
+  return fail_result(key, "1Password CLI `op` is not on PATH") unless executable_path("op")
+
+  prefix = nil
+  capabilities_payload = nil
+  command_prefix_candidates("linear", package: "@kyaukyuai/linear-cli").each do |candidate|
+    capabilities = run_command([*candidate, "capabilities", "--json"], timeout: timeout)
+    next unless capabilities[:ok]
+
+    parsed = JSON.parse(capabilities.fetch(:stdout))
+    next unless parsed.dig("cli", "name") == "linear-cli" && parsed.dig("automationTier", "allCommands").is_a?(Array)
+
+    prefix = candidate
+    capabilities_payload = parsed
+    break
+  rescue JSON::ParserError
+    next
+  end
+  return fail_result(key, "@kyaukyuai/linear-cli is unavailable and neither pnpm nor npx can run it") unless prefix
+
+  token_result = run_command(["op", "read", op_ref], timeout: timeout)
+  return fail_result(key, "could not read Linear token from 1Password: #{failure_detail(token_result)}") unless token_result[:ok]
+
+  token = token_result.fetch(:stdout).strip
+  return fail_result(key, "Linear token is empty") if token.empty?
+
+  Dir.mktmpdir("linear-cli-config") do |config_home|
+    env = { "XDG_CONFIG_HOME" => config_home, "LINEAR_ISSUE_SORT" => "priority" }
+    login = run_command([*prefix, "auth", "login", "--key", token, "--plaintext"], env: env, timeout: timeout)
+    return fail_result(key, "linear auth login failed: #{failure_detail(login)}") unless login[:ok]
+
+    teams = run_command([*prefix, "team", "list", "--json"], env: env, timeout: timeout)
+    return fail_result(key, "linear team list failed: #{failure_detail(teams)}") unless teams[:ok]
+
+    team_payload = parse_json_output(key, teams, "linear team list")
+    return team_payload if team_payload.is_a?(Result)
+
+    team = Array(team_payload).find { |item| item["key"] }
+    return fail_result(key, "linear team list returned no team keys") unless team
+
+    team_key = team.fetch("key")
+    issues = run_command(
+      [*prefix, "issue", "list", "--json", "--all-states", "--all-assignees", "--team", team_key, "--limit", "3", "--sort", "priority"],
+      env: env,
+      timeout: timeout
+    )
+    return fail_result(key, "linear issue list failed: #{failure_detail(issues)}") unless issues[:ok]
+
+    issue_payload = parse_json_output(key, issues, "linear issue list")
+    return issue_payload if issue_payload.is_a?(Result)
+    return fail_result(key, "linear issue list did not return an array") unless issue_payload.is_a?(Array)
+
+    projects = run_command([*prefix, "project", "list", "--json"], env: env, timeout: timeout)
+    return fail_result(key, "linear project list failed: #{failure_detail(projects)}") unless projects[:ok]
+
+    project_payload = parse_json_output(key, projects, "linear project list")
+    return project_payload if project_payload.is_a?(Result)
+    return fail_result(key, "linear project list did not return an array") unless project_payload.is_a?(Array)
+
+    documents = run_command([*prefix, "document", "list", "--json"], env: env, timeout: timeout)
+    return fail_result(key, "linear document list failed: #{failure_detail(documents)}") unless documents[:ok]
+
+    document_payload = parse_json_output(key, documents, "linear document list")
+    return document_payload if document_payload.is_a?(Result)
+    return fail_result(key, "linear document list did not return an array") unless document_payload.is_a?(Array)
+
+    dry_run = run_command(
+      [
+        *prefix,
+        "issue",
+        "create",
+        "--title",
+        "CLI smoke dry run",
+        "--team",
+        team_key,
+        "--description",
+        "Validation only; this dry run must not create an issue.",
+        "--dry-run",
+        "--json"
+      ],
+      env: env,
+      timeout: timeout
+    )
+    return fail_result(key, "linear issue create dry-run failed: #{failure_detail(dry_run)}") unless dry_run[:ok]
+
+    dry_run_payload = parse_json_output(key, dry_run, "linear issue create dry-run")
+    return dry_run_payload if dry_run_payload.is_a?(Result)
+    unless dry_run_payload["success"] == true && dry_run_payload["dryRun"] == true && dry_run_payload.dig("operation", "phase") == "preview"
+      return fail_result(key, "linear issue create dry-run did not return a preview operation")
+    end
+
+    command_count = capabilities_payload.dig("automationTier", "allCommands").size
+    pass(key, "auth/read/dry-run ok; team=#{team_key}; issues=#{issue_payload.size}; projects=#{project_payload.size}; documents=#{document_payload.size}; commands=#{command_count}")
+  end
+end
+
 def smoke_cf(timeout)
   key = "cloudflare-cf"
   prefix = command_prefix("cf", package: "cf")
@@ -292,6 +406,7 @@ SMOKES = {
   "context7" => method(:smoke_context7),
   "guru" => method(:smoke_guru),
   "google-workspace" => method(:smoke_google_workspace),
+  "linear" => method(:smoke_linear),
   "notion" => method(:smoke_notion),
   "cloudflare-cf" => method(:smoke_cf),
   "cloudflare-wrangler" => method(:smoke_wrangler)
