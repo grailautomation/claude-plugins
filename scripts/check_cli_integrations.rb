@@ -61,6 +61,15 @@ INTEGRATIONS = [
     notes: "Use guru for Guru search and card workflows; prefer one-off pnpm/npx before global install."
   },
   {
+    key: "google-workspace",
+    command: "gws",
+    owner: "Google Workspace CLI",
+    required: true,
+    verify_args: ["--version"],
+    verify_pattern: "\\Agws 0\\.(2[2-9]|[3-9]\\d)\\.",
+    notes: "Use gws v0.22.5 or newer for Gmail, Calendar, Drive, Docs, Sheets, Slides, Tasks, Pub/Sub, and Workspace workflows."
+  },
+  {
     key: "servicenow",
     command: "snc",
     owner: "ServiceNow CLI (snc)",
