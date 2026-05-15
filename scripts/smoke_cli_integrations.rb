@@ -333,6 +333,36 @@ def smoke_linear(timeout)
     return issue_payload if issue_payload.is_a?(Result)
     return fail_result(key, "linear issue list did not return an array") unless issue_payload.is_a?(Array)
 
+    issue_detail_status = "skipped:no-issues"
+    if (issue = issue_payload.find { |item| item["identifier"] })
+      issue_ref = issue.fetch("identifier")
+
+      resolve = run_command([*prefix, "resolve", "issue", issue_ref, "--json"], env: env, timeout: timeout)
+      return fail_result(key, "linear resolve issue failed: #{failure_detail(resolve)}") unless resolve[:ok]
+
+      resolve_payload = parse_json_output(key, resolve, "linear resolve issue")
+      return resolve_payload if resolve_payload.is_a?(Result)
+      unless resolve_payload["status"] == "resolved" && resolve_payload.dig("resolved", "identifier") == issue_ref
+        return fail_result(key, "linear resolve issue did not resolve #{issue_ref}")
+      end
+
+      view = run_command([*prefix, "issue", "view", issue_ref, "--json", "--no-download"], env: env, timeout: timeout)
+      return fail_result(key, "linear issue view failed: #{failure_detail(view)}") unless view[:ok]
+
+      view_payload = parse_json_output(key, view, "linear issue view")
+      return view_payload if view_payload.is_a?(Result)
+      return fail_result(key, "linear issue view returned #{view_payload["identifier"].inspect}, expected #{issue_ref}") unless view_payload["identifier"] == issue_ref
+
+      comments = run_command([*prefix, "issue", "comment", "list", issue_ref, "--json"], env: env, timeout: timeout)
+      return fail_result(key, "linear issue comment list failed: #{failure_detail(comments)}") unless comments[:ok]
+
+      comment_payload = parse_json_output(key, comments, "linear issue comment list")
+      return comment_payload if comment_payload.is_a?(Result)
+      return fail_result(key, "linear issue comment list did not return an array") unless comment_payload.is_a?(Array)
+
+      issue_detail_status = "ok"
+    end
+
     projects = run_command([*prefix, "project", "list", "--json"], env: env, timeout: timeout)
     return fail_result(key, "linear project list failed: #{failure_detail(projects)}") unless projects[:ok]
 
@@ -373,7 +403,7 @@ def smoke_linear(timeout)
     end
 
     command_count = capabilities_payload.dig("automationTier", "allCommands").size
-    pass(key, "auth/read/dry-run ok; team=#{team_key}; issues=#{issue_payload.size}; projects=#{project_payload.size}; documents=#{document_payload.size}; commands=#{command_count}")
+    pass(key, "auth/read/dry-run ok; team=#{team_key}; issues=#{issue_payload.size}; issue_detail=#{issue_detail_status}; projects=#{project_payload.size}; documents=#{document_payload.size}; commands=#{command_count}")
   end
 end
 
