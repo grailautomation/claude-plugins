@@ -76,6 +76,14 @@ mode `0600` temp file, runs `bq` with
 code, but `bq`/Cloud SDK commands need `CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE`
 to reliably use the service-account key instead of the active user account.
 
+Notion has a read-only smoke path for the `ntn` pilot. Set
+`NOTION_API_TOKEN_OP_REF=op://<vault>/<item>/<field>` to a 1Password field
+containing the Notion API token. The smoke script verifies `ntn doctor`, API
+endpoint discovery, `v1/users/me`, workspace search, page retrieval when search
+returns a page, and file listing. Passing this smoke test does not make Notion
+a replace-now integration because Notion MCP still covers Notion AI search,
+connected-source search, and database-view workflows.
+
 ## Pilot Findings
 
 ### Hex
@@ -101,6 +109,11 @@ or `npm install --global ntn`; Node.js 22+ and npm 10+ are required for the npm
 path. Use `ntn doctor` for setup/auth health and prefer JSON-capable commands
 such as `ntn api ls --json`, `ntn pages get <page-id> --json`, and
 `ntn datasources query <data-source-id> --filter ... --json`.
+
+Authenticated read-only smoke tests passed locally through `pnpm dlx ntn` using
+a 1Password-sourced `NOTION_API_TOKEN`: `ntn doctor`, `ntn api ls --json`,
+`ntn api v1/users/me`, `ntn api v1/search page_size:=5`, `ntn pages get
+<page-id> --json` from a search result, and `ntn files list --json`.
 
 Keep Notion MCP until authenticated parity is proven for Notion AI search,
 connected-source search, database-view queries, and higher-level agent tools.

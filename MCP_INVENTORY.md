@@ -44,7 +44,7 @@ omissions, and side-effect expectations.
 | `monday` | HTTP MCP | `https://mcp.monday.com/mcp` | `product-management`, `productivity` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
 | `ms365` | HTTP MCP | `https://microsoft365.mcp.claude.com/mcp` | `enterprise-search`, `finance`, `operations`, `productivity`, `sales` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
 | `namecheap` | local npm MCP | `npx -y @grailautomation/namecheap-mcp` | `namecheap` | `NAMECHEAP_API_KEY`, `NAMECHEAP_API_USER`, `NAMECHEAP_USERNAME` | Public Claude and Codex plugin; npm package exists at `0.1.0`; published `npx` tools/list smoke passed with 8 tools |
-| `notion` | HTTP MCP | `https://mcp.notion.com/mcp` | `design`, `engineering`, `enterprise-search`, `legal`, `operations`, `product-management`, `productivity`, `sales` |  | Pilot the official `ntn` CLI for page/data-source/file/API workflows; keep MCP until Notion AI search, connected-source search, and database-view coverage are mapped. |
+| `notion` | HTTP MCP | `https://mcp.notion.com/mcp` | `design`, `engineering`, `enterprise-search`, `legal`, `operations`, `product-management`, `productivity`, `sales` |  | Pilot the official `ntn` CLI for page/data-source/file/API workflows; authenticated read-only smoke passed locally. Keep MCP until Notion AI search, connected-source search, and database-view coverage are mapped. |
 | `outreach` | HTTP MCP | `https://mcp.outreach.io/mcp` | `sales` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
 | `pagerduty` | HTTP MCP | `https://mcp.pagerduty.com/mcp` | `engineering` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
 | `pendo` | HTTP MCP | `https://app.pendo.io/mcp/v0/shttp` | `product-management` |  | Reviewed for Codex mapping; see Hosted HTTP MCP Dispositions below |
@@ -90,7 +90,7 @@ previously succeeded.
 | `linear` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
 | `monday` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user OAuth/token setup required. |
 | `ms365` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; Microsoft auth setup required. |
-| `notion` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; pilot the official Notion `ntn` CLI before removing MCP because Notion AI search, connected-source search, and database-view coverage still need mapping. |
+| `notion` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; authenticated read-only `ntn` smoke passed locally, but keep MCP because Notion AI search, connected-source search, and database-view coverage still need mapping. |
 | `outreach` | Included in filtered Codex MCP configs with corrected Codex URL | Original Claude host did not resolve; Codex uses `https://api.outreach.io/mcp/`, which reached an auth challenge. Outreach Amplify/org enablement and user auth required. |
 | `pagerduty` | Included in filtered Codex MCP configs | Hosted HTTP MCP reached auth challenge; user token setup required. |
 | `pendo` | Omitted from Codex filtered configs | The existing URL did not resolve from this network, and Pendo documents regional MCP URLs that must match the user's sign-in hostname; no universal public default is committed. |
