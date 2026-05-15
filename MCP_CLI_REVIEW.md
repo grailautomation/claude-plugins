@@ -61,6 +61,21 @@ installer. For ambiguous command names, it verifies the binary identity before
 reporting an installed command so unrelated packages such as npm `hex` or npm
 `snc` are not accepted by accident.
 
+For non-mutating authenticated/runtime checks, use
+`ruby scripts/smoke_cli_integrations.rb`. This live smoke script is intentionally
+separate from the availability checker because it can call SaaS APIs, read local
+auth stores, and invoke one-off `pnpm dlx`/`npx` commands. Run a single check
+with `--only <key>` when validating one integration.
+
+BigQuery is the current service-account-backed smoke path. Set
+`GCP_SERVICE_ACCOUNT_OP_REF=op://<vault>/<item>/<field>` to a 1Password field
+containing a Google service-account JSON key. The smoke script writes it to a
+mode `0600` temp file, runs `bq` with
+`CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE`, and removes the file when done.
+`GOOGLE_APPLICATION_CREDENTIALS` remains appropriate for ADC/client-library
+code, but `bq`/Cloud SDK commands need `CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE`
+to reliably use the service-account key instead of the active user account.
+
 ## Pilot Findings
 
 ### Hex
