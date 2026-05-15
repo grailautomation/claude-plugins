@@ -1,0 +1,36 @@
+{
+  "name": "espanso",
+  "description": "Manage Espanso text expander snippets, matches, packages, and macOS text automation config.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/espanso",
+  "keywords": [
+    "espanso",
+    "text-expander",
+    "snippets",
+    "macos",
+    "automation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Espanso",
+    "shortDescription": "Manage Espanso snippets safely",
+    "longDescription": "Use Espanso to inspect and update local text-expander configuration. The skill treats Espanso config as live machine state: inspect first, show the intended change, back up edited files, and require confirmation before writing, installing packages, restarting services, or adding shell/script expansions.",
+    "developerName": "Grail Automation",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use espanso to add this text expansion",
+      "Review my Espanso matches for this trigger",
+      "Help debug why this Espanso snippet is not expanding"
+    ],
+    "brandColor": "#F97316",
+    "screenshots": []
+  }
+}

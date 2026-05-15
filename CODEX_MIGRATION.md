@@ -19,7 +19,7 @@ Current Codex docs baseline:
 
 The Codex installability pass is complete for the reviewed plugin set. The
 tracked repo-local Codex marketplace at `.agents/plugins/marketplace.json`
-contains 30 plugins, and each listed plugin has a matching
+contains 32 plugins, and each listed plugin has a matching
 `.codex-plugin/plugin.json`.
 
 This means the plugins are visible and available for install in Codex. Live
@@ -28,16 +28,17 @@ are quality/runtime follow-ups, not blockers for Codex marketplace visibility.
 Handle those only when a plugin is actively being installed, used, or promoted
 from MCP to a CLI-backed default.
 
-Six Claude marketplace plugins are intentionally not listed for Codex:
+Three Claude marketplace plugins are intentionally not listed for Codex:
 
 | Plugin | Why it is not listed |
 | --- | --- |
-| `agents` | Claude subagent definitions do not map directly to Codex plugin behavior, and most entries duplicate Codex's built-in agent/delegation patterns. |
-| `dev-browser` | Stateful browser server/extension plugin with persistent profile side effects; Codex already has browser tooling, and this needs a separate safety/design pass before listing. |
-| `espanso` | Local macOS text-expansion config workflow; useful for Claude, but Codex listing would imply editing personal machine config without a Codex side-effect policy. |
 | `jq-for-clawd` | Claude Code session-history skill; Codex uses different session paths and JSONL shapes, so the Codex-compatible split is `codex-session-history`. |
 | `karabiner-elements` | Local macOS keyboard-remapping config workflow; useful for Claude, but Codex listing would imply editing personal machine config without a Codex side-effect policy. |
-| `playwright-cli` | Already covered by the user-level Codex `playwright` skill, so listing this repo copy would mostly create duplicate choices. |
+| `playwright-cli` | Already covered by the user-level Codex `playwright` skill, which has Codex-specific wrapper scripts and policy. Listing this repo copy would mostly create duplicate choices. |
+
+The previous `agents` plugin was removed from the Claude marketplace and repo
+after deciding that its Claude subagent bundle duplicated Codex's built-in
+agent/delegation patterns and did not need a Codex replacement.
 
 ## Current Codex Marketplace
 
@@ -51,6 +52,7 @@ The tracked Codex marketplace exposes:
 | `openapi-spec-generation` | Migrated | Skill-only OpenAPI workflow with local references. |
 | `python-quickbooks` | Migrated | Skill-only library reference; examples use placeholders rather than live credentials. |
 | `terminal-tidbits` | Migrated | User-data path moved outside the plugin directory; defaults remain plugin-bundled. |
+| `espanso` | Migrated | Local text-expander config skill. Codex exposure is user-invoked only and keeps preview, backup, confirmation, and verification rules for live machine-state edits. |
 | `salesforce-soql` | Migrated | Salesforce CLI/reference workflow; no bundled MCP and org schemas remain local/ignored. |
 | `oasb-scaffold` | Migrated | Repo-specific OASBuilder convention skill; exposed for personal/repo-local usefulness. |
 | `workato-api` | Migrated | REST reference and curl/httpx execution patterns; credentials come from environment variables or gitignored local notes. |
@@ -64,6 +66,7 @@ The tracked Codex marketplace exposes:
 | `staff-software-engineer` | Migrated | Claude agent behavior preserved; Codex exposure is a `staff-plan-review` skill rather than a Claude subagent definition. |
 | `issue-blaster` | Migrated | Claude slash-command and subagent behavior preserved; Codex exposure uses direct `gh`/`rg` workflows, sequential multi-issue handling by default, and explicit user-authorized subagents only for parallel work. |
 | `scraper-generator` | Migrated | Claude slash-command and subagent behavior preserved; Codex exposure runs the analysis, architecture, code-generation, and validation phases inline with local fetch/file/shell tools unless the user explicitly authorizes Codex subagents. |
+| `dev-browser` | Migrated | Browser automation server/extension workflow. Listed for Codex after user acceptance of persistent browser-state side effects; standalone mode remains the default and extension mode is intentional opt-in. |
 
 The parked prototype files from the exploratory pass live under
 `.scratch/codex-adapter-prototype/2026-05-14/`. They are intentionally ignored
@@ -106,12 +109,11 @@ scope decisions rather than mechanical manifest work.
 | `google-workspace` | Migrated | The broad plugin is now listed for Codex as a CLI-backed integration. It has no `.mcp.json`; use `gws` v0.22.5 or newer on `$PATH`, preserve the existing auth model, and keep side-effect confirmation rules in the plugin README and shared skill. |
 | Domain MCP packs | Migrated with filtered MCP configs | `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, and `sales` are listed for Codex with `.mcp.codex.json` files that preserve remaining hosted HTTP MCP endpoints. BigQuery and Guru now route through maintained CLIs instead of MCP; Linear and Notion have authenticated pilot smoke coverage but still keep MCP pending workflow mapping. Pilot/wrapper candidates are tracked in [MCP_CLI_REVIEW.md](MCP_CLI_REVIEW.md). See [DOMAIN_PACKS_CODEX.md](DOMAIN_PACKS_CODEX.md). |
 
-### Resolved Non-Candidates
+### Removed Non-Candidates
 
 | Plugin | Decision | Notes |
 | --- | --- | --- |
-| `agents` | Claude-only public marketplace plugin | The bundle is a set of Claude subagent definitions, not a Codex plugin surface. `explore`, `plan`, `general-purpose`, and `bash` duplicate Codex's built-in local/delegated work patterns; `statusline-setup` edits Claude Code settings; `claude-code-guide` is the only possible future extraction candidate, but should be rebuilt as a docs-current skill with official-source citation rules before any Codex exposure. |
-| `dev-browser` | Claude-only public marketplace plugin | The plugin is a stateful browser runtime plus optional Chrome extension, not a simple skill bundle. Keep it listed for Claude Code, where its server and extension behavior are documented; do not add a Codex adapter unless a future issue proves a distinct gap versus the installed Codex browser tooling and completes the validation contract in [issue #20](https://github.com/grailautomation/claude-plugins/issues/20). |
+| `agents` | Removed | The bundle was Claude subagent definitions, not a Codex plugin surface. `explore`, `plan`, `general-purpose`, and `bash` duplicated Codex's built-in local/delegated work patterns, and `statusline-setup` edited Claude Code settings. |
 
 ### Requires Rewrite Or Connector Review
 
@@ -134,10 +136,10 @@ These are working classifications, not final deletion decisions:
 | Domain MCP packs | `public-marketplace` with filtered Codex MCP configs | Keep listed for Claude and Codex. Prefer maintained CLIs over MCP whenever a CLI can safely perform the workflow; Gmail, Google Calendar, Google Drive, BigQuery, and Guru route through CLI-backed paths. Codex uses `.mcp.codex.json` per pack for remaining reachable hosted HTTP MCP dependencies and omits endpoints that failed MCP probes instead of substituting native connectors. Linear and Notion are smoke-tested pilots, not replace-now integrations. Pilot and wrapper candidates are tracked in [MCP_CLI_REVIEW.md](MCP_CLI_REVIEW.md). |
 | `google-workspace` | `public-marketplace` | Keep as one broad plugin for Claude and Codex. The integration is CLI-backed rather than MCP-backed; require current `gws` auth and side-effect confirmation instead of splitting by product or action class. |
 | `jq-for-clawd` / `codex-session-history` | `public-marketplace` split | Keep `jq-for-clawd` as the Claude Code session-history skill; expose `codex-session-history` separately for Codex's distinct session JSONL structure. |
-| `espanso`, `karabiner-elements` | `public-marketplace` Claude-only | Keep in the public Claude marketplace as generic macOS config workflows; do not expose to Codex until a side-effect policy and local-config validation path are deliberately designed. |
-| `dev-browser` | `public-marketplace` Claude-only | Keep listed for Claude. Do not list for Codex unless a future issue validates dependency-manager policy, server startup, extension scope, tests/typecheck, and browser-profile side-effect expectations against a concrete Codex use case. |
-| `playwright-cli` | `public-marketplace` Claude-only | Keep listed for Claude; do not list for Codex unless a concrete gap appears versus the installed Codex `playwright` skill. |
-| `agents` | `public-marketplace` Claude-only | Keep listed for Claude; do not add a Codex adapter for the current subagent bundle. Revisit only if `claude-code-guide` is deliberately rebuilt as a current Anthropic/Claude documentation skill. |
+| `espanso` | `public-marketplace` | Keep listed for Claude and Codex. Treat text-expander config as live user machine state: inspect, preview, back up, confirm, apply, and verify. |
+| `karabiner-elements` | `public-marketplace` Claude-only | Keep in the public Claude marketplace as a generic macOS config workflow; do not expose to Codex until ordinary remaps and profile/service changes have mandatory preview/confirmation wording or tooling. |
+| `dev-browser` | `public-marketplace` | Keep listed for Claude and Codex. Standalone browser mode is the default; extension mode intentionally uses logged-in Chrome state when requested. |
+| `playwright-cli` | `public-marketplace` Claude-only | Keep listed for Claude. Codex should keep using the user-level `playwright` skill unless a concrete gap appears; that skill has Codex-specific wrapper scripts and headless defaults. |
 
 ## Migration Rules
 

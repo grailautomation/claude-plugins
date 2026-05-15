@@ -1,8 +1,0 @@
-{
-  "name": "agents",
-  "description": "Reusable subagent definitions for common development workflows",
-  "author": {
-    "name": "Grail Automation"
-  },
-  "keywords": ["agents", "subagents", "workflows"]
-}
