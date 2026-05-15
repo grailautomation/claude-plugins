@@ -21,6 +21,6 @@ MCP-only capabilities.
 | Chat | `~~chat` | Slack MCP | Microsoft Teams, Discord |
 | Email | `~~email` | Microsoft 365 MCP | — |
 | Calendar | `~~calendar` | Microsoft 365 MCP | — |
-| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot | Confluence, Guru, Coda |
+| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot for pages/data sources/files | Confluence, Guru, Coda |
 | Project tracker | `~~project tracker` | Asana MCP, Linear MCP, Atlassian MCP (Jira/Confluence), monday.com MCP, ClickUp MCP | Shortcut, Basecamp, Wrike |
 | Office suite | `~~office suite` | Microsoft 365 MCP | — |

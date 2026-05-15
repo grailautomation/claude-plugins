@@ -17,7 +17,7 @@ operation safely, or the workflow depends on MCP-only capabilities.
 | Category | Placeholder | Default integrations | Other options |
 |----------|-------------|-----------------|---------------|
 | Data warehouse | `~~data warehouse` | BigQuery via `bq` CLI | Snowflake, Databricks, Redshift, PostgreSQL, MySQL |
-| Notebook | `~~notebook` | Hex MCP; pilot `hex` CLI | Jupyter, Deepnote, Observable |
+| Notebook | `~~notebook` | Hex MCP; pilot official `hex` CLI for inventory/export/run workflows | Jupyter, Deepnote, Observable |
 | Product analytics | `~~product analytics` | Amplitude MCP | Mixpanel, Heap |
 | Project tracker | `~~project tracker` | Atlassian MCP (Jira/Confluence) | Linear, Asana |
 

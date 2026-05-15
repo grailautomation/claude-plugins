@@ -88,7 +88,7 @@ Connect your communication and project management tools for the best experience.
 **Default integrations:**
 - Chat (Slack MCP) for team context and message scanning
 - Email and calendar (Microsoft 365 MCP) for action item discovery
-- Knowledge base (Notion MCP with `ntn` CLI pilot) for reference documents
+- Knowledge base (Notion MCP with `ntn` CLI pilot for pages/data sources/files) for reference documents
 - Project tracker (Asana, Linear, Atlassian, monday.com, ClickUp MCP) for task syncing
 - Office suite (Microsoft 365 MCP) for documents
 

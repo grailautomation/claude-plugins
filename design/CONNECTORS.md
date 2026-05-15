@@ -20,7 +20,7 @@ operation safely, or the workflow depends on MCP-only capabilities.
 |----------|-------------|-----------------|---------------|
 | Chat | `~~chat` | Slack MCP | Microsoft Teams |
 | Design tool | `~~design tool` | Figma MCP | Sketch, Adobe XD, Framer |
-| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot | Confluence, Guru, Coda |
+| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot for pages/data sources/files | Confluence, Guru, Coda |
 | Project tracker | `~~project tracker` | Linear MCP, Asana MCP, Atlassian MCP (Jira/Confluence) | Shortcut, ClickUp |
 | User feedback | `~~user feedback` | Intercom MCP | Productboard, Canny, UserVoice, Dovetail |
 | Product analytics | `~~product analytics` | — | Amplitude, Mixpanel, Heap, FullStory |

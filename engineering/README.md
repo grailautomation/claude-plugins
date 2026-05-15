@@ -113,7 +113,7 @@ Connect your tools for a richer experience:
 | **Monitoring** | Datadog, New Relic | Logs, metrics, alerts, dashboards |
 | **Incident management** | PagerDuty, Opsgenie | On-call schedules, incident tracking, paging |
 | **Chat** | Slack, Teams | Team discussions, standup channels |
-| **Knowledge base** | Notion MCP with `ntn` CLI pilot, Confluence | ADRs, runbooks, onboarding docs |
+| **Knowledge base** | Notion MCP with `ntn` CLI pilot for pages/data sources/files, Confluence | ADRs, runbooks, onboarding docs |
 
 See [CONNECTORS.md](CONNECTORS.md) for the full list of supported integrations.
 

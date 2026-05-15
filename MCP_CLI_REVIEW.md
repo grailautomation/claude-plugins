@@ -29,9 +29,9 @@ inspection, write safeguards, and the concrete workflows used by the plugin.
 | `fireflies` | Pilot | `ffcli`, GraphQL API | Pilot read-only transcript workflows; keep MCP for management/soundbite/channel workflows. |
 | `hubspot` | Pilot | community `hubspot-cli`, `g-gremlin`; official `hs` only for dev/CMS | Pilot CRM operations; do not treat official `hs` as CRM replacement. |
 | `intercom` | Pilot | official `@intercom/cli`, OpenAPI | Strong pilot candidate; likely replace after auth/read/write smoke tests. |
-| `hex` | Pilot | official `hex` CLI | Keep MCP for Hex Agent thread workflows until CLI coverage is confirmed. |
-| `notion` | Pilot | official `ntn` CLI | Keep MCP until Notion AI search/tool coverage is mapped; pilot page/data-source/file workflows. |
-| `servicenow` | Pilot | official `snc` CLI | Pilot generic ITSM table CRUD; keep MCP for Now Assist or instance-specific workflows. |
+| `hex` | Pilot | official `hex` CLI | Pilot workspace/project/cell/run/connection inventory and controlled draft operations. Keep MCP for Agent thread create/continue and natural-language exploration workflows. |
+| `notion` | Pilot | official `ntn` CLI | Pilot page, data-source, file, and raw API workflows. Keep MCP for Notion AI search, connected-source search, and database-view workflows. |
+| `servicenow` | Pilot | official `snc` CLI | Pilot generic record query/get/create/update/delete only with the ServiceNow `snc` client. Keep MCP for instance-specific MCP servers and Now Assist-style workflows. |
 | `asana` | Wrapper candidate | Asana REST/API client wrapper; community CLIs are partial | Build/pilot wrapper only if broad Work Graph workflows are needed without MCP. |
 | `monday` | Wrapper candidate | GraphQL API wrapper; official `mapps` is app-dev only | Build wrapper for board/item/docs workflows before removing MCP. |
 | `slack` | Wrapper candidate | Slack Web API wrapper; official Slack CLI is app-dev only | Do not use browser-token CLIs. Keep MCP until scoped Web API wrapper exists. |
@@ -55,6 +55,59 @@ Before moving any `Pilot` vendor to "replace now":
 5. Verify JSON or NDJSON output that an agent can parse safely.
 6. Verify dry-run, preview, or confirmation boundaries for writes.
 7. Update both Claude and Codex configs in the same direction unless a documented runtime limitation prevents parity.
+
+`ruby scripts/check_cli_integrations.rb` is a local availability check, not an
+installer. For ambiguous command names, it verifies the binary identity before
+reporting an installed command so unrelated packages such as npm `hex` or npm
+`snc` are not accepted by accident.
+
+## Pilot Findings
+
+### Hex
+
+The official Hex CLI is a useful pilot, but it is not a full MCP replacement
+yet. Official install paths are `brew install hex-inc/hex-cli/hex` or the Hex
+install script; do not use the unrelated npm package named `hex`. Use
+`hex --json ...` for agent-readable output and `hex auth status` before live
+workflows.
+
+Good CLI pilot workflows are read-heavy workspace inspection and bounded
+operations such as `hex --json project list`, `hex --json project get`,
+`hex --json project export`, `hex --json cell list`, `hex --json connection
+list`, and run status checks. The MCP still carries Hex Agent Thread workflows:
+project semantic search, `create_thread`, `get_thread`, and
+`continue_thread`, including generated charts/tables and follow-up analysis.
+
+### Notion
+
+The official Notion CLI is a strong pilot for page, data-source, file, and raw
+API workflows. Official install paths are `curl -fsSL https://ntn.dev | bash`
+or `npm install --global ntn`; Node.js 22+ and npm 10+ are required for the npm
+path. Use `ntn doctor` for setup/auth health and prefer JSON-capable commands
+such as `ntn api ls --json`, `ntn pages get <page-id> --json`, and
+`ntn datasources query <data-source-id> --filter ... --json`.
+
+Keep Notion MCP until authenticated parity is proven for Notion AI search,
+connected-source search, database-view queries, and higher-level agent tools.
+The CLI is better for file upload workflows, but raw `ntn api` write calls are
+powerful and still require explicit user confirmation.
+
+### ServiceNow
+
+ServiceNow currently has two different command-line surfaces that are easy to
+confuse:
+
+- `snc` is the ServiceNow CLI documented for instance connection profiles,
+  JSON output, and record CRUD/query commands such as `snc record query`.
+- `@servicenow/cli` exposes `now-cli` and is oriented around UI/component app
+  development, not generic ITSM table workflows.
+
+Do not install or run the unrelated npm package named `snc`. Pilot ServiceNow
+CLI replacement only when the ServiceNow Store/GitHub `snc` client is available
+and `snc configure profile list --output json` plus read-only record queries
+pass against the target instance. Keep MCP for instance-generated MCP servers,
+Now Assist-style workflows, and any workflow that needs server-side tools not
+covered by generic record operations.
 
 ## Wrapper Gates
 

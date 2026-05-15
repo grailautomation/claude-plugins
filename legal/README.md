@@ -187,7 +187,7 @@ no safe CLI exists:
 | Chat | Slack, Teams | Team requests, notifications, triage |
 | Cloud storage | Google Drive via `gws`, Microsoft 365, Box, Egnyte | Playbooks, templates, precedents |
 | Office suite | Microsoft 365 | Email, calendar, documents |
-| Knowledge base | Notion MCP with `ntn` CLI pilot, Atlassian (Confluence) | Matter tracking, playbooks, policies |
+| Knowledge base | Notion MCP with `ntn` CLI pilot for pages/data sources/files, Atlassian (Confluence) | Matter tracking, playbooks, policies |
 
 See [CONNECTORS.md](CONNECTORS.md) for the full list of supported integrations, including CLM, CRM, e-signature, and additional options.
 

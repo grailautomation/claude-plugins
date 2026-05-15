@@ -26,6 +26,8 @@ INTEGRATIONS = [
     command: "bq",
     owner: "Google Cloud SDK",
     required: true,
+    verify_args: ["version"],
+    verify_output: "BigQuery CLI",
     notes: "Use bq for BigQuery query/list/show/load/extract workflows."
   },
   {
@@ -33,14 +35,20 @@ INTEGRATIONS = [
     command: "hex",
     owner: "Hex CLI",
     required: false,
-    notes: "Pilot hex for Hex projects, apps, cells, runs, users, groups, and connections before removing MCP."
+    verify_args: ["--version"],
+    verify_pattern: "\\Ahex \\d+\\.\\d+\\.\\d+",
+    install_hint: "Install from brew install hex-inc/hex-cli/hex or https://hex.tech/install.sh; the npm package named hex is unrelated.",
+    notes: "Pilot hex for workspace/project/cell/run/connection reads and controlled draft operations; keep MCP for Agent thread create/continue workflows."
   },
   {
     key: "notion",
     command: "ntn",
     owner: "Notion CLI",
     required: false,
-    notes: "Pilot ntn for Notion pages, data sources, Markdown, and API JSON workflows before removing MCP."
+    verify_args: ["--version"],
+    verify_pattern: "\\Antn \\d+\\.\\d+\\.\\d+",
+    install_hint: "Install from https://ntn.dev or npm install --global ntn; use ntn doctor for setup/auth health.",
+    notes: "Pilot ntn for Notion page, data-source, file, and raw API workflows; keep MCP for Notion AI search and database-view workflows."
   },
   {
     key: "guru",
@@ -48,14 +56,19 @@ INTEGRATIONS = [
     owner: "@getguru/cli",
     required: true,
     runners: ["pnpm", "npx"],
+    verify_args: ["--help"],
+    verify_output: "Guru API",
     notes: "Use guru for Guru search and card workflows; prefer one-off pnpm/npx before global install."
   },
   {
     key: "servicenow",
     command: "snc",
-    owner: "ServiceNow CLI",
+    owner: "ServiceNow CLI (snc)",
     required: false,
-    notes: "Pilot snc for generic ServiceNow table/record ITSM workflows before removing MCP."
+    verify_args: ["--help"],
+    verify_outputs: ["ServiceNow", "record"],
+    install_hint: "Install the ServiceNow snc client from ServiceNow Store or github.com/ServiceNow/servicenow-cli; npm snc is unrelated and @servicenow/cli exposes now-cli for app development only.",
+    notes: "Pilot snc for generic ServiceNow record query/get/create/update/delete workflows; keep MCP for instance-specific MCP servers and Now Assist-style workflows."
   },
   {
     key: "context7",
@@ -63,6 +76,8 @@ INTEGRATIONS = [
     owner: "Context7 CLI",
     required: true,
     runners: ["pnpm", "npx"],
+    verify_args: ["--version"],
+    verify_pattern: "\\A\\d+\\.\\d+\\.\\d+",
     notes: "Use ctx7 for library resolution and docs lookup; pnpm dlx or npx is acceptable."
   },
   {
@@ -81,6 +96,8 @@ INTEGRATIONS = [
     owner: "Cloudflare Wrangler",
     required: true,
     runners: ["pnpm", "npx"],
+    verify_args: ["--version"],
+    verify_pattern: "\\A\\d+\\.\\d+\\.\\d+",
     notes: "Use wrangler for Workers, Pages, KV, R2, D1, Queues, and local development."
   }
 ].freeze
@@ -104,11 +121,16 @@ end
 def verify_command(path, integration)
   verify_args = integration[:verify_args]
   verify_output = integration[:verify_output]
-  return { ok: true, output: nil } unless verify_args && verify_output
+  verify_outputs = integration[:verify_outputs]
+  verify_pattern = integration[:verify_pattern]
+  return { ok: true, output: nil } unless verify_args && (verify_output || verify_outputs || verify_pattern)
 
   stdout, stderr, status = Open3.capture3(path, *verify_args)
   output = [stdout, stderr].join("\n")
-  { ok: status.success? && output.include?(verify_output), output: output.strip }
+  expected_strings = Array(verify_outputs || verify_output)
+  strings_ok = expected_strings.empty? || expected_strings.all? { |expected| output.include?(expected) }
+  pattern_ok = verify_pattern.nil? || output.match?(Regexp.new(verify_pattern))
+  { ok: status.success? && strings_ok && pattern_ok, output: output.strip }
 rescue SystemCallError
   { ok: false, output: nil }
 end
@@ -166,6 +188,7 @@ else
     required = result[:required] ? "required" : "optional"
     puts "#{marker.ljust(7)} #{command.ljust(10)} #{required.ljust(8)} #{result[:owner]}"
     puts "        #{install_state}"
+    puts "        install: #{result[:install_hint]}" if result[:install_hint]
     puts "        #{result[:notes]}"
   end
 

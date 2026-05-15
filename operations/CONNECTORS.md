@@ -21,8 +21,8 @@ MCP-only capabilities.
 | Calendar | `~~calendar` | Google Calendar via `gws` CLI | Microsoft 365 |
 | Chat | `~~chat` | Slack MCP | Microsoft Teams |
 | Email | `~~email` | Gmail via `gws` CLI, Microsoft 365 MCP | — |
-| ITSM | `~~ITSM` | ServiceNow MCP; pilot `snc` CLI | Zendesk, Freshservice, Jira Service Management |
-| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot, Atlassian MCP (Confluence) | Guru, Coda |
+| ITSM | `~~ITSM` | ServiceNow MCP; pilot official ServiceNow `snc` client for generic record workflows | Zendesk, Freshservice, Jira Service Management |
+| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot for pages/data sources/files, Atlassian MCP (Confluence) | Guru, Coda |
 | Project tracker | `~~project tracker` | Asana MCP, Atlassian MCP (Jira) | Linear, monday.com, ClickUp |
 | Procurement | `~~procurement` | — | Coupa, SAP Ariba, Zip |
 | Office suite | `~~office suite` | Microsoft 365 | Google Workspace via `gws` CLI |

@@ -23,7 +23,7 @@ This plugin uses `~~category` references extensively as source labels in search 
 | Chat | `~~chat` | Slack MCP | Microsoft Teams, Discord |
 | Email | `~~email` | Microsoft 365 MCP | — |
 | Cloud storage | `~~cloud storage` | Microsoft 365 MCP | Dropbox |
-| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot, Guru via `guru` CLI | Confluence, Slite |
+| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot for pages/data sources/files, Guru via `guru` CLI | Confluence, Slite |
 | Project tracker | `~~project tracker` | Atlassian MCP (Jira/Confluence), Asana MCP | Linear, monday.com |
 | CRM | `~~CRM` | *(not pre-configured)* | Salesforce, HubSpot |
 | Office suite | `~~office suite` | Microsoft 365 | Google Workspace via `gws` CLI |

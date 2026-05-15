@@ -92,7 +92,7 @@ Connect your project management and communication tools for the best experience.
 **Default integrations:**
 - Chat (Slack MCP) for team context and stakeholder threads
 - Project tracker (Linear, Asana, monday.com, ClickUp, Atlassian MCP) for roadmap integration, ticket context, and status tracking
-- Knowledge base (Notion MCP with `ntn` CLI pilot) for existing specs, research, and meeting notes
+- Knowledge base (Notion MCP with `ntn` CLI pilot for pages/data sources/files) for existing specs, research, and meeting notes
 - Design (Figma MCP) for design context and handoff
 - Product analytics (Amplitude MCP, Pendo MCP) for usage data, metrics, and behavioral analysis
 - User feedback (Intercom MCP) for support tickets, feature requests, and user conversations

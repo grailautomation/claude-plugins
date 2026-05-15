@@ -89,8 +89,14 @@ Remaining omitted endpoints have these final dispositions:
   not resolve and ServiceNow documents instance-generated server URLs of the
   form
   `https://<instance>.service-now.com/sncapps/mcp-server/mcp/<server-name>`.
-  Claude retains the existing config pending the `snc` CLI pilot.
+  Claude retains the existing config pending the official ServiceNow `snc`
+  client pilot. Do not treat the unrelated npm package named `snc` or the
+  app-development `@servicenow/cli` / `now-cli` package as this replacement.
 
 Pilot CLI candidates are tracked in [MCP_CLI_REVIEW.md](MCP_CLI_REVIEW.md).
 Do not remove `hex`, `notion`, or `servicenow` MCP configs solely because a CLI
-exists; their CLI paths still need smoke tests and workflow coverage mapping.
+exists; their CLI paths still need authenticated smoke tests and workflow
+coverage mapping. Hex still needs MCP for Agent thread create/continue,
+Notion still needs MCP for Notion AI search and database-view workflows, and
+ServiceNow still needs MCP for instance-specific MCP servers or server-side
+workflows outside generic record operations.
