@@ -1,0 +1,37 @@
+{
+  "name": "dev-browser",
+  "description": "Browser automation with persistent page state for development, testing, scraping, and debugging workflows.",
+  "author": {
+    "name": "Grail Automation",
+    "url": "https://grailautomation.com/"
+  },
+  "repository": "https://github.com/grailautomation/claude-plugins/tree/main/dev-browser",
+  "keywords": [
+    "browser",
+    "playwright",
+    "automation",
+    "testing",
+    "debugging",
+    "scraping"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Dev Browser",
+    "shortDescription": "Automate browser workflows with persistent page state",
+    "longDescription": "Use Dev Browser to navigate sites, fill forms, take screenshots, inspect page state, scrape data, and test web apps through a local browser automation server. Standalone mode launches Chromium; extension mode can connect to an existing Chrome session when the user intentionally wants logged-in browser state.",
+    "developerName": "Grail Automation",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use dev-browser to test this local web app",
+      "Navigate this site and take a screenshot",
+      "Scrape this page with persistent browser state"
+    ],
+    "brandColor": "#2563EB",
+    "screenshots": []
+  }
+}

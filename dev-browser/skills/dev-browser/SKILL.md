@@ -9,7 +9,9 @@ Browser automation that maintains page state across script executions. Write sma
 
 ## Setup
 
-Two modes available. Ask the user if unclear which to use.
+Two modes available. Use Standalone Mode by default. Use Extension Mode only
+when the user intentionally wants their existing Chrome profile, logged-in
+sessions, or installed extensions.
 
 ### Standalone Mode (Default)
 

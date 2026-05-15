@@ -21,8 +21,9 @@ replaces trigger strings with defined expansions. Config is YAML-based.
 
 - Treat Espanso config as user machine state. Read the current config before editing it.
 - Resolve the config directory from `ESPANSO_CONFIG_DIR` when set; otherwise use the macOS default path.
+- Show the exact YAML change or diff before editing live config.
 - Back up the specific file you will edit before making changes.
-- Ask before replacing an existing trigger or adding a shell/script expansion with side effects.
+- Ask for confirmation before any write, package install, restart, existing-trigger replacement, or shell/script expansion.
 - Prefer focused edits to one match file instead of rewriting the full config tree.
 
 ## Config Locations (macOS)
