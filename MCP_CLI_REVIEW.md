@@ -115,6 +115,19 @@ a 1Password-sourced `NOTION_API_TOKEN`: `ntn doctor`, `ntn api ls --json`,
 `ntn api v1/users/me`, `ntn api v1/search page_size:=5`, `ntn pages get
 <page-id> --json` from a search result, and `ntn files list --json`.
 
+Write-safeguard review:
+
+- `ntn pages trash <page-id>` prompts for confirmation; `--yes` bypasses it.
+- `ntn workers delete [worker-id]` prompts for confirmation; `--yes` bypasses
+  it.
+- `ntn pages update <page-id>` replaces page Markdown content. It blocks child
+  page/database deletion unless `--allow-deleting-content` is set.
+- `ntn pages create` and `ntn files create` do not expose a dry-run flag. Treat
+  both as writes requiring explicit target/content confirmation.
+- Raw `ntn api` calls with write HTTP methods are powerful and not globally
+  dry-run protected. Require explicit user confirmation of method, endpoint,
+  target ID, and request body before execution.
+
 Keep Notion MCP until authenticated parity is proven for Notion AI search,
 connected-source search, database-view queries, and higher-level agent tools.
 The CLI is better for file upload workflows, but raw `ntn api` write calls are
