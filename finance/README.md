@@ -73,6 +73,20 @@ Snowflake or Databricks may use their own CLIs, user/project MCP settings, or
 manual exports to query financial data, run variance analysis, and pull
 historical comparisons.
 
+For noninteractive local agent workflows, validate BigQuery with a dry run
+before querying financial data:
+
+```bash
+GCP_SERVICE_ACCOUNT_OP_REF='op://<vault>/<item>/<field>' \
+  ruby scripts/smoke_cli_integrations.rb --only bigquery
+```
+
+The smoke script reads a Google service-account JSON key from 1Password into a
+mode `0600` temp file, runs `bq` with
+`CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE`, and deletes the temp file. Use
+`GOOGLE_APPLICATION_CREDENTIALS` for ADC/client-library code, not as the primary
+way to force `bq` to use the service account.
+
 ### Spreadsheets
 
 Connect spreadsheet tools (e.g., Google Sheets, Excel) for workpaper generation, reconciliation templates, and financial model updates.

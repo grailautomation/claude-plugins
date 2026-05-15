@@ -124,3 +124,37 @@ Configure remaining MCP servers in `.mcp.json` or Claude Code settings only
 when no safe CLI path exists. Run `ruby scripts/check_cli_integrations.rb` from
 the repository root to report whether the expected CLI-backed replacements are
 available on the current machine.
+
+### BigQuery Auth For Agents
+
+For BigQuery, prefer non-mutating dry runs before executing queries:
+
+```bash
+bq query --dry_run --use_legacy_sql=false --format=json 'SELECT 1 AS ok'
+```
+
+For local noninteractive agent workflows, keep service-account JSON in a secret
+store rather than a persistent repo file. When using 1Password, pass the item
+reference through `GCP_SERVICE_ACCOUNT_OP_REF` and let the smoke script create a
+temporary key file:
+
+```bash
+GCP_SERVICE_ACCOUNT_OP_REF='op://<vault>/<item>/<field>' \
+  ruby scripts/smoke_cli_integrations.rb --only bigquery
+```
+
+If you need the raw command pattern, use `CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE`
+for `bq` and Cloud SDK commands:
+
+```bash
+tmp=$(mktemp -t gcp-sa.XXXXXX.json)
+chmod 600 "$tmp"
+trap 'rm -f "$tmp"' EXIT
+op read 'op://<vault>/<item>/<field>' > "$tmp"
+
+CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="$tmp" \
+  bq query --dry_run --use_legacy_sql=false --format=json 'SELECT 1 AS ok'
+```
+
+`GOOGLE_APPLICATION_CREDENTIALS` is for ADC/client-library code. It is not
+enough to make `bq` ignore the active `gcloud` user account.

@@ -97,6 +97,11 @@ Not every plugin uses all component types.
   for CLI-backed replacements. The script does not install anything; use
   `--strict` only when validating an environment expected to have the required
   CLIs.
+- Use `ruby scripts/smoke_cli_integrations.rb` only for explicit live smoke
+  checks. It may call SaaS APIs or one-off package runners. For BigQuery, set
+  `GCP_SERVICE_ACCOUNT_OP_REF=op://<vault>/<item>/<field>` and let the script
+  use a temporary `CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE` file; do not commit
+  service-account JSON.
 - For plugin-required per-install values, prefer `userConfig` in `plugin.json` and `${user_config.KEY}` substitutions. For optional account/workspace-specific connectors, prefer user/project/local MCP config with environment-variable-backed URLs so broad marketplace plugins do not fail on unset placeholders.
 
 ### Versioning
