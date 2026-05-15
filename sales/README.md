@@ -18,7 +18,8 @@ Explicit workflows you invoke with a slash command:
 | `/sales:forecast` | Generate a weighted sales forecast — upload CSV or describe your pipeline, set quota, get projections |
 | `/sales:pipeline-review` | Analyze pipeline health — prioritize deals, flag risks, get weekly action plan |
 
-All commands work **standalone** (paste notes, upload CSV, or describe your situation) and get **supercharged** with MCP connectors.
+All commands work **standalone** (paste notes, upload CSV, or describe your
+situation) and get **supercharged** with connected CLIs or MCP connectors.
 
 ## Skills
 
@@ -90,15 +91,15 @@ Every command and skill works without any integrations:
 
 | What You Can Do | Standalone | Supercharged With |
 |-----------------|------------|-------------------|
-| Process call notes | Paste notes/transcript | Transcripts MCP (e.g. Gong, Fireflies) |
+| Process call notes | Paste notes/transcript | Transcript MCP (e.g. Gong, Fireflies) |
 | Forecast pipeline | Upload CSV, paste deals | CRM MCP |
 | Review pipeline | Upload CSV, describe deals | CRM MCP |
 | Research prospects | Web search | Enrichment MCP (e.g. Clay, ZoomInfo) |
-| Prep for calls | Describe meeting | CRM, Email, Calendar MCPs |
-| Draft outreach | Web search + your context | CRM, Email MCPs |
+| Prep for calls | Describe meeting | CRM MCP plus Email/Calendar CLI or MCP |
+| Draft outreach | Web search + your context | CRM MCP plus Email CLI or MCP |
 | Competitive intel | Web search | CRM (win/loss data), Docs (battlecards) |
 
-## MCP Integrations
+## Integrations
 
 > If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](CONNECTORS.md).
 

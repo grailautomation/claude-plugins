@@ -12,9 +12,11 @@ claude plugin install data@grail-automation
 
 This plugin transforms Claude into a data analyst collaborator. It helps you explore datasets, write optimized SQL, build visualizations, create interactive dashboards, and validate analyses before sharing with stakeholders.
 
-### With a Data Warehouse Connection
+### With a Data Warehouse CLI Or Connection
 
-Connect your data warehouse MCP server (e.g., Snowflake, Databricks, BigQuery, or any SQL-compatible database) for the best experience. Claude will:
+Use a maintained warehouse CLI when one safely covers the workflow. BigQuery
+uses the Google Cloud SDK `bq` CLI by default; other warehouses may use MCP,
+their own CLIs, or pasted/manual query results. Claude will:
 
 - Query your data warehouse directly
 - Explore schemas and table metadata
@@ -108,13 +110,17 @@ Claude: [Reviews methodology] → [Checks for survivorship bias in churn analysi
 
 > If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](CONNECTORS.md).
 
-This plugin works best when connected to your data infrastructure. Add MCP servers for:
+This plugin works best when connected to your data infrastructure. Default
+integrations are CLI-first when a safe maintained CLI exists:
 
-- **Data Warehouse**: Snowflake, Databricks, BigQuery, or any SQL-compatible database
+- **Data Warehouse**: BigQuery via `bq`; Snowflake, Databricks, or any SQL-compatible database via their own CLI, MCP, or manual exports
 - **Analytics/BI**: Amplitude, Looker, Tableau, or similar
-- **Notebooks**: Jupyter, Hex, or similar
+- **Notebooks**: Hex MCP with `hex` CLI pilot, Jupyter, or similar
 - **Spreadsheets**: Google Sheets, Excel
 - **Data Orchestration**: Airflow, dbt, Dagster, Prefect
 - **Data Ingestion**: Fivetran, Airbyte, Stitch
 
-Configure MCP servers in your `.mcp.json` or Claude Code settings to enable direct data access.
+Configure remaining MCP servers in `.mcp.json` or Claude Code settings only
+when no safe CLI path exists. Run `ruby scripts/check_cli_integrations.rb` from
+the repository root to report whether the expected CLI-backed replacements are
+available on the current machine.

@@ -10,7 +10,7 @@
 - Typo in library ID
 
 **Solutions:**
-1. Always call `resolve-library-id` first — don't guess IDs
+1. Always call `ctx7 library` first — don't guess IDs
 2. Try the base `/org/project` format without version specifier
 3. Check if library exists at context7.com
 4. For missing libraries, user can submit at context7.com/add-library
@@ -38,18 +38,20 @@
 2. Cache results for repeated queries
 3. Obtain API key from context7.com/dashboard
 
-### Connection/Server Errors
+### CLI or Network Errors
 
 **Causes:**
-- MCP server not running
+- `ctx7` is not installed or not available on `PATH`
 - Network issues
-- npx resolution failures (especially Windows)
+- npx/pnpm resolution failures
+- Optional API key or login state is invalid
 
 **Solutions:**
-1. Verify MCP is configured: `claude mcp list`
-2. Test the package directly: `npx -y @upstash/context7-mcp`
-3. Try remote server instead of local: `https://mcp.context7.com/mcp`
-4. Replace `npx` with `bunx -y @upstash/context7-mcp`
+1. Check the command: `type -a ctx7 node npm pnpm npx`
+2. Try one-off execution: `npx -y ctx7 --help` or `pnpm dlx ctx7 --help`
+3. Check login state: `ctx7 whoami`
+4. Set `CONTEXT7_API_KEY` only when higher rate limits or authenticated features are needed
+5. Use `.mcp.legacy.json` only for explicit compatibility testing
 
 ## Fallback Strategies
 
@@ -92,4 +94,4 @@ Library name not recognized. Try alternative names or check context7.com.
   "error": "Documentation not found or not finalized"
 }
 ```
-ID invalid or library not indexed. Verify with `resolve-library-id` first.
+ID invalid or library not indexed. Verify with `ctx7 library` first.

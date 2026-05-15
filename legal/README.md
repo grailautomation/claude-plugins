@@ -77,7 +77,11 @@ Configure paths to your template files or define inline templates for common inq
 
 ### 3. Connect your tools
 
-The plugin works best when connected to your existing tools via MCP. Pre-configured servers include Slack, Box, Egnyte, Atlassian, and Microsoft 365. See [CONNECTORS.md](CONNECTORS.md) for the full list of supported categories and options.
+The plugin works best when connected to your existing tools through maintained
+CLIs or MCP. Pre-configured MCP servers include Slack, Atlassian, HubSpot,
+DocuSign, and Microsoft 365; Notion keeps MCP while piloting the `ntn` CLI. See
+[CONNECTORS.md](CONNECTORS.md) for the full list of supported categories and
+options.
 
 ## Commands
 
@@ -171,22 +175,25 @@ Supported inquiry types include: data subject request, discovery hold, vendor qu
 3. See existing agreements, expiration dates, and key terms at a glance
 4. Know immediately whether you need a new NDA or can proceed under existing terms
 
-## MCP Integration
+## Integrations
 
 > If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](CONNECTORS.md).
 
-The plugin connects to your tools through MCP (Model Context Protocol) servers:
+The plugin connects to your tools through maintained CLIs first, then MCP where
+no safe CLI exists:
 
 | Category | Examples | Purpose |
 |----------|----------|---------|
 | Chat | Slack, Teams | Team requests, notifications, triage |
-| Cloud storage | Box, Egnyte | Playbooks, templates, precedents |
+| Cloud storage | Google Drive via `gws`, Microsoft 365, Box, Egnyte | Playbooks, templates, precedents |
 | Office suite | Microsoft 365 | Email, calendar, documents |
-| Project tracker | Atlassian (Jira/Confluence) | Matter tracking, tasks |
+| Knowledge base | Notion MCP with `ntn` CLI pilot, Atlassian (Confluence) | Matter tracking, playbooks, policies |
 
 See [CONNECTORS.md](CONNECTORS.md) for the full list of supported integrations, including CLM, CRM, e-signature, and additional options.
 
-Configure connections in `.mcp.json`. The plugin gracefully degrades when tools are unavailable -- it will note gaps and suggest manual checks.
+Configure MCP connections in `.mcp.json` only when no safe CLI path exists. The
+plugin gracefully degrades when tools are unavailable -- it will note gaps and
+suggest manual checks.
 
 ## Customization
 

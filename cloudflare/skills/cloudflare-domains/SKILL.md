@@ -1,196 +1,131 @@
 ---
 name: cloudflare-domains
-description: This skill should be used when the user asks to "list my domains", "manage DNS", "deploy to Cloudflare Pages", "create a landing page", "connect domain to Pages", "check my zones", "add DNS record", "set up a parked domain", or is working with Cloudflare Workers, Pages, KV, R2, D1, or DNS. Also use proactively when the user is working on static sites, landing pages, or domain management tasks.
-version: 0.1.0
+description: This skill should be used when the user asks to list Cloudflare domains or zones, manage DNS, deploy to Cloudflare Pages, connect a custom domain, add or update DNS records, set up a parked domain, or work with Cloudflare Workers, Pages, KV, R2, D1, Queues, Vectorize, Registrar, or DNS.
 ---
 
-# Cloudflare Domains Management
+# Cloudflare CLI Workflows
 
-Provide guidance for managing domains, DNS records, and Cloudflare Pages deployments using the Cloudflare MCP tools.
+Use Cloudflare CLIs before MCP. The default order is:
 
-## Overview
+1. `cf` technical preview for zones, DNS, Registrar, Accounts, and generated API-backed commands.
+2. `wrangler` for Workers, Pages, KV, R2, D1, Queues, and local development.
+3. `flarectl` as a legacy fallback for zones, DNS, firewall access rules, page rules, and cache purge.
+4. `cli4` as a generic Cloudflare API v4 fallback.
+5. Legacy MCP only when the user explicitly enables it locally.
 
-This skill enables proactive assistance with Cloudflare services:
-- **Zones**: List and manage domains/zones in the account
-- **DNS**: Create, update, and delete DNS records
-- **Pages**: Deploy static sites and connect custom domains
-- **Storage**: Work with KV, R2, D1, Queues, and Vectorize
+## Authentication
 
-## When to Proactively Suggest Cloudflare Actions
+Prefer environment variables:
 
-Suggest Cloudflare operations when:
-
-1. **User mentions domains or DNS**: Offer to list zones, check DNS records, or suggest configurations
-2. **User is building a static site or landing page**: Suggest deploying to Cloudflare Pages
-3. **User discusses "for sale" or parked domains**: Offer to deploy landing pages and configure DNS
-4. **User asks about hosting options**: Recommend Cloudflare Pages for static content
-5. **User is working with Workers code**: Offer deployment assistance
-
-## Available MCP Tools
-
-The Cloudflare MCP server provides tools for:
-
-### Zone Management
-- List all zones in the account
-- Get zone details and settings
-- Check zone status
-
-### DNS Operations
-- List DNS records for a zone
-- Create new DNS records (A, AAAA, CNAME, TXT, MX, etc.)
-- Update existing records
-- Delete records
-
-### Cloudflare Pages
-- List Pages projects
-- Create new Pages projects
-- Deploy static sites
-- Connect custom domains to projects
-- View deployment status
-
-### Storage Services
-- **KV**: Key-value storage operations
-- **R2**: Object storage (upload, download, list)
-- **D1**: SQL database queries
-- **Queues**: Message queue operations
-- **Vectorize**: Vector database operations
-
-## Common Workflows
-
-### Listing Domains
-
-To see all domains in the account:
-1. Use the zones list tool
-2. Display zone names, status, and IDs
-3. Offer to show DNS records for any zone
-
-### Setting Up a "For Sale" Landing Page
-
-For parked domains needing landing pages:
-
-1. **Create a Pages project** with a simple HTML landing page
-2. **Deploy the static content** to the project
-3. **Connect the custom domain** to the Pages project
-4. **Configure DNS** to point to Pages (CNAME record)
-
-Example DNS configuration for Pages:
-```
-Type: CNAME
-Name: @ (or subdomain)
-Target: <project-name>.pages.dev
-Proxied: Yes
+```bash
+CLOUDFLARE_API_TOKEN
+CLOUDFLARE_ACCOUNT_ID
+CLOUDFLARE_ZONE_ID
 ```
 
-### DNS Record Management
+`cf` also supports `cf auth login`, `cf auth whoami`, and project context in
+`.cfrc`. Keep tokens least-privilege and use read-only tokens for inspection
+whenever possible.
 
-Common DNS record patterns:
+Before recommending a persistent global install, check existing install lanes:
 
-**Root domain to Pages:**
-```
-Type: CNAME
-Name: @
-Target: project.pages.dev
-Proxied: Yes
-```
-
-**WWW subdomain:**
-```
-Type: CNAME
-Name: www
-Target: project.pages.dev
-Proxied: Yes
+```bash
+type -a cf wrangler flarectl cli4
+which -a cf wrangler flarectl cli4
 ```
 
-**Email (MX records):**
-```
-Type: MX
-Name: @
-Target: mail.provider.com
-Priority: 10
-```
+Prefer one-off execution:
 
-**Domain verification (TXT):**
-```
-Type: TXT
-Name: @
-Content: "verification-string"
+```bash
+pnpm dlx cf --help
+pnpm dlx wrangler --help
 ```
 
-### Deploying Static Sites
+## Zones and DNS
 
-To deploy a static site to Cloudflare Pages:
+Use `cf` for zone and DNS work:
 
-1. **Prepare the static files** (HTML, CSS, JS, images)
-2. **Create a Pages project** with appropriate name
-3. **Upload/deploy the files** to the project
-4. **Verify deployment** succeeded
-5. **Add custom domain** if needed
+```bash
+pnpm dlx cf zones list --fields id,name,status --ndjson
+pnpm dlx cf dns records list --zone example.com --fields id,type,name,content,proxied --ndjson
+pnpm dlx cf dns records create --zone example.com --dryRun --body '{"type":"CNAME","name":"www","content":"project.pages.dev","proxied":true}'
+pnpm dlx cf dns records update --zone example.com --dryRun --body '{"type":"TXT","name":"@","content":"verification-string"}'
+pnpm dlx cf dns records delete --zone example.com --dryRun --body '{"id":"record-id"}'
+```
 
-## Environment Variables
+Always dry-run creates, updates, deletes, imports, batches, and scan-review
+operations before applying them. Confirm the exact zone, record ID, record
+content, and proxied state before making changes.
 
-The MCP server requires these environment variables:
+Use `flarectl` only when it is already installed and a simple DNS/firewall/page
+rule operation is clearer there:
 
-- `CLOUDFLARE_API_TOKEN`: API token with appropriate permissions
-- `CLOUDFLARE_ACCOUNT_ID`: The Cloudflare account ID
+```bash
+flarectl --json zone list
+flarectl --json dns list --zone example.com
+flarectl --json dns create --zone example.com --name www --type CNAME --content project.pages.dev --proxy
+```
 
-These should be set in the user's shell environment or Claude Code configuration.
+Use `cli4` only for API paths not exposed by `cf` or `wrangler`:
 
-## Proactive Assistance Patterns
+```bash
+cli4 /zones/:example.com/dns_records
+cli4 --post name=www type=CNAME content=project.pages.dev proxied=true /zones/:example.com/dns_records
+```
 
-### When User Mentions a Domain Name
+## Workers, Pages, and Storage
 
-When user mentions a specific domain:
-1. Offer to check if it exists in their Cloudflare zones
-2. If found, offer to show current DNS configuration
-3. Suggest relevant actions (add records, deploy site, etc.)
+Use `wrangler` for project-oriented development and deployments:
 
-### When User Creates HTML/Static Content
+```bash
+pnpm dlx wrangler deploy
+pnpm dlx wrangler pages deploy ./dist --project-name my-project
+pnpm dlx wrangler kv namespace list
+pnpm dlx wrangler r2 bucket list
+pnpm dlx wrangler d1 list
+pnpm dlx wrangler d1 execute <database> --command 'select 1'
+```
 
-When user creates a landing page or static site:
-1. Ask if they want to deploy to Cloudflare Pages
-2. Suggest creating a Pages project
-3. Offer to deploy the content
-4. Help connect a custom domain if needed
+Use `cf` for generated account-level commands or resource APIs that Wrangler
+does not expose:
 
-### When User Discusses Domain Strategy
+```bash
+pnpm dlx cf agent-context workers
+pnpm dlx cf workers routes list --zone example.com --fields id,pattern,script --ndjson
+```
 
-When user discusses domain management:
-1. Offer to list all zones in account
-2. Suggest organizational approaches
-3. Help with bulk DNS operations if needed
+## Proactive Assistance
 
-## Best Practices
+Suggest Cloudflare actions when the user:
 
-### DNS Management
-- Prefer proxied mode for web traffic (orange cloud) unless DNS-only is specifically needed
-- Keep TTL at "Auto" unless specific caching needs exist
-- Document changes as they're made
+- Mentions a domain, DNS record, zone, parked domain, or nameserver change.
+- Builds static HTML, a landing page, or a docs site that could deploy to Pages.
+- Works on Worker code, KV, R2, D1, Queues, or Vectorize.
+- Needs to inspect Cloudflare account resources before changing deployment or DNS.
 
-### Pages Deployments
-- Use descriptive project names
-- Verify custom domain DNS before connecting
-- Check deployment logs for errors
+When the user mentions a specific domain, first inspect whether it exists as a
+Cloudflare zone, then list the relevant DNS records before proposing changes.
 
-### Security
-- Never expose API tokens in code or output
-- Use minimal required permissions for API tokens
-- Prefer environment variables for credentials
+When deploying static content:
 
-## Error Handling
+1. Prepare the local static files.
+2. Deploy with `pnpm dlx wrangler pages deploy`.
+3. Inspect or add DNS with `pnpm dlx cf dns records ...`.
+4. Dry-run DNS mutations before applying them.
+5. Verify the custom domain and deployment after propagation.
 
-Common issues and solutions:
+## Safety
 
-**Zone not found**: Verify the domain is added to Cloudflare account
+- Never expose API tokens in code, output, or committed files.
+- Confirm before deleting zones, Workers, Pages projects, KV namespaces, R2 buckets, D1 databases, DNS records, or routes.
+- Prefer `--fields` and `--ndjson` to keep responses small and structured.
+- Prefer `--body` for complex `cf` payloads so the exact request can be reviewed.
+- Treat the legacy MCP server as opt-in compatibility tooling, not the default path.
 
-**DNS record conflict**: Check for existing records with same name/type
+## References
 
-**Pages deployment failed**: Check file paths and content validity
-
-**Custom domain error**: Ensure DNS is correctly configured and propagated
-
-## Additional Resources
-
-For detailed Cloudflare documentation:
-- [Cloudflare Pages](https://developers.cloudflare.com/pages/) - Deployment and custom domains
-- [DNS Records](https://developers.cloudflare.com/dns/manage-dns-records/) - Record types and management
-- [Cloudflare API](https://developers.cloudflare.com/api/) - Full API reference
+- [Cloudflare `cf` CLI technical preview](https://blog.cloudflare.com/cf-cli-local-explorer/)
+- [Wrangler commands](https://developers.cloudflare.com/workers/wrangler/commands/)
+- [Cloudflare DNS records API](https://developers.cloudflare.com/api/resources/dns/subresources/records/)
+- [flarectl source](https://github.com/cloudflare/cloudflare-go/tree/v0/cmd/flarectl)
+- [cli4 source](https://github.com/cloudflare/python-cloudflare-cli4)

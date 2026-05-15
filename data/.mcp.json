@@ -1,9 +1,5 @@
 {
   "mcpServers": {
-    "bigquery": {
-      "type": "http",
-      "url": "https://bigquery.googleapis.com/mcp"
-    },
     "hex": {
       "type": "http",
       "url": "https://app.hex.tech/mcp"

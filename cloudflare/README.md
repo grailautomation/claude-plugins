@@ -1,181 +1,171 @@
-# Cloudflare Plugin for Claude Code
+# Cloudflare Plugin
 
-Manage your Cloudflare domains, DNS records, Workers, and storage services directly from Claude Code.
+Manage Cloudflare zones, DNS, Registrar, Workers, Pages, KV, R2, and D1 from Claude Code or Codex using Cloudflare CLIs first.
 
 ## Residency
 
-This plugin is intended to stay in the public marketplace. The reusable code and
-workflow guidance live in this repository; account-specific credentials and
-defaults must stay in environment variables, Claude Code configuration, or
-gitignored local notes.
+This plugin is intended to stay in the public marketplace. Reusable workflow
+guidance lives in this repository; account-specific credentials, account IDs,
+zone IDs, domain lists, and deployment defaults must stay in environment
+variables, Cloudflare CLI config, Claude/Codex config, or gitignored local
+notes.
 
-## Features
+## Integration Policy
 
-- **Zone Management**: List and manage domains in your Cloudflare account
-- **DNS Records**: Create, update, and delete DNS records (A, AAAA, CNAME, TXT, MX, etc.)
-- **Workers**: Deploy, view, and manage Cloudflare Workers scripts
-- **Worker Routes**: Map URL patterns to Worker scripts
-- **KV Storage**: Manage KV namespaces and key-value pairs
-- **R2 Storage**: Create and manage R2 buckets
-- **D1 Databases**: Create databases and execute SQL queries
-- **Cloudflare Pages**: List and view Pages projects
-- **Proactive Assistance**: Claude suggests Cloudflare actions when relevant
+This plugin is CLI-first. Prefer these surfaces in order:
+
+1. `cf` technical preview for zones, DNS, Registrar, Accounts, and generated
+   API-backed commands.
+2. `wrangler` for Workers and Pages app deployment plus KV, R2, D1, Queues, and
+   local development workflows.
+3. `flarectl` only as a legacy fallback for zones, DNS, firewall access rules,
+   page rules, and cache purge.
+4. `cli4` only as a generic Cloudflare API v4 fallback when `cf`, `wrangler`,
+   and `flarectl` do not expose the needed operation.
+5. Legacy MCP only when explicitly enabled by a local user or project.
+
+Do not use the legacy MCP server as the default integration path. For Claude,
+that means no root `.mcp.json` and no inline `mcpServers` in
+`.claude-plugin/plugin.json`. For Codex, that means no `mcpServers` field in
+`.codex-plugin/plugin.json`. The previous MCP config is preserved as
+`.mcp.legacy.json` for explicit opt-in testing or compatibility work.
 
 ## Prerequisites
 
-1. **Node.js**: Required to run the MCP server
-2. **Cloudflare Account**: With domains/zones configured
-3. **API Token**: With appropriate permissions
+- Node.js 20+ for `cf` and `wrangler`
+- Cloudflare account with the needed zones/resources
+- Cloudflare API token with least-privilege scopes for the operation
+- Optional: `flarectl` for legacy DNS/firewall workflows
+- Optional: `cli4` for generic API fallback workflows
 
-## Setup
-
-### 1. Create a Cloudflare API Token
-
-1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/profile/api-tokens)
-2. Click "Create Token"
-3. Use "Custom token" with these permissions:
-   - **Account**: Workers Pipelines (Edit), Queues (Edit), D1 (Edit), Cloudflare Pages (Read), Workers R2 Storage (Edit), Workers KV Storage (Edit), Workers Scripts (Edit), Account Settings (Read)
-   - **Zone (All zones)**: DNS Settings (Read), Zone (Read), Workers Routes (Edit), DNS (Edit)
-4. Copy the token
-
-### 2. Get Your Account ID
-
-1. Go to any zone in Cloudflare Dashboard
-2. Find "Account ID" in the right sidebar (API section)
-3. Copy the ID
-
-### 3. Set Environment Variables
-
-Add to your shell profile (`~/.zshrc` or `~/.bashrc`):
+Use project-local or one-off execution rather than adding duplicate global CLI
+installs:
 
 ```bash
-export CLOUDFLARE_API_TOKEN="your-api-token-here"
-export CLOUDFLARE_ACCOUNT_ID="your-account-id-here"
+pnpm dlx cf --help
+pnpm dlx wrangler --help
 ```
 
-Then reload your shell:
+If a persistent global install is intentional, first check existing install
+lanes:
+
 ```bash
-source ~/.zshrc  # or ~/.bashrc
+type -a cf wrangler flarectl cli4
+which -a cf wrangler flarectl cli4
 ```
 
-### 4. Install Dependencies
+## Authentication
+
+Prefer environment variables:
 
 ```bash
-cd /path/to/cloudflare/mcp-server
-pnpm install
+export CLOUDFLARE_API_TOKEN="your-api-token"
+export CLOUDFLARE_ACCOUNT_ID="your-account-id"
+export CLOUDFLARE_ZONE_ID="your-zone-id-or-domain"
 ```
 
-### 5. Enable the Plugin
+`cf` also supports OAuth login and context defaults:
 
 ```bash
-# Test the plugin
-claude --plugin-dir /path/to/cloudflare
-
-# Or add to your Claude Code settings
+pnpm dlx cf auth login
+pnpm dlx cf auth whoami
+pnpm dlx cf context set account-id <account-id> --project
+pnpm dlx cf context set zone example.com --project
 ```
 
-## Available Tools
+Keep write tokens scoped to the smallest useful resource set. For read-heavy
+inspection, use read-only tokens where possible.
 
-### Zones (Domains)
-| Tool | Description |
-|------|-------------|
-| `zones-list` | List all zones in your account |
-| `zones-get` | Get details for a specific zone |
+## Common CLI Workflows
 
-### DNS Records
-| Tool | Description |
-|------|-------------|
-| `dns-records-list` | List DNS records for a zone |
-| `dns-records-create` | Create a new DNS record |
-| `dns-records-update` | Update an existing record |
-| `dns-records-delete` | Delete a DNS record |
+### Zones and DNS
 
-### Workers
-| Tool | Description |
-|------|-------------|
-| `workers-list` | List all Worker scripts |
-| `workers-get` | Get a Worker script content |
-| `workers-put` | Deploy/update a Worker script |
-| `workers-delete` | Delete a Worker script |
-| `worker-routes-list` | List routes for a zone |
-| `worker-route-create` | Create a Worker route |
-| `worker-route-delete` | Delete a Worker route |
+Use `cf` first:
 
-### KV Storage
-| Tool | Description |
-|------|-------------|
-| `kv-namespaces-list` | List KV namespaces |
-| `kv-namespace-create` | Create a KV namespace |
-| `kv-keys-list` | List keys in a namespace |
-| `kv-get` | Get a value |
-| `kv-put` | Store a value |
-| `kv-delete` | Delete a value |
-
-### R2 Storage
-| Tool | Description |
-|------|-------------|
-| `r2-buckets-list` | List R2 buckets |
-| `r2-bucket-create` | Create an R2 bucket |
-| `r2-bucket-delete` | Delete an R2 bucket |
-
-### D1 Databases
-| Tool | Description |
-|------|-------------|
-| `d1-databases-list` | List D1 databases |
-| `d1-database-create` | Create a D1 database |
-| `d1-database-delete` | Delete a D1 database |
-| `d1-query` | Execute SQL query |
-
-### Pages
-| Tool | Description |
-|------|-------------|
-| `pages-projects-list` | List Pages projects |
-| `pages-project-get` | Get project details |
-
-## Usage Examples
-
-Once enabled, Claude will proactively suggest Cloudflare actions. You can also ask directly:
-
-- "List my Cloudflare domains"
-- "Show DNS records for example.com"
-- "Add a CNAME record pointing www to my site"
-- "Deploy this Worker script"
-- "Create a KV namespace for my app"
-- "Run a query against my D1 database"
-
-## Components
-
-- **MCP Server**: Custom implementation using `@modelcontextprotocol/sdk` v1.x
-- **Skill**: `cloudflare-domains` for proactive guidance and workflows
-
-## Development
-
-Use `pnpm` for local MCP server development. Do not add a second lockfile.
-
-## Troubleshooting
-
-### MCP Server Not Starting
-
-Verify environment variables are set:
 ```bash
-echo $CLOUDFLARE_API_TOKEN
-echo $CLOUDFLARE_ACCOUNT_ID
+pnpm dlx cf zones list --fields id,name,status --ndjson
+pnpm dlx cf dns records list --zone example.com --fields id,type,name,content,proxied --ndjson
+pnpm dlx cf dns records create --zone example.com --dryRun --body '{"type":"CNAME","name":"www","content":"project.pages.dev","proxied":true}'
+pnpm dlx cf dns records create --zone example.com --body '{"type":"CNAME","name":"www","content":"project.pages.dev","proxied":true}'
 ```
 
-### Testing the MCP Server
+Use `flarectl` only when it is already available and better fits an older
+DNS/firewall workflow:
 
 ```bash
+flarectl --json zone list
+flarectl --json dns list --zone example.com
+flarectl --json dns create --zone example.com --name www --type CNAME --content project.pages.dev --proxy
+```
+
+Use `cli4` only for API paths not yet exposed by `cf` or `wrangler`:
+
+```bash
+cli4 /zones/:example.com/dns_records
+cli4 --post name=www type=CNAME content=project.pages.dev proxied=true /zones/:example.com/dns_records
+```
+
+### Workers, Pages, and Storage
+
+Use `wrangler` for project-oriented Workers and Pages workflows:
+
+```bash
+pnpm dlx wrangler deploy
+pnpm dlx wrangler pages deploy ./dist --project-name my-project
+pnpm dlx wrangler kv namespace list
+pnpm dlx wrangler r2 bucket list
+pnpm dlx wrangler d1 list
+pnpm dlx wrangler d1 execute <database> --command 'select 1'
+```
+
+Use `cf` for generated API-backed Workers commands when Wrangler does not expose
+the account-level operation:
+
+```bash
+pnpm dlx cf agent-context workers
+pnpm dlx cf workers routes list --zone example.com --fields id,pattern,script --ndjson
+```
+
+### Parked Domain or Landing Page
+
+1. Build static files locally.
+2. Deploy with `pnpm dlx wrangler pages deploy`.
+3. Inspect or add DNS with `pnpm dlx cf dns records ...`.
+4. Use `--dryRun` before DNS creates, updates, or deletes.
+5. Verify the record and custom domain after propagation.
+
+## Safety Rules
+
+- Always run `--dryRun` before `cf` create, update, delete, batch, import, or scan-review commands.
+- Confirm before deleting zones, Workers, Pages projects, KV namespaces, R2 buckets, D1 databases, DNS records, or routes.
+- Use `--fields` and `--ndjson` to keep agent output small and machine-readable.
+- Prefer read-only API tokens for inspection.
+- Never print full API tokens, account secrets, or private zone inventories into committed files.
+
+## Legacy MCP
+
+The legacy MCP server remains in `mcp-server/` and can be used explicitly for
+compatibility testing:
+
+```bash
+cp .mcp.legacy.json .mcp.json
 cd mcp-server
+pnpm install
 echo '{"jsonrpc":"2.0","method":"tools/list","id":1}' | node index.js
 ```
 
-### API Errors
+Do not commit a restored `.mcp.json` unless the plugin is deliberately moved
+back to an MCP-first design.
 
-- Check that your API token has the required permissions
-- Verify the account ID is correct
-- Ensure the token hasn't expired
+## Development
 
-### Zone Not Found
+This is a content-first plugin. Use `pnpm` for the legacy MCP server only; do
+not add a second lockfile or a new global JavaScript CLI lane.
 
-- Confirm the domain is added to your Cloudflare account
-- Check that DNS is properly configured at your registrar
+## References
+
+- [Cloudflare `cf` CLI technical preview](https://blog.cloudflare.com/cf-cli-local-explorer/)
+- [Wrangler commands](https://developers.cloudflare.com/workers/wrangler/commands/)
+- [Cloudflare DNS records API](https://developers.cloudflare.com/api/resources/dns/subresources/records/)
+- [flarectl source](https://github.com/cloudflare/cloudflare-go/tree/v0/cmd/flarectl)
+- [cli4 source](https://github.com/cloudflare/python-cloudflare-cli4)

@@ -1,7 +1,7 @@
 {
   "name": "cloudflare",
   "version": "0.1.0",
-  "description": "Manage Cloudflare zones, DNS records, Workers, Pages, KV, R2, and D1 through an MCP server.",
+  "description": "Manage Cloudflare zones, DNS records, Registrar, Workers, Pages, KV, R2, and D1 with CLI-first workflows.",
   "author": {
     "name": "Grail Automation",
     "url": "https://grailautomation.com/"
@@ -13,14 +13,13 @@
     "domains",
     "workers",
     "pages",
-    "mcp"
+    "cli"
   ],
   "skills": "./skills/",
-  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Cloudflare",
     "shortDescription": "Manage Cloudflare domains and infrastructure",
-    "longDescription": "Use Cloudflare to inspect zones, manage DNS records, deploy and inspect Workers, work with Pages projects, and operate KV, R2, and D1 resources through the bundled MCP server. Credentials are supplied through environment variables.",
+    "longDescription": "Use Cloudflare CLIs to inspect zones, manage DNS records, work with Registrar, deploy and inspect Workers, manage Pages projects, and operate KV, R2, and D1 resources. Prefer cf for zones/DNS/account APIs and wrangler for Workers/Pages/storage. Credentials are supplied through environment variables or Cloudflare CLI auth.",
     "developerName": "Grail Automation",
     "category": "Integrations",
     "capabilities": [

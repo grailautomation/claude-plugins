@@ -21,7 +21,8 @@ Explicit workflows you invoke with a slash command:
 | `/operations:status-report` | Generate a status report — project updates, KPIs, risks, and action items for leadership |
 | `/operations:runbook` | Create or update an operational runbook — step-by-step procedures for recurring tasks |
 
-All commands work **standalone** (provide context and details) and get **supercharged** with MCP connectors.
+All commands work **standalone** (provide context and details) and get
+**supercharged** with connected CLIs or MCP connectors.
 
 ## Skills
 
@@ -99,7 +100,7 @@ Every command and skill works without any integrations:
 | Status reports | Provide updates manually | Project tracker, Chat, Calendar |
 | Runbooks | Walk through the process | Knowledge base, ITSM |
 
-## MCP Integrations
+## Integrations
 
 > If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](CONNECTORS.md).
 
@@ -107,14 +108,15 @@ Connect your tools for a richer experience:
 
 | Category | Examples | What It Enables |
 |---|---|---|
-| **ITSM** | ServiceNow, Zendesk | Ticket management, change requests, incident tracking |
+| **ITSM** | ServiceNow MCP with `snc` CLI pilot, Zendesk | Ticket management, change requests, incident tracking |
 | **Project tracker** | Asana, Jira, monday.com | Project status, resource allocation, task tracking |
-| **Knowledge base** | Notion, Confluence | Process docs, runbooks, policies |
+| **Knowledge base** | Notion MCP with `ntn` CLI pilot, Confluence | Process docs, runbooks, policies |
 | **Chat** | Slack, Teams | Team coordination, approvals, status updates |
 | **Calendar** | Google Calendar, Microsoft 365 | Meeting scheduling, deadline tracking |
 | **Email** | Gmail, Microsoft 365 | Vendor communications, approvals |
 
 See [CONNECTORS.md](CONNECTORS.md) for the full list of supported integrations.
+Configure MCP only for providers that do not have a safe maintained CLI path.
 
 ## Settings
 

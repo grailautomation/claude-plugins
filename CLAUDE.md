@@ -11,7 +11,7 @@ Some plugins may also include Codex adapter metadata such as `.codex-plugin/plug
 See `CODEX_MIGRATION.md` for the current Codex marketplace contents, candidate
 review, and migration rules.
 
-This is a **content-first repository** — almost entirely Markdown. There is no build system, test runner, CI pipeline, or linting config. The two MCP server plugins (`cloudflare`, `namecheap`) are the only ones with JavaScript code.
+This is a **content-first repository** — almost entirely Markdown. There is no build system, test runner, CI pipeline, or linting config. The legacy/local MCP server implementations (`cloudflare`, `namecheap`) are the only plugins with JavaScript code. Cloudflare is CLI-first by default; its MCP config is legacy opt-in.
 
 ## Plugin Anatomy
 
@@ -27,7 +27,7 @@ Each plugin lives in a top-level directory with this structure:
 ├── agents/*.md                  # Subagent definitions with tool restrictions
 ├── commands/*.md                # Legacy flat skill files only; do not add new command recipes
 ├── hooks/                       # PreToolUse/PostToolUse/Stop hooks (unused currently)
-├── mcp-server/                  # MCP servers (only cloudflare, namecheap)
+├── mcp-server/                  # Local MCP server code (cloudflare legacy opt-in, namecheap default)
 └── scripts/                     # Shell scripts invoked by skills (only spec-kit)
 ```
 
@@ -63,8 +63,13 @@ Not every plugin uses all component types.
 ### MCP Servers
 
 - Plain Node.js using `@modelcontextprotocol/sdk` with stdio transport
-- Credentials read from environment variables, declared in `.mcp.json` at the plugin root
-- Published to npm as `@grailautomation/<name>-mcp`
+- Claude plugins can expose MCP either with root `.mcp.json` or inline
+  `mcpServers` in `.claude-plugin/plugin.json`. Do not use either for
+  CLI-first plugins.
+- Credentials read from environment variables, declared in `.mcp.json` at the
+  plugin root when MCP is the default path; legacy opt-in MCP configs use
+  `.mcp.legacy.json`.
+- Published local MCP packages use `@grailautomation/<name>-mcp`
 - Prefer CLI-backed integrations over MCP whenever a maintained CLI can safely
   perform the workflow. This applies to Claude and Codex. Use MCP only when no
   usable CLI exists, the CLI cannot express the operation safely, or the MCP
@@ -72,6 +77,14 @@ Not every plugin uses all component types.
 - For Google Workspace, route Gmail, Calendar, Drive, Docs, Sheets, Slides, and
   related workflows through the `google-workspace` plugin and `gws` CLI, not
   Gmail/GCal/GDrive MCP endpoints.
+- Route BigQuery, Guru, Context7, and Cloudflare through their maintained CLIs
+  rather than default MCP. Pilot Hex, Notion, and ServiceNow CLI workflows, but
+  keep their MCP configs until auth, JSON output, write safeguards, and workflow
+  coverage are validated.
+- Use `ruby scripts/check_cli_integrations.rb` to report local CLI availability
+  for CLI-backed replacements. The script does not install anything; use
+  `--strict` only when validating an environment expected to have the required
+  CLIs.
 - For plugin-required per-install values, prefer `userConfig` in `plugin.json` and `${user_config.KEY}` substitutions. For optional account/workspace-specific connectors, prefer user/project/local MCP config with environment-variable-backed URLs so broad marketplace plugins do not fail on unset placeholders.
 
 ### Versioning
@@ -131,6 +144,7 @@ files:
 
 ```bash
 ruby scripts/validate_repo.rb
+ruby scripts/check_cli_integrations.rb
 
 # Check tracked files for email addresses (excluding example.com and plugin infra files)
 git grep -n -E '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' -- '*.md' | rg -v '@example|CLAUDE.md'

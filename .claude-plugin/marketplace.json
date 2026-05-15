@@ -25,7 +25,7 @@
     {
       "name": "cloudflare",
       "source": "./cloudflare",
-      "description": "Cloudflare integration for managing domains, DNS records, and Pages deployments",
+      "description": "CLI-first Cloudflare integration for domains, DNS, Registrar, Workers, Pages, and storage",
       "category": "deployment",
       "strict": true
     },
@@ -116,7 +116,7 @@
     {
       "name": "context7",
       "source": "./context7",
-      "description": "Context7 MCP documentation lookup for up-to-date library docs",
+      "description": "CLI-first Context7 documentation lookup for up-to-date library docs",
       "category": "reference",
       "strict": true
     },

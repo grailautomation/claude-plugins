@@ -54,11 +54,13 @@ claude plugin install finance@grail-automation
 2. Run `/finance:sox-testing procure-to-pay 2024-Q4` to test procurement controls
 3. Review sample selections and document test results
 
-## MCP Integration
+## Integrations
 
 > If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](CONNECTORS.md).
 
-This plugin works best when connected to your financial data sources via MCP servers. Add the relevant servers to your `.mcp.json`:
+This plugin works best when connected to your financial data sources. Use a
+maintained CLI when it safely covers the workflow, and keep MCP for remaining
+systems without a safe CLI path.
 
 ### ERP / Accounting System
 
@@ -66,7 +68,10 @@ Connect your ERP (e.g., NetSuite, SAP) MCP server to pull trial balances, subled
 
 ### Data Warehouse
 
-Connect your data warehouse (e.g., Snowflake, BigQuery) MCP server to query financial data, run variance analysis, and pull historical comparisons.
+Use BigQuery through the Google Cloud SDK `bq` CLI. Other warehouses such as
+Snowflake or Databricks may use their own CLIs, user/project MCP settings, or
+manual exports to query financial data, run variance analysis, and pull
+historical comparisons.
 
 ### Spreadsheets
 
@@ -76,11 +81,13 @@ Connect spreadsheet tools (e.g., Google Sheets, Excel) for workpaper generation,
 
 Connect your BI platform (e.g., Tableau, Looker) to pull dashboards, KPIs, and trend data for variance explanations.
 
-> **Note:** Connect your ERP and data warehouse MCP servers to pull financial data automatically. Without these, you can paste data or upload files for analysis.
+> **Note:** Connect ERP and data warehouse tooling to pull financial data
+> automatically. Without these, you can paste data or upload files for analysis.
 
 ## Configuration
 
-Add your data source MCP servers to the `mcpServers` section of `.mcp.json` in this plugin directory. The `recommendedCategories` field lists the types of integrations that enhance this plugin's capabilities:
+Add remaining data source MCP servers only when no safe maintained CLI exists.
+The connector categories that enhance this plugin are:
 
 - `erp-accounting` — ERP or accounting system for GL, subledger, and JE data
 - `data-warehouse` — Data warehouse for financial queries and historical data

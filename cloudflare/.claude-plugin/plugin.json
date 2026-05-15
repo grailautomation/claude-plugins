@@ -1,6 +1,6 @@
 {
   "name": "cloudflare",
-  "description": "Cloudflare integration for managing domains, DNS records, and Pages deployments",
+  "description": "CLI-first Cloudflare integration for managing domains, DNS, Registrar, Workers, Pages, and storage",
   "author": {
     "name": "Grail Automation"
   }

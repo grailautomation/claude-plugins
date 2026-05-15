@@ -8,9 +8,10 @@ This repo is CLI-first for Claude and Codex. When a maintained CLI can safely
 perform a workflow, prefer that CLI over MCP. Google Workspace is handled
 through the `google-workspace` plugin and `gws` CLI. Domain-pack `.mcp.json`
 files keep remaining MCP dependencies only. Codex additionally uses
-`.mcp.codex.json`, which includes only hosted HTTP MCP endpoints that responded
-to a non-auth MCP `initialize` probe with either a valid initialize response or
-an auth/RBAC challenge.
+`.mcp.codex.json`, which includes only remaining hosted HTTP MCP endpoints that
+responded to a non-auth MCP `initialize` probe with either a valid initialize
+response or an auth/RBAC challenge. High-confidence CLI replacements are omitted
+from both Claude and Codex MCP configs.
 
 ## Mapping Rules
 
@@ -38,11 +39,11 @@ an auth/RBAC challenge.
 
 | Pack | Codex MCP config | Included for Codex | Omitted from Codex |
 | --- | --- | --- | --- |
-| `data` | `.mcp.codex.json` | `bigquery`, `hex`, `amplitude`, `atlassian` | None |
+| `data` | `.mcp.codex.json` | `hex`, `amplitude`, `atlassian` | `bigquery` |
 | `design` | `.mcp.codex.json` | `slack`, `figma`, `linear`, `asana`, `atlassian`, `notion`, `intercom` | `google-calendar`, `gmail` |
 | `engineering` | `.mcp.codex.json` | `slack`, `linear`, `asana`, `atlassian`, `notion`, `pagerduty`, `datadog` | `github`, `google-calendar`, `gmail` |
-| `enterprise-search` | `.mcp.codex.json` | `slack`, `notion`, `guru`, `atlassian`, `asana`, `ms365` | `google-calendar`, `gmail` |
-| `finance` | `.mcp.codex.json` | `bigquery`, `slack`, `ms365` | `google-calendar`, `gmail` |
+| `enterprise-search` | `.mcp.codex.json` | `slack`, `notion`, `atlassian`, `asana`, `ms365` | `guru`, `google-calendar`, `gmail` |
+| `finance` | `.mcp.codex.json` | `slack`, `ms365` | `bigquery`, `google-calendar`, `gmail` |
 | `legal` | `.mcp.codex.json` | `slack`, `docusign`, `hubspot`, `notion` | `google-calendar`, `gmail`, `google-drive` |
 | `operations` | `.mcp.codex.json` | `slack`, `notion`, `atlassian`, `asana`, `ms365` | `google-calendar`, `gmail`, `servicenow` |
 | `product-management` | `.mcp.codex.json` | `slack`, `linear`, `asana`, `monday`, `clickup`, `atlassian`, `notion`, `figma`, `amplitude`, `intercom`, `fireflies`, `similarweb` | `pendo`, `google-calendar`, `gmail` |
@@ -60,11 +61,11 @@ an auth/RBAC challenge.
 
 ## Probe Summary
 
-The Codex mapping was based on unauthenticated MCP `initialize` probes. Included
-endpoints returned `200` initialize success or `401`/`403` auth challenges that
-indicate a reachable MCP surface. Some Codex endpoints intentionally differ from
-the corresponding Claude `.mcp.json` value failed probing and a current public
-vendor endpoint was available:
+The Codex mapping was initially based on unauthenticated MCP `initialize`
+probes. Included endpoints returned `200` initialize success or `401`/`403`
+auth challenges that indicate a reachable MCP surface. Some Codex endpoints
+intentionally differ from the corresponding Claude `.mcp.json` value when the
+Claude value failed probing and a current public vendor endpoint was available:
 
 - `datadog`: Codex uses `https://mcp.datadoghq.com/api/unstable/mcp-server/mcp`.
 - `outreach`: Codex uses `https://api.outreach.io/mcp/`.
@@ -73,6 +74,8 @@ Remaining omitted endpoints have these final dispositions:
 
 - `apollo`: the configured URL returned `404`; Apollo's public MCP guidance points
   users to hosted connector directories rather than a stable server URL to commit.
+- `bigquery`: handled through the Google Cloud SDK `bq` CLI in Claude and Codex
+- `guru`: handled through the Guru CLI in Claude and Codex
 - `github`: handled through the `gh` CLI for GitHub work in Claude and Codex
 - `gmail`: handled by the `google-workspace` plugin and `gws gmail` in Claude
   and Codex
@@ -82,6 +85,12 @@ Remaining omitted endpoints have these final dispositions:
   Claude and Codex
 - `pendo`: no universal default; the documented Pendo MCP URL is regional and
   must match the user's sign-in hostname
-- `servicenow`: the configured shared host did not resolve; ServiceNow documents
-  instance-generated server URLs of the form
-  `https://<instance>.service-now.com/sncapps/mcp-server/mcp/<server-name>`
+- `servicenow`: omitted from Codex because the configured shared MCP host did
+  not resolve and ServiceNow documents instance-generated server URLs of the
+  form
+  `https://<instance>.service-now.com/sncapps/mcp-server/mcp/<server-name>`.
+  Claude retains the existing config pending the `snc` CLI pilot.
+
+Pilot CLI candidates are tracked in [MCP_CLI_REVIEW.md](MCP_CLI_REVIEW.md).
+Do not remove `hex`, `notion`, or `servicenow` MCP configs solely because a CLI
+exists; their CLI paths still need smoke tests and workflow coverage mapping.

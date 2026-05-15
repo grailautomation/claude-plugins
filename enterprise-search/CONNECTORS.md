@@ -4,7 +4,7 @@
 
 Plugin files use `~~category` as a placeholder for whatever tool the user connects in that category. For example, `~~chat` might mean Slack, Microsoft Teams, or any other chat tool with a CLI or MCP source.
 
-Plugins are **tool-agnostic** — they describe workflows in terms of categories (chat, email, cloud storage, etc.) rather than specific products. The `.mcp.json` pre-configures fallback MCP servers, but any maintained CLI or MCP source in that category works when it follows the CLI-first policy below.
+Plugins are **tool-agnostic** — they describe workflows in terms of categories (chat, email, cloud storage, etc.) rather than specific products. The plugin may ship remaining fallback MCP servers, while maintained CLI-backed defaults live outside `.mcp.json`; any maintained CLI or MCP source in that category works when it follows the CLI-first policy below.
 
 ## CLI-first integration policy
 
@@ -18,12 +18,12 @@ This plugin uses `~~category` references extensively as source labels in search 
 
 ## Connectors for this plugin
 
-| Category | Placeholder | Included servers | Other options |
+| Category | Placeholder | Default integrations | Other options |
 |----------|-------------|-----------------|---------------|
-| Chat | `~~chat` | Slack | Microsoft Teams, Discord |
-| Email | `~~email` | Microsoft 365 | — |
-| Cloud storage | `~~cloud storage` | Microsoft 365 | Dropbox |
-| Knowledge base | `~~knowledge base` | Notion, Guru | Confluence, Slite |
-| Project tracker | `~~project tracker` | Atlassian (Jira/Confluence), Asana | Linear, monday.com |
+| Chat | `~~chat` | Slack MCP | Microsoft Teams, Discord |
+| Email | `~~email` | Microsoft 365 MCP | — |
+| Cloud storage | `~~cloud storage` | Microsoft 365 MCP | Dropbox |
+| Knowledge base | `~~knowledge base` | Notion MCP with `ntn` CLI pilot, Guru via `guru` CLI | Confluence, Slite |
+| Project tracker | `~~project tracker` | Atlassian MCP (Jira/Confluence), Asana MCP | Linear, monday.com |
 | CRM | `~~CRM` | *(not pre-configured)* | Salesforce, HubSpot |
 | Office suite | `~~office suite` | Microsoft 365 | Google Workspace via `gws` CLI |

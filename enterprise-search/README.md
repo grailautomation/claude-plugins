@@ -40,7 +40,11 @@ Connect any combination of sources. The more you connect, the more complete your
 | **CRM** | Accounts, contacts, opportunities |
 | **Ticketing** | Support tickets, customer issues |
 
-Each source is an MCP connection. Add more sources in your MCP settings to expand what Claude can search.
+Each source can be a maintained CLI or an MCP connection. Use CLI-backed sources
+first when they safely cover the workflow: Google Workspace via `gws`, Guru via
+`guru`, and GitHub via `gh`. Keep Notion MCP while piloting `ntn` for page,
+data-source, and file workflows. Add MCP sources only for providers without an
+equivalent CLI or with CLI coverage gaps.
 
 ---
 
@@ -78,7 +82,7 @@ Three skills power the search experience:
 
 **Search Strategy** — Query decomposition and source-specific translation. Breaks your natural language question into targeted searches per source, handles ambiguity, and falls back gracefully when sources are unavailable.
 
-**Source Management** — Knows which MCP sources are available, guides you to connect new ones, manages source priority, and handles rate limits.
+**Source Management** — Knows which CLI and MCP sources are available, guides you to connect new ones, manages source priority, and handles rate limits.
 
 **Knowledge Synthesis** — Combines results from multiple sources into coherent answers. Deduplicates cross-source information, attributes sources, scores confidence based on freshness and authority, and summarizes large result sets.
 
@@ -145,7 +149,9 @@ claude plugin install enterprise-search@grail-automation
 /enterprise-search:digest --daily
 ```
 
-The more sources you connect via MCP, the more complete your search results. Start with ~~chat, ~~email, and ~~cloud storage, then add your wiki, project management tool, and CRM as needed.
+The more sources you connect, the more complete your search results. Start with
+~~chat, ~~email, and ~~cloud storage, then add your wiki, project management
+tool, and CRM as needed.
 
 ---
 

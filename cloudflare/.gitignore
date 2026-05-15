@@ -8,3 +8,6 @@ mcp-server/node_modules/
 # Environment files
 .env
 .env.local
+
+# Legacy MCP opt-in config copied from .mcp.legacy.json
+.mcp.json

@@ -12,30 +12,47 @@ description: >-
   debugging, refactoring, or general programming concepts.
 ---
 
-# Context7 MCP Usage Guide
+# Context7 CLI Usage Guide
 
-Context7 provides current library, framework, SDK, API, CLI, and cloud-service documentation to prevent stale API usage. It exposes two tools that must be used in sequence.
+Context7 provides current library, framework, SDK, API, CLI, and cloud-service
+documentation to prevent stale API usage. Use the `ctx7` CLI instead of MCP.
+The CLI works without authentication for normal `library` and `docs` lookups;
+login or `CONTEXT7_API_KEY` only improves rate limits and unlocks skill
+generation.
+
+Prefer one-off execution when the CLI is not already installed:
+
+```bash
+npx -y ctx7 --help
+pnpm dlx ctx7 --help
+```
+
+Before recommending a persistent global install, check existing install lanes:
+
+```bash
+type -a ctx7 node npm pnpm npx
+which -a ctx7 node npm pnpm npx
+```
 
 ## Core Workflow
 
 **Step 1: Resolve the library ID**
+```bash
+ctx7 library nextjs "Find current Next.js middleware documentation"
+ctx7 library react "How to clean up useEffect with async operations" --json
 ```
-resolve-library-id(
-  libraryName: "Next.js",
-  query: "Find current Next.js middleware documentation"
-)
-→ Returns: /vercel/next.js (plus metadata, trust scores, versions)
-```
+This returns matching Context7 library IDs plus coverage and trust metadata.
+Choose the closest match with the strongest coverage and reputation.
 
 **Step 2: Fetch documentation**
-```
-query-docs(
-  libraryId: "/vercel/next.js",
-  query: "How does middleware work in the current version?"
-)
+```bash
+ctx7 docs /vercel/next.js "How does middleware work in the current version?"
+ctx7 docs /facebook/react "How to use hooks for state management" --json
 ```
 
-Skip Step 1 only when the exact library ID is already known from a previous call or user input.
+Skip Step 1 only when the exact library ID is already known from a previous
+lookup or user input. Library IDs always start with `/`; plain package names are
+for `ctx7 library`, not `ctx7 docs`.
 
 ## Library ID Format
 
@@ -45,6 +62,12 @@ Skip Step 1 only when the exact library ID is already known from a previous call
 | `/org/project/vX.Y.Z` | `/vercel/next.js/v15.1.0` | Version-specific |
 
 Note the `v` prefix on version numbers.
+
+Example:
+
+```bash
+ctx7 docs /vercel/next.js/v14.3.0-canary.87 "How to set up app router"
+```
 
 ## When to Use Context7
 
@@ -65,14 +88,36 @@ Note the `v` prefix on version numbers.
 
 Use specific task-oriented queries for both tool calls. Do not send API keys, credentials, personal data, proprietary source code, or other sensitive details in Context7 queries.
 
-```
-query-docs(
-  libraryId: "/supabase/supabase-js",
-  query: "How do I configure email/password authentication in supabase-js?"
-)
+```bash
+ctx7 library supabase "How do I configure email/password authentication in supabase-js?"
+ctx7 docs /supabase/supabase-js "How do I configure email/password authentication in supabase-js?"
 ```
 
 Good query topics include routing, hooks, authentication, middleware, configuration, testing, deployment, database access, API clients, and UI components.
+
+Use `--json` when the response will be piped into other tools. Keep queries
+task-oriented, not keyword-only.
+
+## Authentication
+
+Most documentation lookups work without authentication:
+
+```bash
+ctx7 whoami
+ctx7 login --no-browser
+export CONTEXT7_API_KEY=your_key
+```
+
+Do not include API keys, credentials, proprietary code, or personal data in
+Context7 queries.
+
+## Legacy MCP
+
+The previous MCP config is preserved as `.mcp.legacy.json` for explicit opt-in
+compatibility testing only. Do not restore `.mcp.json` as the default path unless
+a future issue documents why the CLI is insufficient. Do not add inline
+`mcpServers` to `.claude-plugin/plugin.json` or `mcpServers` to
+`.codex-plugin/plugin.json` for the default plugin path.
 
 ## Error Handling
 

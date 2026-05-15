@@ -85,12 +85,12 @@ No clarifying questions. No round trips.
 
 Connect your communication and project management tools for the best experience. Without them, manage tasks and memory manually.
 
-**Included MCP connections:**
-- Chat (Slack) for team context and message scanning
-- Email and calendar (Microsoft 365) for action item discovery
-- Knowledge base (Notion) for reference documents
-- Project tracker (Asana, Linear, Atlassian, monday.com, ClickUp) for task syncing
-- Office suite (Microsoft 365) for documents
+**Default integrations:**
+- Chat (Slack MCP) for team context and message scanning
+- Email and calendar (Microsoft 365 MCP) for action item discovery
+- Knowledge base (Notion MCP with `ntn` CLI pilot) for reference documents
+- Project tracker (Asana, Linear, Atlassian, monday.com, ClickUp MCP) for task syncing
+- Office suite (Microsoft 365 MCP) for documents
 
 **Additional options:**
 - See [CONNECTORS.md](CONNECTORS.md) for alternative tools in each category

@@ -286,6 +286,8 @@ codex_manifests.each do |manifest_path|
 end
 
 mcp_files = files.select { |path| path.match?(%r{/\.mcp(?:\.codex)?\.json\z}) }
+mcp_files += files.select { |path| path.match?(%r{/\.mcp\.legacy\.json\z}) }
+mcp_files.uniq!
 mcp_files.each do |relative_path|
   config = json_cache[relative_path]
   servers = config&.fetch("mcpServers", nil)

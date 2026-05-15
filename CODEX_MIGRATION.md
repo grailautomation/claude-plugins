@@ -33,9 +33,9 @@ The tracked Codex marketplace exposes:
 | `workato-recipe` | Migrated | Script-backed recipe analysis now uses the stable root CLI and avoids Claude-only path/subagent assumptions for Codex. |
 | `workato-connector-sdk` | Migrated | Documentation-heavy connector SDK plugin; stale CLI claims and copied token/project examples were corrected before exposure. |
 | `workato-platform-cli` | Migrated | Repo copy matches the installed user-level Codex skill; listed with explicit invocation policy because it can manage real Workato assets. |
-| `cloudflare` | Migrated | Public MCP-backed infrastructure plugin; credentials stay in environment variables; published `npx` MCP startup lists 28 tools. |
+| `cloudflare` | Migrated | Public CLI-first infrastructure plugin. Prefer `cf` for zones/DNS/Registrar/account APIs and `wrangler` for Workers/Pages/KV/R2/D1. The previous MCP config is preserved as `.mcp.legacy.json` for explicit opt-in only. |
 | `namecheap` | Migrated | Public MCP-backed registrar/DNS plugin; credentials and whitelisted IPs stay outside the repo; published `npx` MCP startup lists 8 tools. |
-| `context7` | Migrated | Public MCP-backed docs plugin; ships Context7 MCP config and current tool schema; published `npx` MCP startup lists `resolve-library-id` and `query-docs`. |
+| `context7` | Migrated | Public CLI-backed docs plugin. Use `ctx7 library` and `ctx7 docs` by default; the previous MCP config is preserved as `.mcp.legacy.json` for explicit opt-in compatibility only. |
 | `codex-session-history` | Migrated | Codex-specific split from `jq-for-clawd`; uses `~/.codex/sessions` and `~/.codex/archived_sessions` JSONL shapes instead of Claude Code's project session layout. |
 | `staff-software-engineer` | Migrated | Claude agent behavior preserved; Codex exposure is a `staff-plan-review` skill rather than a Claude subagent definition. |
 | `issue-blaster` | Migrated | Claude slash-command and subagent behavior preserved; Codex exposure uses direct `gh`/`rg` workflows, sequential multi-issue handling by default, and explicit user-authorized subagents only for parallel work. |
@@ -78,9 +78,9 @@ scope decisions rather than mechanical manifest work.
 | Plugin | Status | Notes |
 | --- | --- | --- |
 | `playwright-cli` | Covered | A user-level Codex `playwright` skill already exists; migrate only if this repo plugin has distinct value. |
-| `cloudflare` | Migrated | This repo's MCP-backed Cloudflare plugin is now exposed directly instead of substituting the native Codex Cloudflare deployment surface. |
+| `cloudflare` | Migrated | This repo's Cloudflare plugin is exposed as a CLI-first adapter. It uses `cf`/`wrangler` by default; `flarectl`, `cli4`, and the legacy MCP server are fallback or compatibility paths only. |
 | `google-workspace` | Migrated | The broad plugin is now listed for Codex as a CLI-backed integration. It has no `.mcp.json`; use `gws` v0.22.5 or newer on `$PATH`, preserve the existing auth model, and keep side-effect confirmation rules in the plugin README and shared skill. |
-| Domain MCP packs | Migrated with filtered MCP configs | `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, and `sales` are listed for Codex with `.mcp.codex.json` files that preserve reachable hosted HTTP MCP endpoints and explicitly omit endpoints that failed MCP probes. See [DOMAIN_PACKS_CODEX.md](DOMAIN_PACKS_CODEX.md). |
+| Domain MCP packs | Migrated with filtered MCP configs | `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, and `sales` are listed for Codex with `.mcp.codex.json` files that preserve remaining hosted HTTP MCP endpoints. BigQuery and Guru now route through maintained CLIs instead of MCP; pilot/wrapper candidates are tracked in [MCP_CLI_REVIEW.md](MCP_CLI_REVIEW.md). See [DOMAIN_PACKS_CODEX.md](DOMAIN_PACKS_CODEX.md). |
 
 ### Resolved Non-Candidates
 
@@ -104,10 +104,10 @@ These are working classifications, not final deletion decisions:
 | Migrated Codex plugins in the current marketplace | `public-marketplace` or accepted public/personal hybrid | Keep listed; continue validating mechanically. |
 | `terminal-tidbits` | `split-public-private` | Public skill stays here; personal notes stay outside the plugin directory. |
 | `salesforce-soql` | `split-public-private` | Public SOQL and CLI workflows stay here; org schemas remain ignored/local unless sanitized examples are deliberate. |
-| `cloudflare`, `namecheap` | `public-marketplace` | Keep in the public Claude marketplace. Credentials, account IDs, whitelisted IPs, and domain lists stay outside the repo in environment variables, account settings, Claude/Codex config, or gitignored local notes. |
+| `cloudflare`, `namecheap` | `public-marketplace` | Keep in the public Claude marketplace. Cloudflare is CLI-first by default and keeps MCP as legacy opt-in only; Namecheap remains MCP-backed until a safer CLI/API wrapper is chosen. Credentials, account IDs, whitelisted IPs, and domain lists stay outside the repo in environment variables, account settings, Claude/Codex config, or gitignored local notes. |
 | `issue-blaster` | `public-marketplace` | Keep listed for Claude and Codex. Claude keeps slash-command/subagent orchestration; Codex uses direct single-issue `gh`/`rg` analysis and explicit user-authorized subagents only for parallelism. |
 | `scraper-generator` | `public-marketplace` | Keep listed for Claude and Codex. Claude keeps slash-command/subagent orchestration; Codex runs phases inline by default and validates generated scrapers with the bundled script. |
-| Domain MCP packs | `public-marketplace` with filtered Codex MCP configs | Keep listed for Claude and Codex. Prefer maintained CLIs over MCP whenever a CLI can safely perform the workflow; Gmail, Google Calendar, and Google Drive route through the `google-workspace` / `gws` CLI path. Codex uses `.mcp.codex.json` per pack for remaining reachable hosted HTTP MCP dependencies and omits endpoints that failed MCP probes instead of substituting native connectors. |
+| Domain MCP packs | `public-marketplace` with filtered Codex MCP configs | Keep listed for Claude and Codex. Prefer maintained CLIs over MCP whenever a CLI can safely perform the workflow; Gmail, Google Calendar, Google Drive, BigQuery, and Guru route through CLI-backed paths. Codex uses `.mcp.codex.json` per pack for remaining reachable hosted HTTP MCP dependencies and omits endpoints that failed MCP probes instead of substituting native connectors. Pilot and wrapper candidates are tracked in [MCP_CLI_REVIEW.md](MCP_CLI_REVIEW.md). |
 | `google-workspace` | `public-marketplace` | Keep as one broad plugin for Claude and Codex. The integration is CLI-backed rather than MCP-backed; require current `gws` auth and side-effect confirmation instead of splitting by product or action class. |
 | `jq-for-clawd` / `codex-session-history` | `public-marketplace` split | Keep `jq-for-clawd` as the Claude Code session-history skill; expose `codex-session-history` separately for Codex's distinct session JSONL structure. |
 | `espanso`, `karabiner-elements` | `public-marketplace` Claude-only | Keep in the public Claude marketplace as generic macOS config workflows; do not expose to Codex until a side-effect policy and local-config validation path are deliberately designed. |
@@ -135,3 +135,6 @@ These are working classifications, not final deletion decisions:
   logged-in sessions, cookies, bookmarks, or installed extensions.
 - Run `ruby scripts/validate_repo.rb` before proposing or merging repository
   metadata changes.
+- Run `ruby scripts/check_cli_integrations.rb` to report local availability for
+  CLI-backed replacements. Use `--strict` only for machines expected to have all
+  required CLIs; the script does not install anything.
