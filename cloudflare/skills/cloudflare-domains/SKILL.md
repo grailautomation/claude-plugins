@@ -1,6 +1,7 @@
 ---
 name: cloudflare-domains
 description: This skill should be used when the user asks to list Cloudflare domains or zones, manage DNS, deploy to Cloudflare Pages, connect a custom domain, add or update DNS records, set up a parked domain, or work with Cloudflare Workers, Pages, KV, R2, D1, Queues, Vectorize, Registrar, or DNS.
+version: 0.1.0
 ---
 
 # Cloudflare CLI Workflows

@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "json"
+require "open3"
 require "optparse"
 
 options = {
@@ -70,6 +71,8 @@ INTEGRATIONS = [
     owner: "Cloudflare cf CLI",
     required: true,
     runners: ["pnpm", "npx"],
+    verify_args: ["--version"],
+    verify_output: "Cloudflare CLI",
     notes: "Use cf for Cloudflare zones, DNS, Registrar, Accounts, and generated API-backed commands."
   },
   {
@@ -98,11 +101,25 @@ def runner_paths(runners)
   end
 end
 
+def verify_command(path, integration)
+  verify_args = integration[:verify_args]
+  verify_output = integration[:verify_output]
+  return { ok: true, output: nil } unless verify_args && verify_output
+
+  stdout, stderr, status = Open3.capture3(path, *verify_args)
+  output = [stdout, stderr].join("\n")
+  { ok: status.success? && output.include?(verify_output), output: output.strip }
+rescue SystemCallError
+  { ok: false, output: nil }
+end
+
 results = INTEGRATIONS.map do |integration|
   path = executable_path(integration.fetch(:command))
   runners = runner_paths(integration[:runners])
+  verification = path ? verify_command(path, integration) : { ok: false, output: nil }
+  verified_path = path if path && verification[:ok]
   status =
-    if path
+    if verified_path
       "installed"
     elsif runners.any?
       "runner-available"
@@ -111,7 +128,9 @@ results = INTEGRATIONS.map do |integration|
     end
 
   integration.merge(
-    path: path,
+    path: verified_path,
+    rejected_path: verified_path ? nil : path,
+    verification_output: verification[:output],
     available_runners: runners,
     status: status
   )
@@ -135,7 +154,11 @@ else
       if result[:path]
         result[:path]
       elsif result[:available_runners].any?
-        "can use #{result[:available_runners].map { |runner| runner[:runner] }.join('/')}"
+        state = "can use #{result[:available_runners].map { |runner| runner[:runner] }.join('/')}"
+        if result[:rejected_path]
+          state += "; ignored #{result[:rejected_path]} because it did not verify as #{result[:owner]}"
+        end
+        state
       else
         "not found on PATH"
       end
