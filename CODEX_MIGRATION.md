@@ -86,13 +86,11 @@ are grouped into one row below because they share the same migration pattern:
 | `python-patterns` | Migrated | Skill-only Python reference and review workflow. |
 | `openapi-spec-generation` | Migrated | Skill-only OpenAPI workflow with local references. |
 | `python-quickbooks` | Migrated | Skill-only library reference; examples use placeholders rather than live credentials. |
-| `terminal-tidbits` | Migrated | User-data path moved outside the plugin directory; defaults remain plugin-bundled. |
 | `espanso` | Migrated | Local text-expander config skill. Codex exposure is user-invoked only and keeps preview, backup, confirmation, and verification rules for live machine-state edits. |
 | `karabiner-elements` | Migrated | Local keyboard-remapping config skill. Codex exposure is user-invoked only and keeps inspect, preview, backup, confirmation, lint, apply, verify, and rollback rules for live machine-state edits. |
 | `salesforce-soql` | Migrated | Salesforce CLI/reference workflow; no bundled MCP and org schemas remain local/ignored. |
 | `google-workspace` | Migrated | Broad Gmail, Calendar, Drive, Docs, Sheets, Slides, Tasks, Pub/Sub, and Cloud workflow plugin; Codex and Claude route through the `gws` CLI rather than Google MCP endpoints. |
 | Domain packs: `data`, `design`, `engineering`, `enterprise-search`, `finance`, `legal`, `operations`, `product-management`, `productivity`, `sales` | Migrated with filtered MCP configs | Listed for Codex with `.mcp.codex.json` files that keep remaining reachable hosted HTTP MCP endpoints. High-confidence CLI replacements are omitted from both Claude and Codex MCP configs; pilot and wrapper candidates are tracked in [MCP_CLI_REVIEW.md](MCP_CLI_REVIEW.md). |
-| `oasb-scaffold` | Migrated | Repo-specific OASBuilder convention skill; exposed for personal/repo-local usefulness. |
 | `workato-api` | Migrated | REST reference and curl/httpx execution patterns; credentials come from environment variables or gitignored local notes. |
 | `workato-recipe` | Migrated | Script-backed recipe analysis now uses the stable root CLI and avoids Claude-only path/subagent assumptions for Codex. |
 | `workato-connector-sdk` | Migrated | Documentation-heavy connector SDK plugin; stale CLI claims and copied token/project examples were corrected before exposure. |
@@ -166,7 +164,6 @@ These are working classifications, not final deletion decisions:
 | Plugin or group | Current residency call | Cleanup implication |
 | --- | --- | --- |
 | Migrated Codex plugins in the current marketplace | `public-marketplace` or accepted public/personal hybrid | Keep listed; continue validating mechanically. |
-| `terminal-tidbits` | `split-public-private` | Public skill stays here; personal notes stay outside the plugin directory. |
 | `salesforce-soql` | `split-public-private` | Public SOQL and CLI workflows stay here; org schemas remain ignored/local unless sanitized examples are deliberate. |
 | `cloudflare`, `namecheap` | `public-marketplace` | Keep in the public Claude marketplace. Cloudflare is CLI-first by default and keeps MCP as legacy opt-in only; Namecheap remains MCP-backed until a safer CLI/API wrapper is chosen. Credentials, account IDs, whitelisted IPs, and domain lists stay outside the repo in environment variables, account settings, Claude/Codex config, or gitignored local notes. |
 | `issue-blaster` | `public-marketplace` | Keep listed for Claude and Codex. Claude keeps slash-command/subagent orchestration; Codex uses direct single-issue `gh`/`rg` analysis and explicit user-authorized subagents only for parallelism. |

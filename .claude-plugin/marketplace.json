@@ -72,13 +72,6 @@
       "strict": true
     },
     {
-      "name": "terminal-tidbits",
-      "source": "./terminal-tidbits",
-      "description": "Personal reference system for terminal commands and concepts you're learning",
-      "category": "reference",
-      "strict": true
-    },
-    {
       "name": "staff-software-engineer",
       "source": "./staff-software-engineer",
       "description": "Staff software engineer agent for reviewing implementation plans",
@@ -139,13 +132,6 @@
       "source": "./uv-package-manager",
       "description": "uv package manager for fast Python dependency management and project workflows",
       "category": "reference",
-      "strict": true
-    },
-    {
-      "name": "oasb-scaffold",
-      "source": "./oasb-scaffold",
-      "description": "OASBuilder pipeline package conventions for scaffolding new stages",
-      "category": "development",
       "strict": true
     },
     {
