@@ -1,7 +1,0 @@
-{
-  "name": "workato-api",
-  "description": "Workato Developer API reference and execution framework for managing workspace resources via REST",
-  "author": {
-    "name": "Grail Automation"
-  }
-}

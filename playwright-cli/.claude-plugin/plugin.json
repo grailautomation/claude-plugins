@@ -1,7 +1,0 @@
-{
-  "name": "playwright-cli",
-  "description": "Browser automation with playwright-cli for web testing, scraping, and interaction",
-  "author": {
-    "name": "Grail Automation"
-  }
-}

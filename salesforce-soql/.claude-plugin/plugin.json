@@ -1,7 +1,0 @@
-{
-  "name": "salesforce-soql",
-  "description": "Salesforce data operations using the sf CLI: SOQL queries, schema exploration, and Bulk API 2.0 write operations (import, update, upsert, delete).",
-  "author": {
-    "name": "Grail Automation"
-  }
-}

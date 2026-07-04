@@ -46,7 +46,7 @@ MCP sources for services without a safe CLI path:
 
 The more sources you connect, the more complete your search results.
 
-For Gmail, Google Calendar, or Google Drive, use the `google-workspace` plugin
+For Gmail, Google Calendar, or Google Drive, use the `google-workspace` skills
 and authenticate with `gws auth login`; do not add Google Workspace MCP unless a
 workflow cannot be represented safely through the CLI.
 ```

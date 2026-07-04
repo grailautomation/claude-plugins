@@ -199,3 +199,20 @@ These are working classifications, not final deletion decisions:
 - Run `ruby scripts/check_cli_integrations.rb` to report local availability for
   CLI-backed replacements. Use `--strict` only for machines expected to have all
   required CLIs; the script does not install anything.
+
+## Skills-Only Plugins → Personal Skills (2026-07-04)
+
+The 13 skills-only plugins (espanso, google-workspace, jq-for-clawd,
+karabiner-elements, openapi-spec-generation, playwright-cli, python-patterns,
+python-quickbooks, salesforce-soql, uv-package-manager, workato-api,
+workato-connector-sdk, workato-platform-cli) were removed from this repo.
+
+- **Claude:** migrated to personal skills at `~/dev/claude-skills`, symlinked into
+  `~/.claude/skills/`, default `off` with per-repo `skillOverrides` — granularity that
+  plugin-bundled skills cannot provide (plugin skills are all-or-nothing).
+- **Codex:** mirrored into the local `claude-code-skills` plugin
+  (`~/dev/codex-skills/plugins/claude-code-skills`, marketplace `local-codex-skills`),
+  so Codex retains access independent of this repo.
+- Removed from both `.claude-plugin/marketplace.json` (Claude) and
+  `.agents/plugins/marketplace.json` (Codex `grail-dev` source); the latter also
+  dropped the pre-existing dead `terminal-tidbits`/`oasb-scaffold` entries.
