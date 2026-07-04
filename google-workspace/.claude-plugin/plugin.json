@@ -1,7 +1,0 @@
-{
-  "name": "google-workspace",
-  "description": "Google Workspace CLI (gws) skills for Gmail, Drive, Calendar, Sheets, Docs, Slides, Chat, Meet, Tasks, Forms, Keep, and cross-service workflows",
-  "author": {
-    "name": "Grail Automation"
-  }
-}

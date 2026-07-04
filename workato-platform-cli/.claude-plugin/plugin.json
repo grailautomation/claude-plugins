@@ -1,7 +1,0 @@
-{
-  "name": "workato-platform-cli",
-  "description": "Workato Platform CLI for managing workspace recipes, connections, projects, and deployments",
-  "author": {
-    "name": "Grail Automation"
-  }
-}

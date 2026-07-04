@@ -1,7 +1,0 @@
-{
-  "name": "uv-package-manager",
-  "description": "uv package manager for fast Python dependency management and project workflows",
-  "author": {
-    "name": "Grail Automation"
-  }
-}

@@ -1,7 +1,0 @@
-interface:
-  display_name: "Workato Platform CLI"
-  short_description: "Build safe Workato Platform CLI commands"
-  brand_color: "#F45A2A"
-  default_prompt: "Use $workato-platform-cli to build a safe Workato CLI command."
-policy:
-  allow_implicit_invocation: true

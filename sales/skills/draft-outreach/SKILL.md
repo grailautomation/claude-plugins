@@ -16,7 +16,7 @@ Research first, then draft. This skill never sends generic outreach - it always 
 | **Email** | Create draft directly in your inbox |
 
 > **No connectors?** Web research works great. I'll output the email text for you to copy.
-> For Gmail, use the `google-workspace` plugin and `gws gmail` CLI rather than
+> For Gmail, use the `google-workspace` skills and `gws gmail` CLI rather than
 > Gmail MCP, and show the draft or use `--dry-run` before sending.
 
 ---

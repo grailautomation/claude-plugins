@@ -1,8 +1,0 @@
-{
-  "name": "jq-for-clawd",
-  "description": "Query Claude Code session history using jq to find past conversations and user messages",
-  "author": {
-    "name": "Grail Automation"
-  },
-  "keywords": ["session-history", "jq", "conversations", "debugging"]
-}
