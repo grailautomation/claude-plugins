@@ -9,20 +9,6 @@
   },
   "plugins": [
     {
-      "name": "issue-blaster",
-      "source": "./issue-blaster",
-      "description": "Analyze GitHub issues and implement AI-generated solution plans",
-      "category": "automation",
-      "strict": true
-    },
-    {
-      "name": "scraper-generator",
-      "source": "./scraper-generator",
-      "description": "Generate custom API documentation scrapers through guided discovery and code generation",
-      "category": "automation",
-      "strict": true
-    },
-    {
       "name": "cloudflare",
       "source": "./cloudflare",
       "description": "CLI-first Cloudflare integration for domains, DNS, Registrar, Workers, Pages, and storage",
@@ -30,136 +16,10 @@
       "strict": true
     },
     {
-      "name": "namecheap",
-      "source": "./namecheap",
-      "description": "Interact with Namecheap API for domain and DNS management",
-      "category": "deployment",
-      "strict": true
-    },
-    {
-      "name": "workato-api",
-      "source": "./workato-api",
-      "description": "Workato Developer API reference and execution framework for workspace management",
-      "category": "integrations",
-      "strict": true
-    },
-    {
-      "name": "workato-platform-cli",
-      "source": "./workato-platform-cli",
-      "description": "Workato Platform CLI for managing workspace recipes, connections, projects, and deployments",
-      "category": "integrations",
-      "strict": true
-    },
-    {
-      "name": "workato-connector-sdk",
-      "source": "./workato-connector-sdk",
-      "description": "Workato Connector SDK documentation for building custom connectors",
-      "category": "development",
-      "strict": true
-    },
-    {
-      "name": "salesforce-soql",
-      "source": "./salesforce-soql",
-      "description": "Run SOQL queries against Salesforce using the sf CLI",
-      "category": "integrations",
-      "strict": true
-    },
-    {
-      "name": "jq-for-clawd",
-      "source": "./jq-for-clawd",
-      "description": "Query Claude Code session history using jq to find past conversations and user messages",
-      "category": "utilities",
-      "strict": true
-    },
-    {
-      "name": "staff-software-engineer",
-      "source": "./staff-software-engineer",
-      "description": "Staff software engineer agent for reviewing implementation plans",
-      "category": "development",
-      "strict": true
-    },
-    {
-      "name": "spec-kit",
-      "source": "./spec-kit",
-      "description": "Spec-Driven Development toolkit \u2014 generate thorough specs, plans, and tasks for any project",
-      "category": "development",
-      "strict": true
-    },
-    {
-      "name": "dev-browser",
-      "source": "./dev-browser",
-      "description": "Browser automation skill with persistent page state for developers and AI agents",
-      "category": "automation",
-      "strict": false
-    },
-    {
-      "name": "python-quickbooks",
-      "source": "./python-quickbooks",
-      "description": "Comprehensive reference for the python-quickbooks library \u2014 QuickBooks Online API",
-      "category": "reference",
-      "strict": true
-    },
-    {
       "name": "context7",
       "source": "./context7",
       "description": "CLI-first Context7 documentation lookup for up-to-date library docs",
       "category": "reference",
-      "strict": true
-    },
-    {
-      "name": "openapi-spec-generation",
-      "source": "./openapi-spec-generation",
-      "description": "OpenAPI 3.1 specification generation, validation, and SDK workflows",
-      "category": "development",
-      "strict": true
-    },
-    {
-      "name": "karabiner-elements",
-      "source": "./karabiner-elements",
-      "description": "Karabiner-Elements configuration and keyboard customization for macOS",
-      "category": "utilities",
-      "strict": true
-    },
-    {
-      "name": "python-patterns",
-      "source": "./python-patterns",
-      "description": "Idiomatic Python patterns, best practices, and code review reference",
-      "category": "reference",
-      "strict": true
-    },
-    {
-      "name": "uv-package-manager",
-      "source": "./uv-package-manager",
-      "description": "uv package manager for fast Python dependency management and project workflows",
-      "category": "reference",
-      "strict": true
-    },
-    {
-      "name": "workato-recipe",
-      "source": "./workato-recipe",
-      "description": "Parse and analyze Workato recipe JSON exports for logic, data flow, field mappings, error handling, and control flow",
-      "category": "integrations",
-      "strict": true
-    },
-    {
-      "name": "google-workspace",
-      "source": "./google-workspace",
-      "description": "Google Workspace CLI (gws) skills for Gmail, Drive, Calendar, Sheets, Docs, Slides, Chat, Meet, Tasks, Forms, Keep, and cross-service workflows",
-      "category": "integrations",
-      "strict": true
-    },
-    {
-      "name": "playwright-cli",
-      "source": "./playwright-cli",
-      "description": "Browser automation with playwright-cli for web testing, scraping, form filling, screenshots, and data extraction",
-      "category": "automation",
-      "strict": true
-    },
-    {
-      "name": "espanso",
-      "source": "./espanso",
-      "description": "Espanso text expander for Claude Code",
-      "category": "automation",
       "strict": true
     },
     {
@@ -177,6 +37,13 @@
       "strict": true
     },
     {
+      "name": "dev-browser",
+      "source": "./dev-browser",
+      "description": "Browser automation skill with persistent page state for developers and AI agents",
+      "category": "automation",
+      "strict": false
+    },
+    {
       "name": "engineering",
       "source": "./engineering",
       "description": "Streamline engineering workflows \u2014 standups, code review, architecture decisions, incident response, and technical documentation. Works with your existing tools or standalone.",
@@ -191,10 +58,45 @@
       "strict": true
     },
     {
+      "name": "espanso",
+      "source": "./espanso",
+      "description": "Espanso text expander for Claude Code",
+      "category": "automation",
+      "strict": true
+    },
+    {
       "name": "finance",
       "source": "./finance",
       "description": "Streamline finance and accounting workflows, from journal entries and reconciliation to financial statements and variance analysis. Speed up audit prep, month-end close, and keeping your books clean.",
       "category": "finance",
+      "strict": true
+    },
+    {
+      "name": "google-workspace",
+      "source": "./google-workspace",
+      "description": "Google Workspace CLI (gws) skills for Gmail, Drive, Calendar, Sheets, Docs, Slides, Chat, Meet, Tasks, Forms, Keep, and cross-service workflows",
+      "category": "integrations",
+      "strict": true
+    },
+    {
+      "name": "issue-blaster",
+      "source": "./issue-blaster",
+      "description": "Analyze GitHub issues and implement AI-generated solution plans",
+      "category": "automation",
+      "strict": true
+    },
+    {
+      "name": "jq-for-clawd",
+      "source": "./jq-for-clawd",
+      "description": "Query Claude Code session history using jq to find past conversations and user messages",
+      "category": "utilities",
+      "strict": true
+    },
+    {
+      "name": "karabiner-elements",
+      "source": "./karabiner-elements",
+      "description": "Karabiner-Elements configuration and keyboard customization for macOS",
+      "category": "utilities",
       "strict": true
     },
     {
@@ -205,10 +107,31 @@
       "strict": true
     },
     {
+      "name": "namecheap",
+      "source": "./namecheap",
+      "description": "Interact with Namecheap API for domain and DNS management",
+      "category": "deployment",
+      "strict": true
+    },
+    {
+      "name": "openapi-spec-generation",
+      "source": "./openapi-spec-generation",
+      "description": "OpenAPI 3.1 specification generation, validation, and SDK workflows",
+      "category": "development",
+      "strict": true
+    },
+    {
       "name": "operations",
       "source": "./operations",
       "description": "Optimize business operations \u2014 vendor management, process documentation, change management, capacity planning, and compliance tracking. Keep your organization running efficiently.",
       "category": "operations",
+      "strict": true
+    },
+    {
+      "name": "playwright-cli",
+      "source": "./playwright-cli",
+      "description": "Browser automation with playwright-cli for web testing, scraping, form filling, screenshots, and data extraction",
+      "category": "automation",
       "strict": true
     },
     {
@@ -226,10 +149,87 @@
       "strict": true
     },
     {
+      "name": "python-patterns",
+      "source": "./python-patterns",
+      "description": "Idiomatic Python patterns, best practices, and code review reference",
+      "category": "reference",
+      "strict": true
+    },
+    {
+      "name": "python-quickbooks",
+      "source": "./python-quickbooks",
+      "description": "Comprehensive reference for the python-quickbooks library \u2014 QuickBooks Online API",
+      "category": "reference",
+      "strict": true
+    },
+    {
       "name": "sales",
       "source": "./sales",
       "description": "Prospect, craft outreach, and build deal strategy faster. Prep for calls, manage your pipeline, and write personalized messaging that moves deals forward.",
       "category": "sales",
+      "strict": true
+    },
+    {
+      "name": "salesforce-soql",
+      "source": "./salesforce-soql",
+      "description": "Run SOQL queries against Salesforce using the sf CLI",
+      "category": "integrations",
+      "strict": true
+    },
+    {
+      "name": "scraper-generator",
+      "source": "./scraper-generator",
+      "description": "Generate custom API documentation scrapers through guided discovery and code generation",
+      "category": "automation",
+      "strict": true
+    },
+    {
+      "name": "spec-kit",
+      "source": "./spec-kit",
+      "description": "Spec-Driven Development toolkit \u2014 generate thorough specs, plans, and tasks for any project",
+      "category": "development",
+      "strict": true
+    },
+    {
+      "name": "staff-software-engineer",
+      "source": "./staff-software-engineer",
+      "description": "Staff software engineer agent for reviewing implementation plans",
+      "category": "development",
+      "strict": true
+    },
+    {
+      "name": "uv-package-manager",
+      "source": "./uv-package-manager",
+      "description": "uv package manager for fast Python dependency management and project workflows",
+      "category": "reference",
+      "strict": true
+    },
+    {
+      "name": "workato-api",
+      "source": "./workato-api",
+      "description": "Workato Developer API reference and execution framework for workspace management",
+      "category": "integrations",
+      "strict": true
+    },
+    {
+      "name": "workato-connector-sdk",
+      "source": "./workato-connector-sdk",
+      "description": "Workato Connector SDK documentation for building custom connectors",
+      "category": "development",
+      "strict": true
+    },
+    {
+      "name": "workato-platform-cli",
+      "source": "./workato-platform-cli",
+      "description": "Workato Platform CLI for managing workspace recipes, connections, projects, and deployments",
+      "category": "integrations",
+      "strict": true
+    },
+    {
+      "name": "workato-recipe",
+      "source": "./workato-recipe",
+      "description": "Parse and analyze Workato recipe JSON exports for logic, data flow, field mappings, error handling, and control flow",
+      "category": "integrations",
       "strict": true
     }
   ]

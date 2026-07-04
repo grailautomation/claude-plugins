@@ -1,7 +1,7 @@
 {
-  "name": "grail-automation-codex",
+  "name": "grail-dev",
   "interface": {
-    "displayName": "Grail Automation Codex"
+    "displayName": "Grail Dev"
   },
   "plugins": [
     {
